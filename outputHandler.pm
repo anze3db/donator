@@ -5,6 +5,7 @@ my $content;
 my $content2;
 my $datum;
 my $datumChk;
+my $poloznice;
 my $datZapis=0;
 my $filename;
 my $izvor;
@@ -45,6 +46,9 @@ foreach my $pr (@parts){
 		}
 		elsif($variable eq "datum_chk"){
 			$datumChk=$value;
+		}
+		elsif($variable eq "poloznice"){
+		    $poloznice=$value;
 		}
 		elsif($variable eq "datum"){				
 			$datum=substr($value, 6, 10)."-".substr($value, 3, 2)."-".substr($value, 0, 2);
@@ -211,22 +215,27 @@ my $sth = $dbh->prepare($sql);
 $sth->execute($filename, $content);
 }
 
-
+print "\n\n";
 print "Content-disposition: attachment; filename=$filename;";
 print "Content-type:text/plain\n\n";
-my @vrstice = split(/\n/,$content);
-my $strazar = 0;
-foreach (@vrstice){
-	if(($_ !~ /^#/)){
-		if($strazar == 0){
-			print $_;
-			$strazar = 1;
-		}
-		else{
-			print "\n".$_;
-		}
-	}
-}
+if($izvor eq "obroki" && $poloznice eq "ON"){
+    print "hello world";
 
+}
+else{
+    my @vrstice = split(/\n/,$content);
+    my $strazar = 0;
+    foreach (@vrstice){
+	    if(($_ !~ /^#/)){
+		    if($strazar == 0){
+			    print $_;
+			    $strazar = 1;
+		    }
+		    else{
+			    print "\n".$_;
+		    }
+	    }
+    }
+}
 };
 exit;
