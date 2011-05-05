@@ -77,7 +77,7 @@ sub IzberiDatoteko(){
 		);
 	$izberi_gumb = "";
 	$izberi_gumb = $q->radio_group(-name=>'vrsta_uvoza_dok',
-							-values=>['datoteke z banke','davcni zavezanci','delno davcni zavezanci'],
+							-values=>['datoteke z banke','davcni zavezanci',],
 							-default=>'datoteke z banke',
 							-linebreak=>'1');
 	
