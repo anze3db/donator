@@ -1662,6 +1662,16 @@ sub output_form($$$$){
                     -value=>$date,
                     -maxlength=>80,
 					);
+		
+		if($name eq 'obroki'){
+		
+		$form .= $q->checkbox(-name=>'poloznice',
+					-checked => 'checked',
+					-value => 'ON',
+					-label => "Izvoz za položnice",
+					);
+		
+		}
 		$form .= "<br /><br />";
 	}
 	$form .= $q->textfield(-value => $fn,
