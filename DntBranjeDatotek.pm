@@ -689,10 +689,14 @@ sub PrikaziVsebinoDatoteke(){
 							$napaka_vrstice .= "Trr v bazi se ne ujema s trrjem v datoteki";
 						}			
 						else{
+						
+						    my $datum_y = substr($datum, 0, 4);
+						    my $datum_m = substr($datum, 4, 2);
+
 							$sql = "SELECT amount, amount_payed, storno, obracun ".
 								   "FROM agreement_pay_installment ".
 								   "WHERE id_agreement = ? ".
-								   "AND date_activate = '$datum' ".
+								   "AND date_part('year', date_activate) = '$datum_y' AND date_part('month', date_activate) = '$datum_m' ".
 								   "ORDER BY id_vrstica LIMIT 1";
 								   #return $sql;
 							$sth2 = $dbh->prepare($sql);
