@@ -1,0 +1,90 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+    <title>Donator - <TMPL_VAR NAME=IME_DOKUMENTA></title>
+    <link rel="stylesheet" href="/static/izgled4.css" type="text/css" media="all" />
+</head>
+<SCRIPT LANGUAGE="JavaScript" 
+	 SRC="/static/funkcije.js"></SCRIPT>
+</head>
+<body>
+<div id="banner"><h1>D O N A T O R</h1></div>
+<form name="myForm" value="Vpis_uporabnika">
+    <input type="hidden" name="rm" id="rm" value="shrani_pogodbo" />
+    <input type="hidden" name="spremeni_kaj"
+           value="<TMPL_VAR NAME=spremeni_kaj>" />
+    <input type="hidden" name="hid_id_agreement"
+           value="<TMPL_VAR NAME=hid_id_agreement>" />
+    <input type="hidden" name="hid_id_brisi"
+           value="<TMPL_VAR NAME=hid_id_brisi>" />
+    <!--<input type="param" name="hid_spremeni_obroke" value="
+        <TMPL_LOOP NAME='spremeni_obroke_loop'>
+            <TMPL_VAR NAME='id_agreement'>
+            <TMPL_VAR NAME='installment_nr'>            
+        </TMPL_LOOP>"
+    /> -->
+
+<div id="centercontent">
+    <TMPL_VAR NAME=MENU_POT>
+    <TMPL_VAR NAME=POGODBA>
+    <TMPL_VAR NAME=IME_PRIIMEK>
+    <strong><i><TMPL_VAR NAME=IME_DOKUMENTA></i></strong> <TMPL_VAR NAME=POMOC>
+	</form>
+	<form name="brisi">
+    <TABLE BORDER=1>
+
+
+    <TR>
+        <TD><B>ime datoteke</B></TD>
+        <TD><B>datum uvoza</B></TD>
+        <td style="text-align:center;">
+                <label><input type="checkbox" name="izberiVse" value=""
+				   id="izberiVse" onClick="IzberiVse(this.id)" />
+                <strong >Brisi</strong></label>
+		</td>
+    </TR>
+    <input type="hidden" name="rm" id="rm" value="zbrisi" />
+    <input type="hidden" name="brisi" value="datoteka" />
+	<input type="hidden" name="id" value="<tmpl_var name=edb_id>" />
+     <TMPL_LOOP NAME="datoteke_loop">
+       
+        <TR>
+            <div id="navigation">
+                <TD><TMPL_VAR NAME="ime_datoteke"></TD>
+            </div>
+            <TD><TMPL_VAR NAME="datum_uvoza"></TD>
+            <TD style="text-align:center;">
+                <input type="checkbox" onclick="PreveriOznacene()"
+				name="izberiId" value="<TMPL_VAR NAME="id">" />
+			</TD>
+        </TR>
+        
+     </TMPL_LOOP>
+
+   </TABLE>
+    <TMPL_VAR NAME=IZBERI_GUMB>
+    <br>
+    <TMPL_VAR NAME=POTRDI_GUMB>
+    <br>
+    <!--
+    <input type="submit" name="btn_brisi_izbrane_datoteke"
+           value="brisi izbrane"
+           onclick="javascript:dopostback('hid_akcija','btn_brisi_izbrane_datoteke')" />
+    -->
+    <TMPL_IF NAME = "hid_brisi_potrjeno">
+        <INPUT TYPE="button" onclick="SubmitMyForm('btn_brisi_izbrane_datoteke_potrjeno')"
+              VALUE="Potrdi izbris">
+    <TMPL_ELSE>
+        <INPUT TYPE="button" onclick="SubmitMyForm('btn_brisi_izbrane_datoteke')"
+              VALUE="brisi izbrane">
+        
+    </TMPL_IF>
+    <input type="button"  name="btn_nazaj" value="Nazaj" onclick="javascript:window.history.back()" />
+</div>
+
+<TMPL_INCLUDE NAME="DntMenu.tmpl">
+</form>
+    
+</body>
+</html>

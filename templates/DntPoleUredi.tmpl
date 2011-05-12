@@ -1,0 +1,114 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<head>
+    <title>Donator - <TMPL_VAR NAME=IME_DOKUMENTA></title>
+    <link rel="stylesheet" href="/static/izgled4.css" type="text/css" media="all" />
+	<SCRIPT LANGUAGE="JavaScript" 
+         SRC="/static/funkcije.js"></SCRIPT>
+</head>
+<script>
+
+function PreveriSt(){
+				
+	var st=document.getElementById('edb_pole').value;
+	if (st>9999){
+		alert('St. pol ne sme biti vecje od 9999!');
+		return true;
+	}
+	
+	else{
+		document.myForm.submit();
+		return true;
+	}
+}
+</script>
+<body>
+<div id="banner"><h1>D O N A T O R</h1></div>
+<form name="myForm" onSubmit="javascript:PreveriSt();">        
+<div id="centercontent">
+	<TMPL_VAR NAME=MENU_POT>
+	<p>
+	<strong><i><TMPL_VAR NAME=IME_DOKUMENTA></i></strong> <TMPL_VAR NAME=POMOC>
+	<table border="1" >            
+		<tr>
+			<td>Id:</td>
+			<td>                  
+			  <input disabled="true" type="ime"  name="edb_id"
+				id="edb_ime" size="22" maxlength="80"
+				value="<tmpl_var name=edb_id>">                    
+			</td>
+		</tr>
+		
+		<TR>
+			<td>Projekt:</td>
+			<TD>
+			<select  name="edb_projekt" id="edb_projekt">
+			  <option></option>
+			<TMPL_LOOP NAME="edb_loop7">					 
+			  <option value="<TMPL_VAR NAME="id">" <TMPL_VAR NAME="selected">>
+			  <TMPL_VAR NAME="id_lep"> <TMPL_VAR NAME="ime"></option>
+			</TMPL_LOOP>
+			</TD>
+		</TR>
+		<TR>
+			<td>Leto:</td>
+			<TD>
+			<select name="edb_leto" id="edb_leto">
+				<option></option>
+				<TMPL_LOOP NAME="edb_loop6">
+			  <option value="<TMPL_VAR NAME="datum">"><TMPL_VAR NAME="datum">
+			  </option>
+			</TMPL_LOOP>
+			</TD>
+		</TR>
+		<TR>
+			<td>Dogodek:</td>
+			<TD>
+			<select name="edb_dogodek" id="edb_dogodek">
+			  <option></option>
+				<TMPL_LOOP NAME="edb_loop8">
+			  <option value="<TMPL_VAR NAME="id">" <TMPL_VAR NAME="selected">>
+			  <TMPL_VAR NAME="id"> <TMPL_VAR NAME="ime"></option>
+			</TMPL_LOOP>
+			</TD>
+		</TR>
+		<TR>
+			<td>Komercialist:</td>
+			<TD>
+			<select name="edb_komercialist" id="edb_komercialist">
+			  <option> </option>
+			<TMPL_LOOP NAME="edb_loop9">
+			<option value="<TMPL_VAR NAME="id">" <TMPL_VAR NAME="selected">>
+			<TMPL_VAR NAME="id"> <TMPL_VAR NAME="ime"> <TMPL_VAR NAME="priimek">
+			</option>
+			</TMPL_LOOP>
+			</TD>
+		</TR>
+		<tr>
+			<td>St. pol:</td>
+			<td>                  
+			  <input type="ime"  name="edb_pole"
+				id="edb_pole" size="22" maxlength="80"
+				value="<tmpl_var name=edb_pole>">                    
+			</td>
+		</tr>
+		<input type="hidden" name="rm" value="Shrani" />
+	
+		
+	</table>
+	</form>
+	<INPUT TYPE="button"  onclick="javascript:PreveriSt();" VALUE="Shrani" >
+	<INPUT TYPE="button"  onclick="javascript:self.location='?rm=seznam&seja='"
+		   VALUE="Nazaj">
+	<!--
+	 <input type="hidden" name="uporabnik" value="<TMPL_VAR NAME=uporabnik>" />
+	-->
+	<input type="hidden" name="seja" value="<TMPL_VAR NAME=seja>" />
+	<TMPL_VAR NAME=SCRIPT>
+		
+</div>
+<TMPL_INCLUDE NAME="DntMenu.tmpl">
+</form>
+
+</body>
+</html>
+

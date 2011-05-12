@@ -1,0 +1,126 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<head>
+<title>Donator - Komentar</title>
+<link rel="stylesheet" href="/static/izgled4.css" type="text/css" media="all" />
+<LINK REL=StyleSheet HREF="/static/weeklycalendar/calendar.css" TYPE="text/css">
+<SCRIPT LANGUAGE="JavaScript" 
+	 SRC="/static/weeklycalendar/weeklycalendar.js"></SCRIPT>
+	<SCRIPT LANGUAGE="JavaScript" 
+	 SRC="/static/funkcije.js"></SCRIPT>
+
+</head>
+<body <TMPL_VAR NAME=edb_onload>>
+<script language="javascript">
+	// call the function to build the calendar
+	// function's param specify the first day of week 
+	// 0=Sunday, 1 = Monday, ..., 6=Saturday
+	buildWeeklyCalendar(1);
+	
+function trim(str){
+		
+		return str.replace(/^\s+|\s+$/g, '');
+}
+
+
+function Brisi(){
+		var i=4;
+		var error="Ali resnicno zelite izbrisati izbrana polja?";
+		var vsi=true;
+		while (document.brisi[i].value>0){
+			if(document.brisi[i++].checked){						
+				vsi=false;
+			}
+				
+		}
+		if(vsi)
+			alert("Za brisanje niste izbrali nobenega polja!");
+		else{
+			if(confirm(error)){
+				document.brisi.submit();	
+			}
+		}
+	}
+	
+	function IzberiVse(id){
+		var i=4;
+		
+		while (document.brisi[i].value>0){
+			if(document.getElementById(id).checked)
+				document.brisi[i++].checked=true;
+			else
+				document.brisi[i++].checked=false;
+			
+		}
+	}
+	
+	function PreveriOznacene(){	
+		var i=4;
+		var vsi=true;
+		while (document.brisi[i].value>0){
+			if(!document.brisi[i++].checked){
+				document.getElementById('izberiVse').checked=false;
+				vsi=false;
+			}
+				
+		}
+		if(vsi)
+			document.getElementById('izberiVse').checked=true;
+	}
+	function Zapri(){
+		
+		id= "uredi<tmpl_var name=edb_vrstica>";
+		vsebina=document.getElementById("edb_komentar").value;
+		spr = document.getElementById('spremenjeno').value;
+		if(spr == 1){
+			link= opener.document.getElementById(id); 
+			if(vsebina.length>0){
+				link.textContent = "uredi";
+			}
+			else{
+				link.textContent = "dodaj";
+			}
+		}
+		self.close();
+	}
+
+</script>
+
+
+<p>
+<strong><i><TMPL_VAR NAME=IME_DOKUMENTA></i></strong> <TMPL_VAR NAME=POMOC>
+<table border="1" >
+	<form name="myForm" value="dodaj_komentar">
+	<input type="hidden" name="hiddenId" value="komentar" />
+	<input type="hidden" name="komId" value="<tmpl_var name=komId>">
+	<input type="hidden" id="spremenjeno" name="spremenjeno" value="<tmpl_var name=spr>">
+	<tr>
+		<td>ID:</td>
+		<td>                  
+		  <input type="text" readonly="readonly" name="id_agreement"
+				 id="id_agreement" size="22" maxlength="80"
+			value="<tmpl_var name=edb_id>">
+		</td>
+	</tr>               
+
+	<tr>
+		<td>Komentar:</td>
+		<td>                  
+		  <textarea name="edb_komentar"
+			id="edb_komentar"><tmpl_var name=edb_komentar></textarea>
+		</td>
+	</tr>
+	
+	<tr><td colspan="2">
+<input type="hidden" id="shrani" name="shrani" value="1" />
+<input type="hidden" id="rm" name="rm" value="komentarShrani" />
+<input type="hidden" id="id_vrstica" name="id_vrstica"
+	   value="<tmpl_var name=edb_vrstica>" />
+<input type="submit" id="edb_dodaj" value="shrani" />
+<input type="button" onclick="Zapri()" value="zapri" />
+</td> </tr>
+</form>
+</table><br />
+		
+
+</body>
+</html>

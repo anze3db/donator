@@ -1,0 +1,22 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<head>
+<title>Donator - dodaj klic</title>
+<link rel="stylesheet" href="/static/izgled4.css" type="text/css" media="all" />
+<SCRIPT LANGUAGE="JavaScript" SRC="/static/funkcije.js"></SCRIPT>
+
+</head>
+<body>       
+<p>
+<strong><i><TMPL_VAR NAME=IME_DOKUMENTA> - <tmpl_var name=stran></i></strong>	
+<form name="myForm">
+<table border=1px><tr><td><tmpl_var name=besedilo></td></tr></table>
+<span style="font-style:italic">Zadnja sprememba: <tmpl_var name=ustvarjeno></italic><br />
+<input type="hidden" name="status" value="<tmpl_var name=status>" />
+<input type="hidden" name="rm" value="uredi" />
+<input type="hidden" name="id" value="<tmpl_var name=stran>" />
+<input type="submit" id="edb_dodaj" value="<tmpl_var name=status>" />
+<input type="button" value="zapri" onclick="javascript:window.close()"/>
+</form>		
+</p>
+</body>
+</html>

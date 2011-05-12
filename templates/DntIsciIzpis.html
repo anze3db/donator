@@ -1,0 +1,54 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<head>
+<title>Donator - <TMPL_VAR NAME=IME_DOKUMENTA></title>
+<link rel="stylesheet" href="/static/izgled4.css" type="text/css" media="all" />
+<SCRIPT LANGUAGE="JavaScript" 
+	 SRC="/static/funkcije.js"></SCRIPT>
+</head>
+<body>
+<script language="JavaScript">
+function Shrani(){	
+	var url = document.getElementById('url').value;
+	var link = "DntIsci.cgi?rm=iskanje_shrani";
+	var handle = window.open(link,"isci","status=1, height=200, width=250, scrollbars=1, resizable=1");
+}
+
+</script>
+<div id="banner"><h1>D O N A T O R</h1></div>
+<div id="centercontent">
+<TMPL_VAR NAME=MENU_POT>
+<p>
+<strong><i><TMPL_VAR NAME=IME_DOKUMENTA></i></strong> <TMPL_VAR NAME=POMOC>
+<br /><br />
+<form onsubmit="javascript:return Shrani()" >
+<input type="button" value="Nazaj" onclick="javascript:window.history.back()"/>
+<input type="hidden" name="shrani" />
+<input type="hidden" name="ime" id="ime" value="<tmpl_var name=ime>" />
+<input type="hidden" name="url" id="url" value="<tmpl_var name=url>" />
+<input type="button" value="Shrani izpis" onclick="javascript:Shrani()" />
+<div style="font-weight: bold; padding-top:10px;">St. izpisanih: <tmpl_var name=num_rows></div>
+</form>
+	<TABLE BORDER=1>		
+		<TR>
+		<TMPL_LOOP NAME=edb_naslovi>
+			<TD><B><TMPL_VAR NAME="naslov"></B></TD>                  
+		</TMPL_LOOP>
+		</TR>
+
+		<TMPL_LOOP NAME=edb_vsebina>		
+		<TR>
+			<TMPL_LOOP NAME="loop">
+			<TD><TMPL_VAR NAME="vsebina"></TD>
+			</TMPL_LOOP>
+		</TR>		
+		</TMPL_LOOP>			
+   </TABLE>
+<tmpl_var name=form>
+</div>
+<TMPL_INCLUDE NAME="DntMenu.tmpl">
+
+</div>
+
+</body>
+</html>
+

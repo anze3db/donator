@@ -1,0 +1,164 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<head>
+<title>Donator - dodaj klic</title>
+<link rel="stylesheet" href="/static/izgled4.css" type="text/css" media="all" />
+<LINK REL=StyleSheet HREF="/static/weeklycalendar/calendar.css" TYPE="text/css">
+<SCRIPT LANGUAGE="JavaScript" 
+	 SRC="/static/weeklycalendar/weeklycalendar.js"></SCRIPT>
+	<SCRIPT LANGUAGE="JavaScript" 
+	 SRC="/static/funkcije.js"></SCRIPT>
+</head>
+<body <TMPL_VAR NAME=edb_onload> onload="Uredi()">
+<script language="javascript">
+
+	// call the function to build the calendar
+	// function's param specify the first day of week 
+	// 0=Sunday, 1 = Monday, ..., 6=Saturday
+	buildWeeklyCalendar(1);
+	
+	function trim(str){
+			
+			return str.replace(/^\s+|\s+$/g, '');
+		}
+	function Uredi()
+	{
+		//document.myForm['edb_datum'].readonly = false;
+		document.myForm['edb_koledar'].disabled = false;
+		document.myForm['edb_komentar'].disabled = false;
+		document.myForm['edb_alarmAktivni'].disabled = false;
+		document.myForm['edb_dodaj'].disabled = false;			
+	}
+	
+	function Brisi(){
+		var i=4;
+		var error="Ali resnicno zelite izbrisati izbrana polja?";
+		var vsi=true;
+		while (document.brisi[i].value>0){
+			if(document.brisi[i++].checked){						
+				vsi=false;
+			}
+				
+		}
+		if(vsi)
+			alert("Za brisanje niste izbrali nobenega polja!");
+		else{
+			if(confirm(error)){
+				document.brisi.submit();	
+			}
+		}
+	}
+	
+	function IzberiVse(id){
+		var i=4;
+		
+		while (document.brisi[i].value>0){
+			if(document.getElementById(id).checked)
+				document.brisi[i++].checked=true;
+			else
+				document.brisi[i++].checked=false;
+			
+		}
+	}
+	
+	function PreveriOznacene(){	
+		var i=4;
+		var vsi=true;
+		while (document.brisi[i].value>0){
+			if(!document.brisi[i++].checked){
+				document.getElementById('izberiVse').checked=false;
+				vsi=false;
+			}
+				
+		}
+		if(vsi)
+			document.getElementById('izberiVse').checked=true;
+	}
+</script>	
+<p>
+<strong><i><TMPL_VAR NAME=IME_DOKUMENTA></i></strong> <TMPL_VAR NAME=POMOC>
+<table border="1" >
+<form name="myForm" value="dodaj_komentar">
+<input type="hidden" name="hiddenId" value="komentar" />
+<input type="hidden" name="komId" value="<tmpl_var name=komId>">
+<tr>
+<td>ID:</td>
+	<td>                  
+	  <input style="width: 100px;" type="ime" readonly="readonly"
+			 name="edb_id" id="edb_id" size="22" maxlength="80"
+			 value="<tmpl_var name=edb_id>">
+	</td>
+</tr>               
+<tr>
+	<td>Datum:</td>
+	<td>                  
+	  <!--  this is the datepicker input text -->    
+		<input name="edb_datum" id="edb_datum" onblur="DatumVnos(this.id)"
+			   size="12" maxlength="80" value="<tmpl_var name=edb_datum>"
+			   type="text">
+		<!--  attach the w_displayCalendar function to the onClick event -->
+		<input value="..." id="edb_koledar" disabled="disabled"
+			   onclick="w_displayCalendar('edb_datum',null);" type="button">
+	</td>
+</tr>
+<tr>
+	<td>Komentar:</td>
+	<td>                  
+	  <textarea name="edb_komentar" disabled="disabled"
+				id="edb_komentar"><tmpl_var name=edb_komentar></textarea>
+	</td>
+</tr>
+<tr>
+<td colspan="2">
+<input type="hidden" name="rm" value="opomin_shrani" />
+<input type="submit" id="edb_dodaj" value="<tmpl_var name=edb_gumbek>" />
+</td>
+</tr>
+</form>
+</table>
+<br />
+<strong><i>Opomini</i></strong>
+<br />
+<table border=1>
+<form name="brisi">
+<tr>
+	<td><strong>link</strong></td>
+	<td><strong>datum</strong></td>
+	<td><strong>komentar</strong></td>
+	<td style="text-align:center;">
+		<input type="checkbox" name="izberiVse" value="pek"
+			   id="izberiVse" onClick="IzberiVse(this.id)" />
+		<strong >Brisi</strong></td>	
+	<input type="hidden" name="rm" id="rm" value="opomin_shrani" />
+	<input type="hidden" name="brisi" value="1" />
+	<input type="hidden" name="id_agreement" value="<tmpl_var name=edb_id>" />
+	</tr>
+	<TMPL_LOOP NAME="komentar_loop">
+	<tr>
+	<td>
+	<a href="?rm=opomini&amp;id_agreement=<tmpl_var name=edb_id>&amp;id_komentar=<tmpl_var name=komentarId>">uredi</a>
+	</td>
+	<td><TMPL_VAR NAME="datum"> </td> 
+	<td><TMPL_VAR NAME="komentar"> </td>                  
+	<td style="text-align:center;">
+		<input type="checkbox"
+			   onclick="PreveriOznacene()" name="brisiId"
+			   value="<tmpl_var name=komentarId>" /></td>
+	
+	</tr>
+	</TMPL_LOOP>
+	<td colspan=3> </td>
+	<td>
+	<input type="button" name="brisi" onClick="Brisi()" value="brisi" />
+	</td>
+	
+</form>	
+</table><br />
+<input type="button" id="nazaj" value="nov opomin"
+onclick="self.location='?rm=opomini&amp;id_agreement=<tmpl_var name=edb_id>'" />
+<input type="button" value="zapri" onclick="javascript:window.close()"/>
+		
+</p>
+
+
+</body>
+</html>

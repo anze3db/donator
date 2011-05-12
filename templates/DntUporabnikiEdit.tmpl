@@ -1,0 +1,667 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<head>
+<title>Donator - <TMPL_VAR NAME=IME_DOKUMENTA></title>
+<link rel="stylesheet" href="/static/izgled4.css" type="text/css" media="all" />
+<SCRIPT LANGUAGE="JavaScript" 
+	 SRC="/static/funkcije.js"></SCRIPT>
+</head>
+<body onload="Admin()">
+
+<script language="JavaScript">
+function Gesla(){
+	
+	document.getElementById('edb_geslo1').disabled=false;
+	document.getElementById('edb_geslo2').disabled=false;
+}
+
+function Admin(){
+	var admin = "<tmpl_var name=admin>";
+	if(parseInt(admin) == 1){			
+		var p=document.getElementsByName('sifranti');
+		var i=0;
+		while(p[i]){
+			p[i].checked = true;
+			p[i++].disabled = true;
+		}
+		p=document.getElementsByName('pogodbe');
+		i=0;
+		while(p[i]){
+			p[i].checked = true;
+			p[i++].disabled = true;
+		}
+		p=document.getElementsByName('placila');
+		i=0;
+		while(p[i]){
+			p[i].checked = true;
+			p[i++].disabled = true;
+		}
+		p=document.getElementsByName('orodja');
+		i=0;
+		while(p[i]){
+			p[i].checked = true;
+			p[i++].disabled = true;
+		}
+		p=document.getElementsByName('uporabniki');
+		i=0;
+		while(p[i]){
+			p[i].checked = true;
+			p[i++].disabled = true;
+		}
+		p=document.getElementsByName('pomoc');
+		i=0;
+		while(p[i]){
+			p[i].checked = true;
+			p[i++].disabled = true;
+		}
+		p=document.getElementsByName('sifranti1');
+		i=0;
+		while(p[i]){
+			p[i].checked = true;
+			p[i++].disabled = true;
+		}
+		p=document.getElementsByName('pogodbe1');
+		i=0;
+		while(p[i]){
+			p[i].checked = true;
+			p[i++].disabled = true;
+		}
+		p=document.getElementsByName('placila1');
+		i=0;
+		while(p[i]){
+			p[i].checked = true;
+			p[i++].disabled = true;
+		}
+		p=document.getElementsByName('orodja1');
+		i=0;
+		while(p[i]){
+			p[i].checked = true;
+			p[i++].disabled = true;
+		}
+		p=document.getElementsByName('uporabniki1');
+		i=0;
+		while(p[i]){
+			p[i].checked = true;
+			p[i++].disabled = true;
+		}
+		p=document.getElementsByName('pomoc1');
+		i=0;
+		while(p[i]){
+			p[i].checked = true;
+			p[i++].disabled = true;
+		}
+	}
+}	
+function Pravice(n, t){
+	
+	var name;
+	switch (n){
+		case 1: name="sifranti";
+			break;
+		case 2: name="pogodbe";
+			break;
+		case 3: name="placila";
+			break;
+		case 4: name="orodja";
+			break;
+		case 5: name="uporabniki";
+			break;
+		case 6: name="pomoc";
+	}
+	var p=document.getElementsByName(name);
+	var i=0;
+	var j=1;
+	var id_e=t+n;
+	var r=false;
+	var w=false;
+	
+	if(t == "r"){
+		var id='w'+n;
+		document.getElementById(id).checked=false;		
+		if(n < 10){
+			
+			while(p[i]){
+				var s = t+n+(j);				
+				if(p[i].id==s){
+					if(document.getElementById(id_e).checked)
+						p[i].checked=true;
+					else
+						p[i].checked=false;
+				}
+				else
+					p[i].checked=false;
+				if(i%2 == 1){
+					j++;
+				}
+				i++;
+			}
+		}
+		else{
+          	var id_m = t+n.toString().substring(0, 1);
+			while(p[i]){
+				if(!p[i].checked){
+					r=false;
+					document.getElementById(id_m).checked = false;	
+				}
+				i++;
+			}
+			if (r){
+				document.getElementById(id_m).checked = true;	
+			}
+		}
+	}
+	else{
+
+		var id='r'+n;
+		document.getElementById(id).checked=true;
+		if(n < 10){
+			while(p[i]){
+				var s = t+n+j;
+				if(document.getElementById(id_e).checked)
+					p[i].checked=true;
+				else
+					if(p[i].id==s){
+						p[i].checked=false;
+					}
+				if(i%2 == 1){
+					j++;
+				}
+				i++;
+			}
+		}
+	}
+}
+
+</script>
+
+<div id="banner"><h1>D O N A T O R</h1></div>
+<form name="myForm">
+	<input type="hidden" name="edb_id" id="edb_id" value="<tmpl_var name=edb_id>">
+	
+<input type="hidden" name="uredi" value="<tmpl_var name=edb_uredi>" />
+<div id="centercontent">
+	<TMPL_VAR NAME=MENU_POT>
+	<p>
+	<strong><i><TMPL_VAR NAME=IME_DOKUMENTA></i></strong> <TMPL_VAR NAME=POMOC>
+	<table border="1" >            
+	<tr>
+		<td>Uporabnisko ime:</td>
+		<td>
+		  <input type="text" name="edb_ime"
+		  id="edb_ime" size="22" maxlength="80"
+			value="<tmpl_var name=edb_ime>"
+			<tmpl_if name=edb_uredi>disabled=true</tmpl_if>>
+	   </td>
+	</tr>
+	<tmpl_if name=edb_uredi>
+	</table>
+	<input type="button" value="spremeni geslo" onclick="Gesla()" />
+	<table>
+	<tr>
+		<td>Novo geslo:</td>
+		<td>                  
+		  <input type="password"  name="edb_novo_geslo" id="edb_geslo1" size="22"
+				 maxlength="80" disabled="true">
+		</td>
+	</tr>
+	<tr>
+		<td>Ponovno:</td>
+		<td>                  
+		  <input type="password"  name="edb_novo_geslo2" id="edb_geslo2" size="22"
+				 maxlength="80" disabled="true">
+		</td>
+	</tr>
+	<tmpl_else>
+	<tr>
+		<td>Geslo:</td>
+		<td>                  
+		  <input type="password"  name="edb_geslo" id="edb_geslo" size="22"
+				 maxlength="80"	value="<tmpl_var name=edb_geslo>">
+		</td>
+	</tr>
+	<tr>
+		<td>Geslo:</td>
+		<td>                  
+		  <input type="password"  name="edb_geslo2" id="edb_geslo2" size="22"
+				 maxlength="80"	value="<tmpl_var name=edb_geslo>">
+		</td>
+	</tr>
+	</tmpl_if>
+</table>
+	<div style="border:1px dotted black;">
+		<strong><i>Pravice:</i></strong>
+	<div style="float:left; padding:10px 10px 10px 0px;">
+
+	<table border=1px>
+	<tr>
+		<td>
+		<input type="checkbox" name="sifranti1" id="r1"
+			   onclick="Pravice(1, 'r')" value="1r">R
+		<input type="checkbox" name="sifranti1" id="w1"
+			   onclick="Pravice(1, 'w', 'sifranti')" value="1w">W
+		</td>
+		<td>
+			<strong>Sifranti</strong>
+		</td>
+	</tr>
+		<tr>
+		<td>
+		<input type="checkbox" name="sifranti" id="r11"
+			   onclick="Pravice(11, 'r')" value="1r">R
+		<input type="checkbox" name="sifranti" id="w11"
+			   onclick="Pravice(11, 'w')" value="1w">W
+		</td>
+		<td>
+			Donatorji
+		</td>
+	</tr>
+		<tr>
+		<td>
+		<input type="checkbox" name="sifranti" id="r12"
+			   onclick="Pravice(12, 'r')" value="2r">R
+		<input type="checkbox" name="sifranti" id="w12"
+			   onclick="Pravice(12, 'w')" value="2w">W
+		</td>
+		<td>
+			Zaposleni
+		</td>
+	</tr>
+		<tr>
+		<td>
+		<input type="checkbox" name="sifranti" id="r13"
+			   onclick="Pravice(13, 'r')" value="3r">R
+		<input type="checkbox" name="sifranti" id="w13"
+			   onclick="Pravice(13, 'w')" value="3w">W
+		</td>
+		<td>
+			Projekti
+		</td>
+	</tr>
+		<tr>
+		<td>
+		<input type="checkbox" name="sifranti" id="r14"
+			   onclick="Pravice(14, 'r')" value="4r">R
+		<input type="checkbox" name="sifranti" id="w14"
+			   onclick="Pravice(14, 'w')" value="4w">W
+		</td>
+		<td>
+			Poste
+		</td>
+	</tr>
+		<tr>
+		<td>
+		<input type="checkbox" name="sifranti" id="r15"
+			   onclick="Pravice(15, 'r')" value="5r">R
+		<input type="checkbox" name="sifranti" id="w15"
+			   onclick="Pravice(15, 'w')" value="5w">W
+		</td>
+		<td>
+			Dogodki
+		</td>
+	</tr>
+		<tr>
+		<td>
+		<input type="checkbox" name="sifranti" id="r16"
+			   onclick="Pravice(16, 'r')" value="6r">R
+		<input type="checkbox" name="sifranti" id="w16"
+			   onclick="Pravice(16, 'w')" value="6w">W
+		</td>
+		<td>
+			Placila
+		</td>
+	</tr>
+		<tr>
+		<td>
+		<input type="checkbox" name="sifranti" id="r17"
+			   onclick="Pravice(17, 'r')" value="7r">R
+		<input type="checkbox" name="sifranti" id="w17"
+			   onclick="Pravice(17, 'w')" value="7w">W
+		</td>
+		<td>
+			Banke
+		</td>
+	</table>
+	</div>
+	<div style="float:left; padding:10px 10px 10px 0px;">
+	<table border=1px>
+	</tr>
+		<tr>
+		<td>
+		<input type="checkbox" name="pogodbe1" id="r2"
+			   onclick="Pravice(2, 'r')" value="1">R
+		<input type="checkbox" name="pogodbe1" id="w2"
+			   onclick="Pravice(2, 'w')" value="2">W
+		</td>
+		<td>
+			<strong>Pogodbe</strong>
+		</td>
+	</tr>
+		<tr>
+		<td>
+		<input type="checkbox" name="pogodbe" id="r21"
+			   onclick="Pravice(21, 'r')" value="1r">R
+		<input type="checkbox" name="pogodbe" id="w21"
+			   onclick="Pravice(21, 'w')" value="1w">W
+		</td>
+		<td>
+			Seznam pogodb
+		</td>
+	</tr>
+		<tr>
+		<td>
+		<input type="checkbox" name="pogodbe" id="r22"
+			   onclick="Pravice(22, 'r')" value="2r">R
+		<input type="checkbox" name="pogodbe" id="w22"
+			   onclick="Pravice(22, 'w')" value="2w">W
+		</td>
+		<td>
+			Generiraj obroke
+		</td>
+	</tr>
+		<tr>
+		<td>
+		<input type="checkbox" name="pogodbe" id="r23"
+			   onclick="Pravice(23, 'r')" value="3r">R
+		<input type="checkbox" name="pogodbe" id="w23"
+			   onclick="Pravice(23, 'w')" value="3w">W
+		</td>
+		<td>
+			Izvozi obroke
+		</td>
+	</tr>
+		<tr>
+		<td>
+		<input type="checkbox" name="pogodbe" id="r24"
+			   onclick="Pravice(24, 'r')" value="4r">R
+		<input type="checkbox" name="pogodbe" id="w24"
+			   onclick="Pravice(24, 'w')" value="4w">W
+		</td>
+		<td>
+			Seznam opominov
+		</td>
+	</tr>
+		<tr>
+		<td>
+		<input type="checkbox" name="pogodbe" id="r25"
+			   onclick="Pravice(25, 'r')" value="5r">R
+		<input type="checkbox" name="pogodbe" id="w25"
+			   onclick="Pravice(25, 'w')" value="5w">W
+		</td>
+		<td>
+			Zahtevki za zapiranje
+		</td>
+	</tr>
+	</tr>
+		<tr>
+		<td>
+		<input type="checkbox" name="pogodbe" id="r26"
+			   onclick="Pravice(26, 'r')" value="6r">R
+		<input type="checkbox" name="pogodbe" id="w26"
+			   onclick="Pravice(26, 'w')" value="6w">W
+		</td>
+		<td>
+			Zahtevki za bremenitve
+		</td>
+	</tr>
+		<tr>
+		<td>
+		<input type="checkbox" name="pogodbe" id="r27"
+			   onclick="Pravice(27, 'r')" value="7r">R
+		<input type="checkbox" name="pogodbe" id="w27"
+			   onclick="Pravice(27, 'w')" value="7w">W
+		</td>
+		<td>
+			Potrdila o placanih obrokih
+		</td>
+	</tr>
+	</tr>
+		<tr>
+		<td>
+		<input type="checkbox" name="pogodbe" id="r28"
+			   onclick="Pravice(28, 'r')" value="8r">R
+		<input type="checkbox" name="pogodbe" id="w28"
+			   onclick="Pravice(28, 'w')" value="8w">W
+		</td>
+		<td>
+			Pole
+		</td>
+	</tr>
+	</table>
+	</div>
+	<div style="float:left; padding:10px 10px 10px 0px;">
+	<table border=1px>
+	</tr>
+		<tr>
+		<td>
+		<input type="checkbox" name="placila1" id="r3"
+			   onclick="Pravice(3, 'r')" value="8r">R
+		<input type="checkbox" name="placila1" id="w3"
+			   onclick="Pravice(3, 'w')" value="8w">W
+		</td>
+		<td>
+			<strong>Placila</strong>
+		</td>
+	<tr>
+		<td>
+		<input type="checkbox" name="placila" id="r31"
+			   onclick="Pravice(31, 'r')" value="1r">R
+		<input type="checkbox" name="placila" id="w31"
+			   onclick="Pravice(31, 'w')" value="1w">W
+		</td>
+		<td>
+			Obracun
+		</td>
+
+	</tr>
+	<tr>
+		<td>
+		<input type="checkbox" name="placila" id="r32"
+			   onclick="Pravice(32, 'r')" value="2r">R
+		<input type="checkbox" name="placila" id="w32"
+			   onclick="Pravice(32, 'w')" value="2w">W
+		</td>
+		<td>
+			Nepotrjene datoteke
+		</td>
+
+	</tr>
+		<tr>
+		<td>
+		<input type="checkbox" name="placila" id="r33"
+			   onclick="Pravice(33, 'r')" value="3r">R
+		<input type="checkbox" name="placila" id="w33"
+			   onclick="Pravice(33, 'w')" value="3w">W
+		</td>
+		<td>
+			Zaporedne stevilke
+		</td>
+
+	</tr>
+		<tr>
+		<td>
+		<input type="checkbox" name="placila" id="r34"
+			   onclick="Pravice(34, 'r')" value="4r">R
+		<input type="checkbox" name="placila" id="w34"
+			   onclick="Pravice(34, 'w')" value="4w">W
+		</td>
+		<td>
+			Direktne bremenitve
+		</td>
+	</tr>
+	</table>
+		</div>
+	<div style="float:left; padding:10px 10px 10px 0px;">
+	<table border=1px>
+
+	<tr>
+		<td>
+		<input type="checkbox" name="pogodbe1" id="r4"
+			   onclick="Pravice(4, 'r')" value="5r">R
+		<input type="checkbox" name="pogodbe1" id="w4"
+			   onclick="Pravice(4, 'w')" value="5w">W
+		</td>
+		<td>
+			<strong>Orodja</strong>
+		</td>
+	</tr>
+
+		<tr>
+		<td>
+		<input type="checkbox" name="orodja" id="r41"
+			   onclick="Pravice(41, 'r')" value="1r">R
+		<input type="checkbox" name="orodja" id="w41"
+			   onclick="Pravice(41, 'w')" value="1w">W
+		</td>
+		<td>
+			Uvoz datotek
+		</td>
+
+	</tr>
+	<tr>
+		<td>
+		<input type="checkbox" name="orodja" id="r42"
+			   onclick="Pravice(42, 'r')" value="2r">R
+		<input type="checkbox" name="orodja" id="w42"
+			   onclick="Pravice(42, 'w')" value="2w">W
+		</td>
+		<td>
+			Izvozene datoteke
+		</td>
+
+	</tr>
+	<tr>
+		<td>
+		<input type="checkbox" name="orodja" id="r43"
+			   onclick="Pravice(43, 'r')" value="3r">R
+		<input type="checkbox" name="orodja" id="w43"
+			   onclick="Pravice(43, 'w')" value="3w">W
+		</td>
+		<td>
+			Isci
+		</td>
+	</tr>
+	<tr>
+		<td>
+		<input type="checkbox" name="orodja" id="r44"
+			   onclick="Pravice(44, 'r')" value="4r">R
+		<input type="checkbox" name="orodja" id="w44"
+			   onclick="Pravice(44, 'w')" value="4w">W
+		</td>
+		<td>
+			Opozorila
+		</td>
+	</tr>
+	<tr>
+		<td>
+		<input type="checkbox" name="orodja" id="r45"
+			   onclick="Pravice(45, 'r')" value="5r">R
+		<input type="checkbox" name="orodja" id="w45"
+			   onclick="Pravice(45, 'w')" value="5w">W
+		</td>
+		<td>
+			Vzdrzevanje
+		</td>
+	</tr>
+	</table>
+	</div>
+	
+	<div style="float:left; padding:10px 10px 10px 0px;">
+	<table border=1px>
+
+	<tr>
+		<td>
+		<input type="checkbox" name="pogodbe1" id="r6"
+			   onclick="Pravice(6, 'r')" value="6r">R
+		<input type="checkbox" name="pogodbe1" id="w6"
+			   onclick="Pravice(6, 'w')" value="6w">W
+		</td>
+		<td>
+			<strong>Uporabniki</strong>
+		</td>
+	</tr>
+		<tr>
+		<td>
+		<input type="checkbox" name="uporabniki" id="r51"
+			   onclick="Pravice(51, 'r')" value="1r">R
+		<input type="checkbox" name="uporabniki" id="w51"
+			   onclick="Pravice(51, 'w')" value="1w">W
+		</td>
+		<td>
+			Urejanje uporabnikov
+		</td>
+
+	</tr>
+	<tr>
+		<td>
+		<input type="checkbox" name="uporabniki" id="r52"
+			   onclick="Pravice(52, 'r')" value="2r">R
+		<input type="checkbox" name="uporabniki" id="w52"
+			   onclick="Pravice(52, 'w')" value="2w">W
+		</td>
+		<td>
+			Log
+		</td>
+
+	</tr>
+	</table>
+	</div>
+	
+	<div style="float:left; padding:10px 10px 10px 0px;">
+	<table border=1px>
+
+	<tr>
+		<td>
+		<input type="checkbox" name="pomoc1" checked="true" id="r6"
+			   onclick="Pravice(6, 'r')" disabled="true" value="6r">R
+		<input type="checkbox" name="pomoc1" id="w6"
+			   onclick="Pravice(6, 'w')" value="6w">W
+		</td>
+		<td>
+			<strong>Pomoc</strong>
+		</td>
+	</tr>
+		<tr>
+		<td>
+		<input type="checkbox" name="pomoc" checked="true" id="r61"
+			   onclick="Pravice(61, 'r')" disabled="true" value="1r">R
+		<input type="checkbox" name="pomoc" id="w61"
+			   onclick="Pravice(61, 'w')" value="1w">W
+		</td>
+		<td>
+			Pomoc
+		</td>
+
+	</tr>
+	</table>
+	</div>
+	
+	<div style="clear:left;">
+		</div>
+	<INPUT TYPE="submit"  NAME ="rm" VALUE="Shrani">
+	<INPUT TYPE="button"  onclick="javascript:self.location='?rm=seznam&seja='"
+		   VALUE="Nazaj">
+	<!--
+	 <input type="hidden" name="uporabnik" value="<TMPL_VAR NAME=uporabnik>" />
+	-->
+		<input type="hidden" name="seja" value="<TMPL_VAR NAME=seja>" />
+		
+</div>
+<TMPL_INCLUDE NAME="DntMenu.tmpl">
+</form>
+<script>
+var i=0;
+var str = '<tmpl_var name=edb_moduli>';
+var arr = new Array();
+arr = str.split(",");
+
+while(i < arr.length){
+	var p=document.getElementById(arr[i]);
+	p.checked="true";
+	if(arr[i].charAt(0) == 'w'){
+		document.getElementById('r'+arr[i].substring(1, 3)).checked="true";
+	}	
+	i++;
+}
+</script>
+</body>
+</html>
+

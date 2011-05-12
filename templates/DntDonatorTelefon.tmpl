@@ -1,0 +1,163 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<head>
+<title>Donator - dodaj telefon</title>
+<link rel="stylesheet" href="/static/izgled4.css" type="text/css" media="all" />
+	<SCRIPT LANGUAGE="JavaScript" 
+	 SRC="/static/funkcije.js"></SCRIPT>
+
+</head>
+<body <TMPL_VAR NAME=edb_onload>>
+
+<script language="javascript">
+
+function Uredi()
+{
+	document.myForm['edb_telefon'].disabled = false;
+	document.myForm['edb_telefonskaSt'].disabled = false;
+	document.myForm['edb_primarni'].disabled = false;
+	document.myForm['edb_dodaj'].disabled = false;
+	
+}
+function Uredi2(){
+	
+	document.getElementById('dodaj').disabled = false;
+}
+
+</script>
+<p>
+<strong><i><TMPL_VAR NAME=IME_DOKUMENTA></i></strong> <TMPL_VAR NAME=POMOC>
+<table border="1" >
+	<form name="myForm" value="dodaj_telefon">
+	<input type="hidden" name="hiddenId" value="telefon" />
+	<input type="hidden" name="id_telefona" value="<tmpl_var name=id_telefona>"/>
+	<input type="hidden" name="ui" value="<tmpl_var name=ui>" />
+	<tr>
+		<td>ID:</td>
+		<td>                  
+		  <input style="width: 50px;" type="ime" readonly="readonly"
+				 name="edb_id" id="edb_id" size="22" maxlength="80"
+				 value="<tmpl_var name=edb_id>">
+		</td>
+	</tr>
+	<tr>
+		<td>Ime in priimek:</td>
+		<td>                  
+		  <tmpl_var name=edb_ime> <tmpl_var name=edb_priimek> 
+		</td>
+	</tr>
+	<tr>
+		<td>Telefon:</td>
+		<td>                  
+		  <input style="width: 100%" type="text" disabled="disabled"
+				 name="edb_telefon" id="edb_telefon" size="22" maxlength="80"
+				 value="<tmpl_var name=edb_telefon>">
+		</td>
+	</tr>
+	<tr>
+		<td>Telefonska st.:</td>
+		<td>                  
+		  <input style="width: 100%" type="text" disabled="disabled"
+				 name="edb_telefonskaSt" id="edb_telefonskSt" size="22"
+				 maxlength="80" value="<tmpl_var name=edb_telefonskaSt>">
+		</td>
+	</tr>
+	<tr>
+		<td>Primarni telefon:</td>
+		<td>                  
+		  <input type="checkbox" disabled="disabled"  name="edb_primarni"
+				 id="edb_primarni" size="22" <tmpl_var name=edb_primarni>>
+		</td>
+	</tr>
+		  <tr><td colspan="2"><input type="submit" id="edb_dodaj"
+				disabled="disabled" value="<tmpl_var name=gumbek>" name="rm" />
+
+</td></tr>
+		  </form>
+</table><br />
+<strong><i>Seznam telefonov:</i></strong>
+<table border="1px">
+<script language="javascript">
+	function Brisi(){
+		var i=4;
+		var error="Ali resnicno zelite izbrisati izbrane telefonske stevilke?";
+		var vsi=true;
+		while (document.brisi[i].value>0){
+			if(document.brisi[i++].checked){						
+				vsi=false;
+			}
+				
+		}
+		if(vsi)
+			alert("Za brisanje niste izbrali nobenega polja!");
+		else{
+			if(confirm(error)){
+				document.brisi.submit();	
+			}
+		}
+	}
+	
+	function IzberiVse(id){
+		var i=4;
+		
+		while (document.brisi[i].value>0){
+			if(document.getElementById(id).checked)
+				document.brisi[i++].checked=true;
+			else
+				document.brisi[i++].checked=false;
+			
+		}
+	}
+	
+	function PreveriOznacene(){	
+		var i=4;
+		var vsi=true;
+		while (document.brisi[i].value>0){
+			if(!document.brisi[i++].checked){
+				document.getElementById('izberiVse').checked=false;
+				vsi=false;
+			}
+				
+		}
+		if(vsi)
+			document.getElementById('izberiVse').checked=true;
+	}
+</script>
+
+<form name="brisi">	
+<tr>
+	<td><strong>Izbor</strong></td><td><strong>Telefon</strong></td>
+	<td><strong>Telefonska st.</strong></td>
+	<td style="text-align:center;"><input type="checkbox"
+		name="izberiVse" value="pek" id="izberiVse"
+		onClick="IzberiVse(this.id)" /><strong >Brisi</strong>
+	</td>
+	<input type="hidden" name="rm" id="rm" value="zbrisi" />
+	<input type="hidden" name="brisi" value="telefon<tmpl_var name=brisi_ui>" />
+	<input type="hidden" name="id_donor" value="<tmpl_var name=edb_id>" />
+</tr>
+
+	<TMPL_LOOP NAME="donator_loop">
+	<tr>
+	<td><a href="?rm=donator_telefon&amp;id_donor=<tmpl_var name=edb_id>&amp;id_phone=<tmpl_var name=telefonId><tmpl_var name=tmp_link>">uredi</a></td>
+	<td><TMPL_VAR NAME="telefon"></td> 
+	<td><TMPL_VAR NAME="telefonska"></td>                    
+	<td style="text-align:center;"><input type="checkbox"
+		onclick="PreveriOznacene()" name="brisiId" value="<tmpl_var name=telefonId>" />
+	</td>
+	</tr>
+	</TMPL_LOOP>
+	<tr>
+	<td colspan=3> </td>
+	<td>
+		<input type="button" name="brisi" onClick="Brisi()" value="brisi" />
+	</td>
+	</tr>
+</form>
+</table><br />
+
+<input type="button" value="dodaj nov telefon" id="dodaj" disabled="disabled"
+onclick="self.location='?rm=donator_telefon&amp;id_donor=<tmpl_var name=edb_id>&ui=<tmpl_var name=ui>'"/>
+<input type="button" value="zapri" onclick="javascript:window.close()"/>		
+</p>
+</body>
+</html>

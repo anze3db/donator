@@ -1,0 +1,241 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<head>
+<title>Donator - <TMPL_VAR NAME=IME_DOKUMENTA></title>
+<link rel="stylesheet" href="/static/izgled4.css" type="text/css" media="all" />
+<SCRIPT LANGUAGE="JavaScript" 
+	 SRC="/static/funkcije.js"></SCRIPT>
+</head>
+<body>
+<script>
+function IzberiVse(form){
+	
+	if(form.izberiVse.checked){
+		var i=0;
+		if(form.brisiId == "[object NodeList]"){
+			while(form.brisiId[i]){
+				form.brisiId[i++].checked=true;
+
+			}
+		}
+		else
+			form.brisiId.checked=true;
+	}
+	else{
+		var i=0;
+		if(form.brisiId == "[object NodeList]"){
+			while(form.brisiId[i]){			
+				form.brisiId[i++].checked=false;
+			}
+		}
+		else
+			form.brisiId.checked=false;
+	}
+}
+
+function Brisi(form){
+	
+	var i=0;
+	var izbran=false;
+	
+	if(form.brisiId == "[object NodeList]"){
+		while(form.brisiId[i]){
+			if(form.brisiId[i++].checked==true)
+				izbran=true;
+	
+		}
+	}
+	
+	else{
+		if(form.brisiId.checked==true)
+				izbran=true;
+	
+	}
+	if(izbran){
+		if(confirm("Ste prepricani, da zelite izbrisati izbrana polja?")){
+			form.submit();
+		}
+	}
+	else
+		alert("Niste izbrali nobenega polja!");
+	
+}
+
+function PreveriOznacene(form){
+	var i=0;
+	var vsi=true;
+	if(form.brisiId == "[object NodeList]"){
+		while(form.brisiId[i]){			
+			if(!form.brisiId[i++].checked)
+				vsi=false;
+		}
+	}
+		else{			
+			if(!form.brisiId.checked)
+				vsi=false;
+		}
+	if (vsi)
+		form.izberiVse.checked=true;
+	else
+		form.izberiVse.checked=false;
+}
+
+</script>
+
+<div id="banner"><h1>D O N A T O R</h1></div>
+<div id="centercontent">
+<TMPL_VAR NAME=MENU_POT>
+<p>
+<strong><i><TMPL_VAR NAME=IME_DOKUMENTA></i></strong>
+<TMPL_VAR NAME=POMOC>
+<div style="float:left; margin:10px 5px; padding:0px 5px; border:1px dotted black">
+	
+<form name="brisi" id="brisi">
+	<input type="hidden" value="brisi" name="rm" />
+	<table border="1px">
+	</tr>
+	<td><strong><i>Dodani pogoji</i></strong></td>
+	<td><label><input type="checkbox" name="izberiVse" value=""
+					   id="izberiVse" onClick="IzberiVse(document.brisi)" />
+				<strong >Brisi</strong></label></td>
+	<tr>
+	<TMPL_LOOP NAME="loop2">	
+	 <TR>                    
+		 <TD><TMPL_VAR NAME="param"></TD>
+		 <TD style="text-align:center;">
+		 <input type="checkbox" onclick="PreveriOznacene(document.brisi)"
+				name="brisiId" value="<TMPL_VAR NAME="id">" />
+		 </TD> 
+	 </TR>
+		 
+	 </TMPL_LOOP>
+	 <tr>
+		 <td colspan=1 style="text-align:center; font-weight:bold;">
+			 <tmpl_var name=edb_triPike></td>
+		 <td><input type="button" name="brisi"
+			 onClick="Brisi(document.brisi)" value="brisi" /></td>
+	 </tr>
+	</table>
+</form>
+<form name="myForm">
+	<table border="1" >
+		<tr>
+		<td>Povezava med tabelo
+			<select name="edb_tabela1" id="edb_tabela1"
+				<tmpl_if name="nivo2">disabled="true"</tmpl_if>
+			>
+			<option value="sfr_donor">Donatorji</option>
+			<option value="sfr_staff">Zaposleni</option>
+			<option value="sfr_agreement">Pogodbe</option>
+			<option value="agreement_pay_installment">Obroki</option>
+			<option value="sfr_bank">Banke</option>
+			<option value="sfr_events">Dogodki</option>
+			<option value="sfr_project">Projekti</option>
+			<option value="sheets_series">Pole</option>
+			<option value="sfr_post">Poste</option>
+			<option value="sfr_donor_comment">Donator - komentarji</option>
+			<option value="sfr_donor_call">Donator - klici</option>
+			<option value="sfr_donor_phone">Donator - telefon</option>
+			<option value="sfr_staff_comment">Zaposleni - komentarji</option>
+			<option value="sfr_staff_phone">Zaposleni - telefon</option>
+			<option value="sfr_staff_project">Zaposleni - projekti</option>
+			<option value="agreement_notice">Pogodbe - opomini</option>
+			<option value="sfr_agreement_comment">Pogodbe - komentarji</option>
+			</select>
+		 in tabelo
+		 <select  name="edb_tabela2" id="edb_tabela2"
+			<tmpl_if name="nivo2">disabled="true"</tmpl_if>
+		 >
+			<option value="sfr_donor">Donatorji</option>
+			<option value="sfr_staff" selected="true">Zaposleni</option>
+			<option value="sfr_agreement">Pogodbe</option>
+			<option value="agreement_pay_installment">Obroki</option>
+			<option value="sfr_bank">Banke</option>
+			<option value="sfr_events">Dogodki</option>
+			<option value="sfr_project">Projekti</option>
+			<option value="sheets_series">Pole</option>
+			<option value="sfr_post">Poste</option>
+			<option value="sfr_donor_comment">Donator - komentarji</option>
+			<option value="sfr_donor_call">Donator - klici</option>
+			<option value="sfr_donor_phone">Donator - telefon</option>
+			<option value="sfr_staff_comment">Zaposleni - komentarji</option>
+			<option value="sfr_staff_phone">Zaposleni - telefon</option>
+			<option value="sfr_staff_project">Zaposleni - projekti</option>
+			<option value="agreement_notice">Pogodbe - opomini</option>
+			<option value="sfr_agreement_comment">Pogodbe - komentarji</option>
+			</select>
+		</td>
+		</tr>
+		<tmpl_if name="nivo2">
+		<tr>
+			<td>
+			Povezava med vrstico
+			<select  name="edb_column1" id="edb_column1">
+			<tmpl_loop name="column1">
+			<option value="<tmpl_var name=column>"><tmpl_var name="column_slo">
+			</option>
+			</tmpl_loop>
+			</select>
+			in vrstico
+			<select  name="edb_column2" id="edb_column2">
+			<tmpl_loop name="column2">
+			<option value="<tmpl_var name=column>"><tmpl_var name="column_slo">
+			</option>
+			</tmpl_loop>
+			</select>
+		</td>
+	</tr>
+		</tmpl_if>
+	</table>
+	
+	<input type="hidden" value="P" name="edb_tip" />
+	<tmpl_if name="nivo2">
+	<input type="hidden" value="dodaj" name="rm" />
+	<input type="submit" value="Dodaj pogoj">
+	<input type="button" onclick="javascript:self.location='?rm=nastavitve'"
+		   value="Resetiraj">
+	<tmpl_else>
+	<input type="hidden" value="nastavitve" name="rm" />
+	<input type="submit" value="Izberi tabeli">		
+	</tmpl_if>
+	
+	</form>
+</div>
+	
+<form name="brisi2" id="brisi2">
+	<input type="hidden" value="brisi" name="rm" />
+	<div style="float:left; margin:10px 5px; padding:0px 5px;
+				border:1px dotted black">
+	<table border="1px">
+	</tr>
+	<td><strong><i>Shranjena iskanja</i></strong></td>
+	<td><label><input type="checkbox" name="izberiVse" value=""
+					   id="izberiVse" onClick="IzberiVse(document.brisi2)" />
+				<strong >Brisi</strong></label></td>
+	<tr>
+	<TMPL_LOOP NAME="loop1">
+			
+		<TR>                    
+			<TD><TMPL_VAR NAME="param"></TD>
+			<TD style="text-align:center;">
+			<input type="checkbox" onclick="PreveriOznacene(document.brisi2)"
+				   name="brisiId" value="<TMPL_VAR NAME="id">" />
+			</TD> 
+		</TR>
+			
+	</TMPL_LOOP>
+			<tr>
+			<td colspan=1 style="text-align:center; font-weight:bold;">
+				<tmpl_var name=edb_triPike></td>
+			<td><input type="button" name="brisi"
+				onClick="Brisi(document.brisi2)" value="brisi" /></td>
+		</tr>
+	</table>
+</div>
+<div style="clear:both"></div>
+<input type="button" value="Nazaj" onclick="javascript:self.location='DntStart.cgi?rm=isci'">
+</div>
+<TMPL_INCLUDE NAME="DntMenu.tmpl">
+</form>
+</body>
+</html>
+

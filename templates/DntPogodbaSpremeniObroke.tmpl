@@ -1,0 +1,79 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>Donator - <TMPL_VAR NAME=IME_DOKUMENTA></title>
+<link rel="stylesheet" type="text/css" href="/static/izgled4.css" >
+<script type = "text/javascript" src="/static/funkcije.js"></script>
+</head>
+<body>
+<div id="banner"><h1>D O N A T O R</h1></div>
+<form name="myForm" value="Vpis_uporabnika">
+    <input type="hidden" name="spremeni_kaj"
+           value="<TMPL_VAR NAME=spremeni_kaj>" />
+    <input type="hidden" name="hid_id_agreement"
+           value="<TMPL_VAR NAME=hid_id_agreement>" />
+    <script>
+        function CheckAll(field)
+        {
+            for (i=0; i< field.length; i++)
+                field[i].checked = true;
+        }
+        
+        function UnCheckAll(field)
+        {
+            for (i=0; i< field.length; i++)
+                field[i].checked = false;
+        }
+    </script>
+<div id="centercontent">
+    <TMPL_VAR NAME=MENU_POT>
+    <TMPL_VAR NAME=POGODBA>
+    <br>
+    <TMPL_VAR NAME=IME_PRIIMEK>
+    <br>
+    <strong><i><TMPL_VAR NAME=IME_DOKUMENTA></i></strong> <TMPL_VAR NAME=POMOC>
+    <TABLE BORDER=1>
+    <TR>
+        <TD><B>st.obroka</B></TD>
+        <TD><B>datum</B></TD>
+        <TD><B>znesek</B></TD>
+        <TD><B>vrsta brtemenitve</B></TD>
+        <TD><B>frekvenca</B></TD>
+
+    </TR>
+
+     <TMPL_LOOP NAME="obroki_loop">
+        
+        <TR>
+            <div id="navigation">
+                <TD><TMPL_VAR NAME="st_obroka"></TD>
+            </div>
+            <TD><TMPL_VAR NAME="datum"></TD>
+            <TD><TMPL_VAR NAME="znesek"></TD>
+            <TD><TMPL_VAR NAME="vrsta_bremenitve"></TD>
+            <TD><TMPL_VAR NAME="frekvenca"></TD>
+        </TR>
+        
+     </TMPL_LOOP>
+
+   </TABLE>
+    <INPUT TYPE="button"  NAME ="oznaci_vse" value ="oznaci vse"
+           onClick="CheckAll(document.myForm.hid_izbrani_obroki)"/>
+    <INPUT TYPE="button"  NAME ="odznaci_vse" value ="odznaci vse"
+           onClick="UnCheckAll(document.myForm.hid_izbrani_obroki)"/>
+    <br/>
+    <TMPL_VAR NAME=IZBERI_GUMB>
+    <br>
+    <TMPL_VAR NAME=POTRDI_GUMB>
+    <br>
+    
+    
+    <input type="button"  name="btn_nazaj" value="Nazaj"
+           onclick="javascript:window.history.back()" />
+</div>
+
+<TMPL_INCLUDE NAME="DntMenu.tmpl">
+</form>
+
+</body>
+</html>

@@ -1,0 +1,238 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<head>
+    <title>Donator - Delo pri projektih</title>
+    <link rel="stylesheet" href="/static/izgled4.css" type="text/css" media="all" />
+	<LINK REL=StyleSheet HREF="/static/weeklycalendar/calendar.css" TYPE="text/css">
+    <SCRIPT LANGUAGE="JavaScript" 
+         SRC="/static/weeklycalendar/weeklycalendar.js">
+		<SCRIPT LANGUAGE="JavaScript" 
+         SRC="/static/funkcije.js"></SCRIPT>
+		
+		
+	</SCRIPT>
+
+</head>
+<body <TMPL_VAR NAME=edb_onload>>
+	<script language="javascript">
+            // call the function to build the calendar
+            // function's param specify the first day of week 
+            // 0=Sunday, 1 = Monday, ..., 6=Saturday
+            buildWeeklyCalendar(1);
+			
+		function Uredi()
+        {
+            
+			//document.myForm['edb_datum'].disabled = false;
+			
+			
+			document.myForm['edb_dodaj'].disabled = false;
+
+			
+		}
+		function trim(str){
+                
+                return str.replace(/^\s+|\s+$/g, '');
+            }
+		function DatumVnos(id){
+            
+            var datum=document.getElementById(id);
+            var tmp=datum.value;
+            var dan;
+            var mesec;
+            var leto;
+            
+            if(tmp.length>=6 && tmp.length<=13){
+                tmp=tmp.replace('.', '/');
+                tmp=tmp.replace('.', '/');
+                
+                
+                dan=trim(tmp.substring(0, tmp.indexOf('/')));
+                dan=parseInt(dan);
+                if(dan<10 && dan>0)
+                    dan="0"+dan;
+                    
+                
+                mesec=trim(tmp.substring(tmp.indexOf('/')+1, tmp.lastIndexOf('/')));
+                mesec=parseInt(mesec);
+                if(mesec<10 && dan>0)
+                    mesec="0"+mesec;
+                    
+                leto=trim(tmp.substring(tmp.lastIndexOf('/')+1, tmp.length));
+                if(leto.length==2){
+                    leto="20"+leto;
+                }
+                else if(leto.length==3){
+                    leto="2"+leto;
+                }
+                
+                datum.value=dan+"/"+mesec+"/"+leto;
+            }
+        }
+		function Uredi2()
+        {
+
+			document.myForm['dodaj'].disabled = false;
+			
+		}
+        </script>
+		<p>
+		<strong><i><TMPL_VAR NAME=IME_DOKUMENTA></i></strong> <TMPL_VAR NAME=POMOC>
+		<table border="1" >
+			<form name="myForm">
+			<input type="hidden" name="hiddenId" value="delo" />
+			<input type="hidden" name="deloId" value="<tmpl_var name=edb_deloId>" />
+			<input type="hidden" name="ui" value="<tmpl_var name=ui>" />
+			<tr>
+                <td>ID:</td>
+                <td>                  
+                  <input style="width: 40px;" type="ime" readonly="readonly" name="edb_id" id="edb_id" size="22" maxlength="80"
+                    value="<tmpl_var name=edb_id>">
+                </td>
+            </tr>
+			<tr>
+                <td>Ime in priimek:</td>
+                <td>                  
+                  <tmpl_var name=edb_ime> <tmpl_var name=edb_priimek> 
+                </td>
+            </tr>
+			<tr>
+                <td>Sifra projekta:</td>
+                <td>                  
+                <select name="edb_projekt" id="edb_projekt" style="width:160px" selected="<tmpl_var name=edb_projekt>" size=1>                     
+					<TMPL_LOOP NAME="edb_loop">                      
+                    <option value=<TMPL_VAR NAME="id"> <TMPL_VAR NAME="izbran">><TMPL_VAR NAME="id"> <TMPL_VAR NAME="projekt"></option>                 
+                                        
+                </TMPL_LOOP>
+					
+                </select>
+				
+            </td>
+            </tr>
+			<tr>
+                <td>Vodja projekta:</td>
+                <td>                  
+                <select name="edb_vodja" id="edb_vodja" style="width:160px" selected="<tmpl_var name=edb_vodja>" size=1>                     
+					<TMPL_LOOP NAME="edb_loop2">                      
+                    <option value=<TMPL_VAR NAME="id"> <TMPL_VAR NAME="izbran">><TMPL_VAR NAME="id">. <TMPL_VAR NAME="ime"> <TMPL_VAR NAME="priimek"></option>                 
+                                        
+                </TMPL_LOOP>
+					
+                </select>
+				
+            </td>
+            </tr>
+			<tr>
+                <td>Aktiven od:</td>
+                <td>                  
+                  <!--  this is the datepicker input text -->    
+                    <input name="edb_od" onblur="DatumVnos(this.id)" id="edb_od" size="12" maxlength="80" value="<tmpl_var name=edb_od>" type="text">
+                    <!--  attach the w_displayCalendar function to the onClick event -->
+                    <input value="..." id="edb_koledar"  onclick="w_displayCalendar('edb_od',null);" type="button">
+                </td>
+            </tr>
+			    <td>Aktiven do:</td>
+                <td>                  
+                  <!--  this is the datepicker input text -->    
+                    <input name="edb_do" onblur="DatumVnos(this.id)" id="edb_do" size="12" maxlength="80" value="<tmpl_var name=edb_do>" type="text">
+                    <!--  attach the w_displayCalendar function to the onClick event -->
+                    <input value="..." id="edb_koledar" onclick="w_displayCalendar('edb_do',null);" type="button">
+                </td>
+            </tr>
+			
+			
+			<tr><td colspan="2">
+		<input type="submit" value="<tmpl_var name=edb_gumbek>" id="edb_dodaj" name="rm" disabled="disabled" />
+		</td></tr>
+			</form>
+		</table><br />
+		<strong><i>Seznam projektov:</i></strong>
+		<table border="1px">
+		<script language="javascript">
+			function Brisi(){
+				var i=4;
+				
+				var error="Ali resnicno zelite izbrisati izbrana polja?";
+				var vsi=true;
+				while (document.brisi[i].value>0){
+					if(document.brisi[i++].checked){						
+						vsi=false;
+					}
+						
+				}
+				if(vsi)
+					alert("Za brisanje niste izbrali nobenega polja!");
+				else{
+					if(confirm(error)){
+						document.brisi.submit();	
+					}
+				}
+			}
+			
+			function IzberiVse(id){
+				var i=4;
+				
+				while (document.brisi[i].value>0){
+					if(document.getElementById(id).checked)
+						document.brisi[i++].checked=true;
+					else
+						document.brisi[i++].checked=false;
+					
+				}
+			}
+			
+			function PreveriOznacene(){	
+				var i=4;
+				var vsi=true;
+				while (document.brisi[i].value>0){
+					if(!document.brisi[i++].checked){
+						document.getElementById('izberiVse').checked=false;
+						vsi=false;
+					}
+						
+				}
+				if(vsi)
+					document.getElementById('izberiVse').checked=true;
+			}
+		</script>
+		
+		<form name="brisi">	
+			<tr>
+			
+			<td><strong>link</strong></td>	
+			<td><strong>id</strong></td>
+			<td><strong>projekt</strong></td>
+			<td><strong>Aktiven od</strong></td>
+			<td><strong>Aktiven do</strong></td>
+			<td style="text-align:center;"><input type="checkbox" name="izberiVse" value="" id="izberiVse" onClick="IzberiVse(this.id)" /><strong >Brisi</strong></td>
+		
+		<input type="hidden" name="rm" id="rm" value="zbrisi" />
+		<input type="hidden" name="brisi" value="delo<tmpl_var name=ui_brisi>" />
+		<input type="hidden" name="id_donor" value="<tmpl_var name=edb_id>" />	
+		</tr>
+				<TMPL_LOOP NAME="edb_loop3">
+				<tr>
+				<td><a href="?rm=zaposleni_delo&amp;id_staff=<tmpl_var name=edb_id>&amp;id_delo=<tmpl_var name=id>&ui=<TMPL_VAR NAME="ui">">uredi</a></td>
+				<td><TMPL_VAR NAME="id"></td> 
+                <td><TMPL_VAR NAME="name"></td>
+                <td><TMPL_VAR NAME="od"></td>
+				<td><TMPL_VAR NAME="do"></td>
+				<td style="text-align:center;">
+					<input type="checkbox" onclick="PreveriOznacene()" name="brisiId" value="<tmpl_var name=id>" />
+				</td>
+				
+				
+                
+                </tr>
+                </TMPL_LOOP></td></tr>
+		<tr>
+				<td colspan=5> </td>
+				<td><input type="button" name="brisi" onClick="Brisi()" value="brisi" /></td>
+				</tr>
+		</table><br />
+		<input type="button" value="dodaj novo delo" id="dodaj" onclick="self.location='?rm=zaposleni_delo&amp;id_staff=<tmpl_var name=edb_id>&ui=<TMPL_VAR NAME="ui">'"/>
+		<input type="button" value="zapri" onclick="javascript:window.close()"/>
+		
+		</p>
+
+</body>
+</html>

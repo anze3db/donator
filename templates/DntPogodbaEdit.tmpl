@@ -1,0 +1,1358 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<head>
+<title>Donator - <TMPL_VAR NAME=IME_DOKUMENTA></title>
+<link rel="stylesheet" href="/static/izgled4.css" type="text/css" media="all" />
+<LINK REL=StyleSheet HREF="/static/weeklycalendar/calendar.css" TYPE="text/css">
+<SCRIPT LANGUAGE="JavaScript" 
+    SRC="/static/weeklycalendar/weeklycalendar.js"></SCRIPT>
+<SCRIPT LANGUAGE="JavaScript" 
+    SRC="/static/funkcije.js"></SCRIPT>
+</head>
+<body <TMPL_VAR NAME=edb_onload>>
+<div id="banner"><h1>D O N A T O R</h1></div>
+<form name="myForm">
+
+<input type="hidden" name="rm" id="rm" value="shrani_pogodbo" />
+<input type="hidden" name="id_don_nov" value="<tmpl_var name=edb_id_donator>" />
+<input type="hidden" name="hid_id_agreement"
+       value="<TMPL_VAR NAME=hid_id_agreement>" />
+       
+<!--SKRITA POLJA ZA PREVERJANJE vpogodbi != sfr_donor -->
+<input type="hidden" id="hid_vneseno" name="hid_vneseno"
+       value="<TMPL_VAR NAME=hid_vneseno>" />
+<input type="hidden" id="hid_id" name="hid_id"
+       value="<TMPL_VAR NAME=hid_id>" />
+<input type="hidden" id="hid_status" name="hid_status"
+       value="<TMPL_VAR NAME=hid_status>" />
+<input type="hidden" id="hid_podjetje" name="hid_podjetje"
+       value="<TMPL_VAR NAME=hid_podjetje>" />
+<input type="hidden" id="hid_prednaziv" name="hid_prednaziv"
+       value="<TMPL_VAR NAME=hid_prednaziv>" />
+<input type="hidden" id="hid_upokojenec" name="hid_upokojenec"
+       value="<TMPL_VAR NAME=hid_upokojenec>" />
+<input type="hidden" id="hid_ime" name="hid_ime"
+       value="<TMPL_VAR NAME=hid_ime>" />
+<input type="hidden" id="hid_priimek" name="hid_priimek"
+       value="<TMPL_VAR NAME=hid_priimek>" />
+<input type="hidden" id="hid_ulica" name="hid_ulica"
+       value="<TMPL_VAR NAME=hid_ulica>" />
+<input type="hidden" id="hid_hisnaSt" name="hid_hisnaSt"
+       value="<TMPL_VAR NAME=hid_hisnaSt>" />
+<input type="hidden" id="hid_postnaSt" name="hid_postnaSt"
+       value="<TMPL_VAR NAME=hid_postnaSt>" />
+<input type="hidden" id="hid_davcnaSt" name="hid_davcnaSt"
+       value="<TMPL_VAR NAME=hid_davcnaSt>" />
+<input type="hidden" id="hid_davcniZavezanec" name="hid_davcniZavezanec"
+       value="<TMPL_VAR NAME=hid_davcniZavezanec>" />
+<input type="hidden" id="hid_danRojstva" name="hid_danRojstva"
+       value="<TMPL_VAR NAME=hid_danRojstva>" />
+<input type="hidden" id="hid_mesecRojstva" name="hid_mesecRojstva"
+       value="<TMPL_VAR NAME=hid_mesecRojstva>" />
+<input type="hidden" id="hid_letoRojstva" name="hid_letoRojstva"
+       value="<TMPL_VAR NAME=hid_letoRojstva>" />
+<input type="hidden" id="hid_emso" name="hid_emso"
+       value="<TMPL_VAR NAME=hid_emso>" />
+       
+<input type="hidden" id="ui" name="ui"
+       value="<TMPL_VAR NAME=edb_ui>" />
+       
+<!-- Ali naj se vnese tudi v donatorja.-->
+<input type="hidden" id="hid_don" name="hid_don" value="0" />
+
+<script>
+// call the function to build the calendar
+// function's param specify the first day of week 
+// 0=Sunday, 1 = Monday, ..., 6=Saturday
+buildWeeklyCalendar(1);
+
+tartgetElement =  null;
+
+var disabled = new Array();
+disabled['edb_id_agreement'] = 1;
+disabled['edb_id_donator'] = 1;
+disabled['edb_postnaSt2'] = 1;
+var required = new Array();
+required['edb_id_agreement'] = 1;
+required['edb_id_donator'] = 1;
+required['edb_datumVnosa'] = 1;
+required['edb_datumPodpisa'] = 1;
+required['edb_ulica'] = 1;
+required['edb_hisnaSt'] = 1;
+required['edb_postnaSt'] = 1;
+required['edb_postnaSt2'] = 1;
+required['edb_celoten'] = 1;
+required['edb_vrstaBremenitve'] = 1;
+
+
+
+function CheckAll(field)
+{
+    for (i=0; i< field.length; i++)
+        field[i].checked = true;
+}
+function trim(str){
+    
+    return str.replace(/^\s+|\s+$/g, '');
+}
+
+
+function UnCheckAll(field)
+{
+    for (i=0; i< field.length; i++)
+        field[i].checked = false;
+}
+
+function NastaviPravno()
+{
+    disabled['edb_podjetje']        = 0;
+    disabled['edb_valuta']          = 0;
+    //disabled['edb_vrstaBremenitve'] = 0;
+    //disabled['edb_TRR']             = 1;
+    disabled['edb_frekvenca']       = 1;
+
+    
+    required['edb_podjetje']        = 1;
+    required['edb_valuta']          = 1;
+    required['edb_davcna']          = 1;
+    required['edb_ime']             = 0;
+    required['edb_priimek']         = 0;
+
+    //required['edb_TRR']             = 0;
+    required['edb_frekvenca']       = 0;
+    
+    //document.myForm['edb_vrstaBremenitve'].options[3].selected= true;
+
+    
+    /*
+    document.myForm['edb_podjetje'].disabled = false;
+    document.myForm['edb_valuta'].disabled = false;
+    
+    //document.myForm['edb_nacinPlacila'].options[3].selected= true;
+    document.myForm['edb_vrstaBremenitve'].disabled= true;
+    //document.myForm['edb_nacinPlacila'].disabled= true;
+    document.myForm['edb_TRR'].disabled= true;
+    document.myForm['edb_frekvenca'].disabled= true;
+    document.myForm['edb_zap_st_db'].disabled= true;
+    
+    document.getElementById('label_edb_vrstaBremenitve').style.fontWeight='normal';
+    document.getElementById('label_edb_valuta').style.fontWeight='bold';
+
+    //document.getElementById('label_edb_TRR').style.fontWeight='normal';
+    document.getElementById('label_edb_frekvenca').style.fontWeight='normal';
+    
+    document.getElementById('podjetje').style.fontWeight='bold';
+    document.getElementById('ime').style.fontWeight='normal';
+    document.getElementById('priimek').style.fontWeight='normal';
+    document.getElementById('davcna').style.fontWeight='bold';
+    */
+}
+function NastaviFizicno()
+{
+    disabled['edb_podjetje']        = 1;
+    disabled['edb_valuta']          = 1;
+    //disabled['edb_vrstaBremenitve'] = 0;
+    //disabled['edb_TRR']             = 0;
+    disabled['edb_frekvenca']       = 0;
+
+    
+    required['edb_podjetje']        = 0;
+    required['edb_valuta']          = 0;
+    required['edb_davcna']          = 0;
+    required['edb_ime']             = 1;
+    required['edb_priimek']         = 1;
+    //required['edb_TRR']             = 0;
+    required['edb_frekvenca']       = 1;
+    
+    
+}
+function NastaviZneske(){
+    
+    var form = document.myForm;
+    if(parseFloat(form['edb_celoten'].value)>0){
+        disabled['edb_amount1']                 = 0;
+        if(parseFloat(form['edb_amount1'].value) == parseFloat(form['edb_celoten'].value)){
+            disabled['edb_num_installments']    = 1;
+            disabled['edb_amount2']             = 1;
+            disabled['edb_nacinPlacila']        = 1;            
+            disabled['edb_frekvenca']           = 1;
+            disabled['edb_valuta']              = 1;
+            disabled['edb_vrstaBremenitve']     = 1;
+            form['edb_vrstaBremenitve'].options[5].selected = true;
+            disabled['edb_TRR']                 = 1;
+            disabled['edb_aktivirajBtn']        = 0;
+            disabled['edb_aktiviraj']           = 0;
+            
+            required['edb_amount1']                 = 1;
+            required['edb_nacinPlacila']            = 1;
+            required['edb_num_installments']        = 0;
+            required['edb_amount2']                 = 0;
+            required['edb_aktiviraj']               = 0;
+            required['edb_aktivirajBtn']            = 0;
+            required['edb_nacinPlacila']            = 0;
+            required['edb_frekvenca']               = 0;
+            required['edb_valuta']                  = 0;
+            required['edb_vrstaBremenitve']         = 0;
+            required['edb_TRR']                     = 0;
+        }
+        else{
+            
+            disabled['edb_num_installments']        = 0;
+            disabled['edb_amount2']                 = 0;
+            disabled['edb_aktiviraj']               = 0;
+            disabled['edb_aktivirajBtn']            = 0;
+            disabled['edb_nacinPlacila']            = 0;
+            
+             required['edb_vrstaBremenitve']        = 1;
+            required['edb_amount1']                 = 0;
+            required['edb_nacinPlacila']            = 0;
+            required['edb_num_installments']        = 1;
+            required['edb_amount2']                 = 1;
+            NastaviStatus();               
+        }
+        if(parseFloat(form['edb_amount1'].value) > 0){
+            disabled['edb_nacinPlacila']        = 0;
+            disabled['pd']                      = 0;
+            disabled['edb_placanDne']           = 0;
+            disabled['edb_placanDneBtn']        = 0;
+            
+            required['edb_amount1']                 = 0;
+            required['edb_nacinPlacila']            = 1;
+        }
+        else{
+            disabled['edb_nacinPlacila']        = 1;
+            disabled['pd']                      = 1;
+            disabled['edb_placanDne']           = 1;
+            disabled['edb_placanDneBtn']        = 1;
+            
+            required['edb_amount1']                 = 0;
+            required['edb_nacinPlacila']            = 0;
+        }            
+    }
+    else{
+        disabled['edb_amount1']                 = 1;
+        disabled['edb_nacinPlacila']            = 1;
+        disabled['pd']                          = 1;
+        disabled['edb_placanDne']               = 1;
+        disabled['edb_placanDneBtn']            = 1;
+        disabled['edb_num_installments']        = 1;
+        disabled['edb_amount2']                 = 1;
+        disabled['edb_nacinPlacila']            = 1;        
+        disabled['edb_frekvenca']               = 1;
+        disabled['edb_valuta']                  = 1;
+        disabled['edb_vrstaBremenitve']         = 1;
+        form['edb_vrstaBremenitve'].options[5].selected = true;
+        disabled['edb_TRR']                     = 1;
+        disabled['edb_aktivirajBtn']            = 1;
+        disabled['edb_aktiviraj']               = 1;
+        
+        required['edb_amount1']                 = 0;
+        required['edb_nacinPlacila']            = 0;
+        required['edb_num_installments']        = 0;
+        required['edb_amount2']                 = 0;
+        required['edb_nacinPlacila']            = 0;
+        required['edb_frekvenca']               = 0;
+        required['edb_valuta']                  = 0;
+        required['edb_vrstaBremenitve']         = 0;
+        required['edb_TRR']                     = 0;
+        required['edb_aktivirajBtn']            = 0;
+        required['edb_aktiviraj']               = 0;
+        
+    }
+}
+
+function NastaviStatus(){
+    if(document.myForm['edb_status1'].checked){
+        NastaviFizicno();
+    }
+    else{
+        NastaviPravno();
+    }
+}
+function SkrijNic(){
+    prvi = document.getElementById('edb_amount1');
+    if(prvi.value == "0,00"){
+        prvi.value = "";
+    }
+}
+function NastaviDirektne(){
+    
+    if(document.getElementById('edb_id_agreement').value.length>0){
+        if(document.getElementById('edb_id_agreement').value.substr(4, 1)==1){
+            document.myForm['edb_vrstaBremenitve'].options[3].selected= true;
+            disabled['edb_vrstaBremenitve'] = 1;
+
+
+        }
+        else{
+            //document.myForm['edb_vrstaBremenitve'].options[0].selected= true;
+            //document.myForm['edb_nacinPlacila'].options[0].selected= true;
+            disabled['edb_vrstaBremenitve'] = 0;
+
+        }
+    }
+    else{
+        if(document.getElementById('edb_dogodek').options[0].selected){
+            document.myForm['edb_vrstaBremenitve'].options[3].selected= true;
+            disabled['edb_vrstaBremenitve'] = 1;
+
+        }
+        else{
+            //document.myForm['edb_vrstaBremenitve'].options[0].selected= true;
+            //document.myForm['edb_nacinPlacila'].options[0].selected= true;
+            disabled['edb_vrstaBremenitve'] = 0;
+
+        }
+    }
+    
+    var polje = document.getElementById('edb_vrstaBremenitve');
+    
+  
+    
+    if(polje.options[0].selected){            
+            disabled['edb_TRR'] = 0;
+
+            required['edb_TRR'] = 1;        
+    }
+        
+    else{
+        disabled['edb_TRR'] = 1;
+
+        required['edb_TRR'] = 0;   
+    }
+    
+    
+}
+function Uredi()
+{
+    var form = document.myForm;   
+
+    NastaviDirektne();
+    NastaviStatus(); 
+    NastaviZneske();
+    
+    var count=0;
+    for(i = 0; i < form.length; i++){        
+
+        var disable = false;
+        var require = "";
+        
+        if(required[form[i].id] == 1){
+            require = "required";
+        }
+        if(disabled[form[i].id] == 1){
+            disable = true;
+        }
+          
+        labels = form.getElementsByTagName('label');
+        for(j = 0; j < labels.length; j++){
+            if(labels[j].htmlFor == form[i].id){
+                labels[j].className = require;                
+            }
+        }
+        
+        if(form[i].type == "text" || form[i].tagName == "TEXTAREA"){
+            
+            form[i].readOnly = disable;
+            if(disable && form[i].id != "edb_id_agreement" && form[i].id != "edb_id_donator"
+               && form[i].id != "edb_postnaSt2"){
+                form[i].value = "";
+                form[i].style.border = "";
+            }
+            //form[i].disabled = disable;
+        }
+        else{
+            
+            form[i].disabled = disable;
+            if(form[i].id == "edb_nacinPlacila" || form[i].id == "edb_frekvenca"){
+                if(disable){
+                    form[i].options[0].selected = true;
+                }
+            }
+        }
+            
+        
+
+    }
+}
+
+
+function IsciDonator(frm,id)
+{
+    tartgetElement = frm.elements[id];
+    var link ;
+    
+            
+    if(document.getElementById('edb_status1').checked){
+        link = "DntDonatorji.cgi?rm=seznam&isci=1&edb_ime=" +
+                document.myForm['edb_ime'].value+
+                "&edb_priimek="+document.myForm['edb_priimek'].value+
+                "&edb_ulica="+document.myForm['edb_ulica'].value+
+                "&edb_posta="+document.myForm['edb_postnaSt'].value+
+                "&edb_dan="+document.myForm['edb_danRojstva'].value+
+                "&edb_mesec="+document.myForm['edb_mesecRojstva'].value+
+                "&edb_leto="+document.myForm['edb_letoRojstva'].value;
+    }
+    else{
+        link = "DntDonatorji.cgi?rm=seznam&isci=1"+
+                "&edb_podjetje="+document.myForm['edb_podjetje'].value+
+                "&edb_davcna="+document.myForm['edb_davcnaSt'].value+
+                "&edb_podjetjeUlica="+document.myForm['edb_ulica'].value+
+                "&edb_podjetjePosta="+document.myForm['edb_postnaSt'].value;
+    }
+    var handle = window.open(link,"xyv","status=1,"+
+                "height=800, width=1000, scrollbars=1");
+    if (window.focus)
+    handle.focus();
+}
+
+function Prenesi(){
+    var polje1= document.getElementById('edb_datumPodpisa');
+    var polje2= document.getElementById('edb_placanDne');
+    
+    polje2.value=polje1.value;
+}
+
+function Posta(ID1, ID2){
+    
+    var posta = new Array();
+    var polje = document.getElementById(ID1);
+    var polje2 = document.getElementById(ID2);
+    
+    
+    
+    <TMPL_LOOP NAME="edb_loop4">
+    posta['<TMPL_VAR NAME="id_post">']='<TMPL_VAR NAME="name_post">';
+    </TMPL_LOOP>
+    
+    // alert("izbrana posta="+posta[polje.value]);
+    polje2.value=posta[polje.value];
+
+
+}
+
+function PostaSeznam(ID){
+    
+    var polje = document.getElementById(ID);
+    var link = "DntDonatorji.cgi?rm=posta&insert="+ID+"&st="+polje.value;
+    var handle = window.open(link,"donatorji","status=1, height=500, width=250, scrollbars=1, resizable=1");
+    if(window.focus)
+        handle.focus();
+    //window.open(", "mywindow", "height=500, width=400, scrollbars=1, resizable=1");
+}
+
+function PogodbeSeznam(ID){
+    
+    var projekt = document.getElementById('edb_projekt').value;
+    var leto = document.getElementById('edb_leto').value;
+    var dogodek = document.getElementById('edb_dogodek').value;
+    var komercialist = document.getElementById('edb_komercialist').value;
+    var skupaj;
+    
+    skupaj=projekt+leto+dogodek+komercialist;
+    
+    
+    var link = "DntDonatorji.cgi?rm=posta&insert="+ID+"&pogodba="+skupaj;
+    var handle = window.open(link,"donatorji","status=1, height=500, width=170, scrollbars=1, resizable=1");
+    if(window.focus){
+        handle.focus();
+    }
+    //window.open(", "mywindow", "height=500, width=400, scrollbars=1, resizable=1");
+}
+
+function PogodbaOpomin(ID){
+    
+    var polje = document.getElementById(ID);
+    var id_a = document.getElementById('edb_id_agreement').value;
+    var link = "DntPogodbe.cgi?rm=opomini&id_agreement="+id_a;
+    var handle = window.open(link,"donatorji","status=1, height=455, width=325, scrollbars=1, resizable=1");
+    //window.open(", "mywindow", "height=500, width=400, scrollbars=1, resizable=1");
+}
+
+
+
+function Racunaj(){
+    
+    var celoten= document.getElementById('edb_celoten');
+    var prvi= document.getElementById('edb_amount1');
+    var st= document.getElementById('edb_num_installments');
+    var ostali= document.getElementById('edb_amount2');
+    var rezultat;
+    
+    celoten= celoten.value.replace(',','.');
+    celoten=parseFloat(celoten);
+    if(prvi.value.length < 1){
+        prvi.value = "0,00";
+    }
+    prvi= prvi.value.replace(',','.');
+    prvi=parseFloat(prvi);
+    
+    st= parseInt(st.value);
+    
+    if(prvi>celoten){
+        prvi.value="0,00";
+    }
+    
+    rezultat= (celoten - prvi)/st;
+    
+    rezultat= Math.round(rezultat*100)/100;
+    
+    rezultat= rezultat.toString();
+    rezultat= rezultat.replace('.',',');
+    
+    if(rezultat=="NaN"){
+        rezultat="";
+    }
+    else if(rezultat.indexOf(',')==-1){
+        rezultat=rezultat+",00";
+    }
+    else if(rezultat.indexOf(',')-rezultat.length==-2){
+        rezultat=rezultat+"0";
+    }   
+
+    ostali.value= rezultat;
+    
+    Uredi();
+}
+function onemogociOstale(){
+    
+    document.getElementById('edb_num_installments').disabled = true;
+    document.getElementById('edb_amount2').disabled = true;
+    document.getElementById('edb_frekvenca').disabled = true;
+    document.getElementById('edb_valuta').disabled = true;
+    document.getElementById('edb_vrstaBremenitve').disabled = true;
+    document.getElementById('edb_aktiviraj').disabled = true;
+    document.getElementById('edb_TRR').disabled = true;
+    
+    document.getElementById('label_edb_num_installments').style.fontWeight='normal';
+    document.getElementById('label_edb_amount2').style.fontWeight='normal';
+    document.getElementById('label_edb_frekvenca').style.fontWeight='normal';
+    document.getElementById('label_edb_valuta').style.fontWeight='normal';
+    document.getElementById('label_edb_vrstaBremenitve').style.fontWeight='normal';
+    //document.getElementById('label_edb_TRR').style.fontWeight='normal';
+    
+    document.getElementById('edb_vrstaBremenitve').value = "";
+    document.getElementById('edb_num_installments').value = "";
+    document.getElementById('edb_amount2').value = "";
+
+    document.getElementById('edb_valuta').value = "";
+
+    document.getElementById('edb_aktiviraj').value = "";
+    document.getElementById('edb_TRR').value = ""; 
+    
+
+}
+function omogociOstale(){
+    document.getElementById('edb_num_installments').disabled = false;
+    document.getElementById('edb_amount2').disabled = false;
+    document.getElementById('edb_valuta').disabled = false;
+    
+    document.getElementById('label_edb_num_installments').style.fontWeight='bold';
+    document.getElementById('label_edb_amount2').style.fontWeight='bold';
+    document.getElementById('label_edb_valuta').style.fontWeight='bold';
+
+    document.getElementById('edb_aktiviraj').disabled = false;
+
+    
+    if(document.getElementById('edb_status1').checked){
+       document.getElementById('edb_TRR').disabled = false;
+       //document.getElementById('label_edb_TRR').style.fontWeight='bold';
+    }
+
+    
+}
+function prviObrok(id){
+    
+    DodajVejico(id);
+    document.getElementById('edb_nacinPlacila').focus();
+}
+
+function DodajVejico(id){
+    
+    var str=document.getElementById(id);
+    
+     
+    
+    
+    if(trim(str.value).length>0){
+        if(str.value.indexOf(',')==-1){
+            str.value=str.value+",00";
+        }
+        else if(str.value.length-str.value.indexOf(',')==3);
+        else            
+            alert("vejica na napacnem mestu?");
+    }
+    else{
+        str.value="0,00";
+    }
+    
+    if(id=="edb_amount1"){
+        str= str.value.replace(',','.');
+
+    }
+    Racunaj();
+}
+
+function CelaKoda(bool){
+
+    
+    
+    if(!bool){
+        disabled['edb_projekt'] = 0;
+        disabled['edb_leto'] = 0;
+        disabled['edb_dogodek'] = 0;
+        disabled['edb_komercialist']= 0;
+        disabled['poleBtn'] = 0;               
+        disabled['edb_id_agreement'] = 1;
+        document.myForm['edb_id_agreement'].focus();
+        document.myForm['edb_id_agreement'].style.backgroundColor = '#F0F0F0';
+        document.myForm['edb_id_agreement'].style.border = '1px solid gray';
+        Uredi();
+       
+    }
+    else{
+        
+        disabled['edb_projekt'] = 1;
+        disabled['edb_leto'] = 1;
+        disabled['edb_dogodek'] = 1;
+        disabled['edb_komercialist']= 1;
+        disabled['poleBtn'] = 1;               
+        disabled['edb_id_agreement'] = 0;
+        document.myForm['edb_id_agreement'].style.backgroundColor = 'white';
+        document.myForm['edb_id_agreement'].style.border = '1px solid gray';
+        
+        Uredi();
+        //document.myForm['edb_id_agreement'].disabled= true;
+        
+    }        
+}
+
+function CheckFields(){
+    
+    var error = false;
+    labels = document.myForm.getElementsByTagName('label');
+    for(i = 0; i<labels.length; i++){
+        element = document.getElementById(labels[i].htmlFor);
+        if(labels[i].className == "required" && element .value == ""){
+            error= true;
+            element.style.border = "2px solid red";
+            if(element.disabled || element.readOnly){
+                element.style.backgroundColor = "#F0F0F0";
+            }
+            
+        }
+        else if(document.getElementById(labels[i].htmlFor)){
+            element .style.border = ""; 
+        }
+        
+    }
+    if(document.getElementById('edb_hisnaSt').value == ""){
+        document.getElementById('edb_hisnaSt').style.border = "2px solid red";
+        error= true;
+    }
+    else{
+        document.getElementById('edb_hisnaSt').style.border = "";
+    }
+    if(document.getElementById('edb_postnaSt2').value == ""){
+        document.getElementById('edb_postnaSt2').style.backgroundColor = "#F0F0F0";
+        document.getElementById('edb_postnaSt2').style.border = "2px solid red";
+        
+        error= true;
+    }
+    else{
+        document.getElementById('edb_postnaSt2').style.border = "";
+    }
+    if(document.getElementById('edb_postnaSt').value == ""){
+        document.getElementById('edb_postnaSt').style.border = "2px solid red";
+        error= true;
+    }
+    else{
+        document.getElementById('edb_postnaSt').style.border = "";
+    }
+     if(!parseFloat(document.getElementById('edb_celoten').value)>0){
+		document.getElementById('edb_celoten').style.border = "2px solid red";
+        error= true;
+	 }
+    if(!error){
+        idDonatorja();
+    }
+}
+
+function idDonatorja(){
+    
+    var starId=document.getElementById('hid_id').value;
+    var novId=document.getElementById('edb_id_donator').value;
+    
+    
+    if(starId!=novId && starId>0)
+        if(confirm("Id donatorja je bil spremenjen - star: "+starId+", nov: "+novId+" \n\nZelite nadaljevati?"))
+            podatkiDonatorja();
+        else;
+    else
+        podatkiDonatorja();
+}
+
+function podatkiDonatorja(){
+    
+    var error1="Vrednosti so drugacne, kot v sfr_donator:\n\n";
+    var error2="Vrednosti so drugacne, kot v sfr_donator:\n\n";
+    var vneseno=document.getElementById('hid_vneseno').value;
+    var status1=document.getElementById('hid_status').value;
+    var status2=document.getElementById('edb_status2');
+    var podjetje1=document.getElementById('hid_podjetje').value;
+    var podjetje2=document.getElementById('edb_podjetje').value;
+    var prednaziv1=document.getElementById('hid_prednaziv').value;
+    var prednaziv2=document.getElementById('edb_prednaziv').value;
+    var upokojenec1=document.getElementById('hid_upokojenec').value;
+    var upokojenec2=document.getElementById('upokojenec');
+    var ime1=document.getElementById('hid_ime').value;
+    var ime2=document.getElementById('edb_ime').value;
+    var priimek1=document.getElementById('hid_priimek').value;
+    var priimek2=document.getElementById('edb_priimek').value;
+    var ulica1=document.getElementById('hid_ulica').value;
+    var ulica2=document.getElementById('edb_ulica').value;
+    var hisnaSt1=document.getElementById('hid_hisnaSt').value;
+    var hisnaSt2=document.getElementById('edb_hisnaSt').value;
+    var postnaSt1=document.getElementById('hid_postnaSt').value;
+    var postnaSt2=document.getElementById('edb_postnaSt').value;
+    var davcnaSt1=document.getElementById('hid_davcnaSt').value;
+    var davcnaSt2=document.getElementById('edb_davcnaSt').value;
+    var davcniZavezanec1=document.getElementById('hid_davcniZavezanec').value;
+    var davcniZavezanec2=document.getElementById('davcniZavezanec');
+    var danRojstva1=document.getElementById('hid_danRojstva').value;
+    var danRojstva2=document.getElementById('edb_danRojstva').value;
+    var mesecRojstva1=document.getElementById('hid_mesecRojstva').value;
+    var mesecRojstva2=document.getElementById('edb_mesecRojstva').value;
+    var letoRojstva1=document.getElementById('hid_letoRojstva').value;
+    var letoRojstva2=document.getElementById('edb_letoRojstva').value;
+    var emso1=document.getElementById('hid_emso').value;
+    var emso2=document.getElementById('edb_emso').value;
+    
+    
+               
+    if(status2.checked){
+        status2="1";
+    }
+    else
+        status2="0";
+        
+    if(davcniZavezanec2.checked){
+        davcniZavezanec2="1";
+    }
+    else
+        davcniZavezanec2="0";
+         
+    if(upokojenec.checked){
+        upokojenec2="1";
+    }
+    else
+        upokojenec2="0";
+        
+        
+    if(davcniZavezanec1!=davcniZavezanec2)
+        error1+="Davcni zavezanec star: "+davcniZavezanec1+" nov: "+davcniZavezanec2+"\n";
+    if(status1!=status2)
+        error1+="Status star: "+status1+" nov: "+status2+"\n";
+    if(podjetje1!=podjetje2)
+        error1+="Podjetje staro: "+podjetje1+" novo: "+podjetje2+"\n";
+    if(prednaziv1!=prednaziv2)
+        error1+="Prednaziv star: "+prednaziv1+" nov: "+prednaziv2+"\n";
+    if(upokojenec1!=upokojenec2)
+        error1+="Upokojenec star: "+upokojenec1+" nov: "+upokojenec2+"\n";
+    if(ime1!=ime2)
+        error1+="Ime staro: "+ime1+" novo: "+ime2+"\n";
+    if(priimek1!=priimek2)
+        error1+="Priimek star: "+priimek1+" nov: "+priimek2+"\n";
+    if(ulica1!=ulica2)
+        error1+="Ulica stara: "+ulica1+" nova: "+ulica2+"\n";
+    if(hisnaSt1!=hisnaSt2)
+        error1+="Hisna st. stara: "+hisnaSt1+" nova: "+hisnaSt2+"\n";
+    if(postnaSt1!=postnaSt2)
+        error1+="Postna st. stara: "+postnaSt1+" nova: "+postnaSt2+"\n";
+    if(davcnaSt1!=davcnaSt2)
+        error1+="Davcna st. stara: "+davcnaSt1+" nova: "+davcnaSt2+"\n";
+    if(danRojstva1!=danRojstva2)
+        error1+="Dan roj. star: "+danRojstva1+" nov: "+danRojstva2+"\n";
+    if(mesecRojstva1!=mesecRojstva2)
+        error1+="Mesec roj. star: "+mesecRojstva1+" nov: "+mesecRojstva2+"\n";
+    if(letoRojstva1!=letoRojstva2)
+        error1+="Leto roj. staro: "+letoRojstva1+" novo: "+letoRojstva2+"\n";
+    if(emso1!=emso2)
+        error1+="Emso star: "+emso1+" nov: "+emso2+"\n";    
+    
+    if(error1!=error2 && vneseno==1){
+        error1+="\n Ali zelite nadaljevati?";
+        if(confirm(error1)){
+            if(confirm("Ali zelite shraniti spremembe tudi v sfr_donor?")){
+                document.getElementById('hid_don').value=1;
+                document.myForm['edb_vrstaBremenitve'].disabled= false;
+                document.myForm['edb_nacinPlacila'].disabled= false;
+                document.myForm['edb_id_agreement'].disabled= false;
+                document.myForm.submit();
+            }
+            else{
+                document.myForm['edb_vrstaBremenitve'].disabled= false;
+                document.myForm['edb_nacinPlacila'].disabled= false;
+                document.myForm['edb_id_agreement'].disabled= false;
+                document.myForm.submit();
+            }
+        }
+    }
+    else{
+        document.myForm['edb_vrstaBremenitve'].disabled= false;
+        document.myForm['edb_nacinPlacila'].disabled= false;
+        document.myForm['edb_id_agreement'].disabled= false;
+        document.myForm.submit();
+    }
+}
+
+function SubmitMyForm(id){
+    document.myForm['rm'].value= id;
+    document.myForm.submit();
+}
+
+function Dogodek(id){
+    
+    if (document.getElementById(id).options[0].selected){
+        document.getElementById('edb_vrstaBremenitve').options[3].selected=true;
+        document.getElementById('edb_vrstaBremenitve').disabled=true;
+        //document.getElementById('edb_valuta').disabled=false;
+        //document.getElementById('edb_frekvenca').disabled=true;
+    }
+    else{
+       document.getElementById('edb_vrstaBremenitve').options[0].selected=true;
+        document.getElementById('edb_vrstaBremenitve').disabled=false;
+        //document.getElementById('edb_valuta').disabled=true;
+        //document.getElementById('edb_frekvenca').disabled=false;
+    }
+}
+
+function Komentar(id_vrstica, id_agreement){
+    
+    var link="DntPogodbe.cgi?rm=komentar&id_vrstica="+id_vrstica+"&id_agreement="+id_agreement;
+    var handle = window.open(link,"xyvv","status=1,"+
+                    "height=250, width=300, scrollbars=1");
+    if(window.focus){
+        handle.focus();
+    }
+
+}
+</script>
+    
+<div id="centercontent">
+
+<TMPL_VAR NAME=MENU_POT>
+
+<strong><i><TMPL_VAR NAME=IME_DOKUMENTA></i></strong> <TMPL_VAR NAME=POMOC><br /><br />
+
+<TMPL_IF NAME = "hid_urejanje">
+    
+<div style="width:140px; padding:5px; border:1px solid gray;">
+<strong> STATUS: <tmpl_var name="status"></strong> <br />
+<strong> POTRDILO: </strong><tmpl_var name="potrdilo"><br />
+<strong> OPOMINI: </strong><tmpl_var name="opomin">
+<tmpl_loop name="edb_opomini">
+    <tmpl_var name="datum">
+</tmpl_loop>
+</div>
+
+    
+    <TABLE border=1 id="obroki">
+    <TR>
+        <TD><B>st.obroka</B></TD>        
+        <TD><B>datum</B></TD>
+        <TD><B>znesek</B></TD>
+        <TD><B>placano</B></TD>
+        <TD><B>datum placila</B></TD>
+        <TD><B>vrsta bremenitve</B></TD>
+        <TD><B>izpis</B></TD>
+        <TD><B>storno</B></TD>
+        <TD><B>obracun</B></TD>
+        <TD><B>na nov obrok</B></TD>
+        <TD><B>komentar</B></TD>   
+    </TR>
+
+
+    <TMPL_LOOP NAME="obroki_loop">
+       
+       <TR>
+           <div id="navigation">
+               <TD><TMPL_VAR NAME="st_obroka"></TD>
+           </div>
+           
+           <TD><TMPL_VAR NAME="datum"></TD>
+           <TD><TMPL_VAR NAME="znesek"></TD>                    
+           <TD><TMPL_VAR NAME="placano"></TD>
+           <TD><TMPL_VAR NAME="datum_placila"></TD>
+           <TD><TMPL_VAR NAME="vrsta_bremenitve"></TD>
+           <TD><TMPL_VAR NAME="poslano"></TD>
+           <TD><TMPL_VAR NAME="storno"></TD>
+           <TD><TMPL_VAR NAME="obracun"></TD>
+           <TD><TMPL_VAR NAME="na_nov_obrok"></TD>
+           <td><TMPL_VAR NAME="vpisi_komentar"></td>
+           
+       </TR>
+       
+    </TMPL_LOOP>
+        <tr>
+           <td><strong><TMPL_VAR NAME="st_obrokov"></strong></td>
+           <td></td>
+           <TD><strong><TMPL_VAR NAME="vsota_obrokov"></strong></TD>
+           <TD><span style="color:green; font-weight:bold;">
+                <TMPL_VAR NAME="vsota_placano">
+                </span>
+           </TD>
+           <TD><span style="color:red; font-weight:bold;">
+           <TMPL_VAR NAME="vsota_dolgov">
+           </span>
+           </TD> 
+        </tr>
+    </TABLE>
+    <TMPL_VAR NAME="generiraj">
+     <INPUT TYPE="button"  NAME ="oznaci_vse" value ="oznaci vse"
+          onClick="CheckAll(document.myForm.hid_izbrani_obroki)"/>
+     <INPUT TYPE="button"  NAME ="odznaci_vse" value ="odznaci vse"
+          onClick="UnCheckAll(document.myForm.hid_izbrani_obroki)"/>
+     <br/>
+     <INPUT TYPE="submit" onclick="SubmitMyForm('spremeni nacin bremenitve')"
+          VALUE="spremeni nacin bremenitve">
+     <INPUT TYPE="submit"  onclick="SubmitMyForm('spremeni FREKVENCO bremenitve')"
+          VALUE="spremeni FREKVENCO bremenitve">
+     <INPUT TYPE="submit" onclick="SubmitMyForm('storniraj obroke')"
+          VALUE="storniraj obroke">
+ 
+<TMPL_ELSE>
+    
+    <TABLE BORDER=1>
+        <tr><td colspan="4">
+        <label><input type="checkbox"
+                    onclick="CelaKoda(this.checked)"  name="edb_celaKoda"
+                    id="edb_celaKoda" size="22" maxlength="80"
+        <tmpl_var name=edb_celaKoda>> vpisuj celo kodo
+        </label></td></tr>
+    <TR>
+        <TD><B>Projekt</B></TD>
+        <TD><B>leto</B></TD>
+        <TD><B>dogodek</B></TD>
+        <TD><B>komercialist</B></TD>
+        <TD><B></B></TD>
+    </TR>
+    <TR>
+        <TD>
+            <select  name="edb_projekt" id="edb_projekt" style="width:40px;">
+            <TMPL_LOOP NAME="edb_loop7">
+              <option value="<TMPL_VAR NAME="id">" <TMPL_VAR NAME="onclick">>
+              <TMPL_VAR NAME="id_lep"> <TMPL_VAR NAME="ime"></option>
+            </TMPL_LOOP>
+        </TD>
+        <TD>
+            <select name="edb_leto" id="edb_leto">
+                <TMPL_LOOP NAME="edb_loop6">
+              <option value="<TMPL_VAR NAME="datum">">
+              <TMPL_VAR NAME="datum"></option>
+            </TMPL_LOOP>
+        </TD>
+        <TD>
+            <select name="edb_dogodek" id="edb_dogodek"
+                  onchange="Uredi()" style="width:40px;">
+            <TMPL_LOOP NAME="edb_loop8">
+              <option value="<TMPL_VAR NAME="id">">
+                <TMPL_VAR NAME="id"> <TMPL_VAR NAME="ime">
+              </option>
+            </TMPL_LOOP>
+        </TD>
+        <TD>
+            <select name="edb_komercialist" id="edb_komercialist" style="width:50px;">
+            <TMPL_LOOP NAME="edb_loop9">
+            <option value="<TMPL_VAR NAME="id">">
+            <TMPL_VAR NAME="id"> <TMPL_VAR NAME="ime"> <TMPL_VAR NAME="priimek">
+            </option>
+            </TMPL_LOOP>
+        </TD>
+        <TD>
+            <input type="button" onclick="PogodbeSeznam('edb_id_agreement')"
+                 name="rm" id="poleBtn" value="Prikazi pole"/>
+        </TD>
+    </TR>
+</table>  
+</TMPL_IF>
+
+<div style="width:100%; height:10px;"></div>
+<div style="float:left;">  
+<table border="1" width="377px">
+    <input type="hidden" name="uredi" value="<tmpl_var name=edb_uredi>" />
+    <tr>
+        <td><label  for="edb_id_agreement">St. pogodbe:</label></td>
+        <td style="height: 28px">                  
+          <input type="text" style="width:100px; color:black;"
+                name="edb_id_agreement"
+                id="edb_id_agreement" size="22" maxlength="80"
+                value="<tmpl_var name=edb_id_agreement>" readonly="readonly">
+        </td>
+        </tr>
+   
+    <tr>
+        <td><label  for="edb_datumVnosa">Datum vnosa pogodbe:</label></td>
+        <td>                  
+          <!--  this is the datepicker input text -->    
+            <input name="edb_datumVnosa" onblur="DatumVnos(this.id)"
+                readonly="readonly" id="edb_datumVnosa" size="12"
+                maxlength="80" value="<tmpl_var name=edb_datumVnosa>"
+                type="text">
+            <!--  attach the w_displayCalendar function to the onClick event -->
+            <input value="..." id="edb_datumVnosaBtn"  disabled="disabled"
+                onclick="w_displayCalendar('edb_datumVnosa',null);"
+                type="button">
+        </td>
+    </tr>
+    <tr>
+    
+        <td><label  for="edb_datumPodpisa">Datum podpisa pogodbe:</label></td>
+        <td>                  
+          <!--  this is the datepicker input text -->    
+            <input name="edb_datumPodpisa" onblur="DatumVnos(this.id)"
+                readonly="true" id="edb_datumPodpisa" size="12" maxlength="80"
+                value="<tmpl_var name=edb_datumPodpisa>" type="text">
+            <!--  attach the w_displayCalendar function to the onClick event -->
+            <input value="..." id="edb_datumPodpisaBtn"  disabled="disabled"
+                onclick="w_displayCalendar('edb_datumPodpisa',null);"
+                type="button">
+        </td>
+    </tr>
+    <tr>
+        <td><label  for="edb_id_donator">Id donator:</label></td>
+        <td style="height: 28px">                  
+        <input type="text" style="width:100px;"  name="edb_id_donator"
+            id="edb_id_donator" size="22" maxlength="80"
+            value="<tmpl_var name=edb_id_donator>" readonly="readonly">
+            <input type="button" id = "btn_isci_donator" disabled="disabled"  name="btn_isci_donator"
+            value="isci" onclick="IsciDonator(this.form,'edb_id_donator')" />
+        </td>
+        </tr>
+    
+    <tr>
+    <tr>
+        <td ><label >Status:</label></td>
+        <td >                  
+          <label><input type="radio" value="0"
+                     onclick="Uredi()"<tmpl_var name=edb_statusF>
+                     name="edb_status" id="edb_status1"
+                     disabled="disabled">fizicna</label>
+          <label><input type="radio" value="1" onclick="Uredi()"
+                     name="edb_status" id="edb_status2"
+                     <tmpl_var name=edb_statusP> disabled="disabled">pravna
+          </label>
+        </td>
+    </tr>
+    
+        <td><label for="edb_podjetje" class="pravna">Podjetje:</label></td>
+        <td>                  
+          <textarea name="edb_podjetje" style="width:100%;" id="edb_podjetje"
+                 readOnly="true" type="text"><tmpl_var name=edb_podjetje></textarea>
+        </td>
+    </tr>
+    <tr>
+        <td ><label for="edb_prednaziv">Prednaziv:</label></td>
+        <td >                  
+          <select name="edb_prednaziv" id="edb_prednaziv"
+            selected="<tmpl_var name=edb_prednaziv>" disabled=disabled size=1>
+            <option></option>
+            <option id="gospod" <tmpl_var name=edb_gospod>>Gospod</option>
+            <option id="gospa"  <tmpl_var name=edb_gospa>>Gospa</option>
+          </select>
+            
+        </td>
+        </tr>
+    <tr>
+        <td ><label for="edb_upokojenec">Upokojenec:</label></td>
+        <td>
+            <input type="checkbox"  name="upokojenec" id="upokojenec" value="1"
+                size="22" <tmpl_var name=edb_upokojenec> DISABLED>
+        </td>
+    </tr>
+    <tr>
+        <td> <label for="edb_ime" class="fizicna">Ime:</label></td>
+        <td style="height: 28px">                  
+          <input type="text" style="width:100%;" getfocus="true" name="edb_ime"
+              id="edb_ime" size="22" maxlength="80"
+            value="<tmpl_var name=edb_ime>" readonly="readonly">
+        </td>
+        </tr>
+    <tr>
+        <td><label for="edb_priimek" class="fizicna">Priimek:</label></td>
+        <td style="height: 28px">
+          <input type="text" style="width:100%;"  name="edb_priimek"
+              id="edb_priimek" size="22" maxlength="80"
+            value="<tmpl_var name=edb_priimek>" readonly="readonly">
+       </td>                
+    </tr>
+    <tr>
+        <td ><label for="edb_ulica" ><span id="ulica">Ulica:</span></td>
+        <td >
+          <input style="width:110px;" type="ulica"  name="edb_ulica"
+              id="edb_ulica" size="22" maxlength="80"
+            value="<tmpl_var name=edb_ulica>"readonly="readonly">
+            <input style="width: 40px;" type="text"  name="edb_hisnaSt"
+                id="edb_hisnaSt" size="22" maxlength="80"
+            value="<tmpl_var name=edb_hisnaSt>"readonly="readonly">
+       </td>
+    </tr>
+    <tr>
+        <td ><input type="button" onclick="PostaSeznam('edb_postnaSt')"
+                 id="postButton" value="Postna st.:" disabled="disabled"/></td>
+        <td >
+        <input style="width: 50px;" type="ulica"
+        onblur="Posta('edb_postnaSt', 'edb_postnaSt2')"
+        name="edb_postnaSt" id="edb_postnaSt" size="22"
+        maxlength="80" value="<tmpl_var name=edb_postnaSt>"readonly="readonly"> 
+        <input style="width: 140px;" type="ulica" name="edb_postnaSt2"
+        id="edb_postnaSt2" size="22" maxlength="80"
+        value="<tmpl_var name=edb_imePoste>"readonly="readonly">
+             
+           
+
+    
+           
+       </td>
+        
+    </tr>
+    <tr>
+        <td ><label class="pravna" for="edb_davcnaSt">Davcna st.:</label></td>
+        <td >
+          <input style="width:100%;" type="text"  name="edb_davcnaSt"
+              id="edb_davcnaSt" size="22" maxlength="80"
+            value="<tmpl_var name=edb_davcnaSt>"readonly="readonly">
+       </td>
+        </tr>
+    <tr>
+        <td><label for="davcniZavezanec">Davcni zavezanec:</label></td>
+        <td><input type="checkbox"  name="davcniZavezanec" value="1"
+                id="davcniZavezanec" size="22" maxlength="80"
+            <tmpl_var name=edb_davcniZavezanec> DISABLED>
+        </td>
+    </tr>
+    <tr>
+        <td ><label for="edb_danRojstva">Datum rojstva:</label></td>
+        <td >
+          <input style="width:20px;" type="text"  name="edb_danRojstva"
+              id="edb_danRojstva" size="22" maxlength="80"
+            value="<tmpl_var name=edb_danRojstva>"readonly="readonly"> /
+            <input style="width:20px;" type="text"  name="edb_mesecRojstva"
+                id="edb_mesecRojstva" size="22" maxlength="80"
+            value="<tmpl_var name=edb_mesecRojstva>"readonly="readonly"> /
+            <input style="width:40px;" type="text"  name="edb_letoRojstva"
+                id="edb_letoRojstva" size="22" maxlength="80"
+            value="<tmpl_var name=edb_letoRojstva>"readonly="readonly">
+       </td>
+        </tr>
+    <tr>
+        <td ><label for="edb_emso">EMSO:</label></td>
+        <td >
+          <input style="width:100%;" type="ulica"  name="edb_emso"
+              id="edb_emso" size="22" maxlength="80"
+            value="<tmpl_var name=edb_emso>"readonly="readonly">
+       </td>
+    </tr>
+    <tr>
+        <td><label for="edb_pokrovitelj">Pokrovitelj:</label></td>
+        <td><input type="checkbox"  name="edb_pokrovitelj" value="1"
+                id="edb_pokrovitelj" size="22" maxlength="80"
+            <tmpl_var name=edb_pokrovitelj> DISABLED>
+        </td>
+            </tr>
+    <tr>
+            <td><label for="edb_podaljsanjePogodbe">Podaljsanje pogodbe:</label></td>
+        <td><input type="checkbox"  name="edb_podaljsanjePogodbe" value="1"
+               id="edb_podaljsanjePogodbe" size="22" maxlength="80"
+            <tmpl_var name=edb_podaljsanjePogodbe> DISABLED>
+        </td>
+    </tr>
+    </table>
+    
+</div>
+    <div style="float:left;">
+    <table border="1px">
+    <tr>
+        <td><label for="edb_celoten" >Celoten znesek:</label></td>
+        <td style="height: 28px">
+          <input type="amount1"  name="edb_amount" id="edb_celoten"
+             onBlur="DodajVejico(this.id)" size="22" maxlength="80"
+            value="<tmpl_var name=edb_amount>" readonly="readonly">
+       </td>
+    </tr>
+    <tr>
+        <td colspan="2"style="height: 28px">
+            <strong>Prvi obrok:</strong>
+       </td>
+    </tr>
+    <tr>
+        <td><label for="edb_amount1" >Znesek:</label></td>
+        <td style="height: 28px">
+        <input type="amount1"  name="edb_amount1" onFocus="SkrijNic()" onblur="prviObrok(this.id)"
+           onchange="Racunaj()"  id="edb_amount1" size="22" maxlength="80"
+            value="<tmpl_var name=edb_amount1>" readonly="readonly">
+       </td>
+    </tr>
+    <tr>
+        <td ><label for="edb_nacinPlacila" >Nacin placila:</label></td>
+        <td >                  
+          <select name="edb_nacinPlacila" id="edb_nacinPlacila"
+              onChange="<!--Onemogoci(this.id)-->"  disabled=disabled size=1>
+            <option></option>
+            <option value="G1" <tmpl_var name=nacinG1>>Gotovina</option>
+            <option value="C1" <tmpl_var name=nacinC1>>Nakazilo</option>
+          </select>                    
+        </td>
+        </tr>
+     <tr>
+    
+        <td><input type=button onclick="Prenesi()" value="Placan dne:"
+               id="pd" disabled/></td>
+        <td>                  
+          <!--  this is the datepicker input text -->    
+            <input name="edb_placanDne" onblur="DatumVnos(this.id)"
+               readonly="true" id="edb_placanDne" size="12" maxlength="80"
+               value="<tmpl_var name=edb_placanDne>" type="text">
+            <!--  attach the w_displayCalendar function to the onClick event -->
+            <input value="..." id="edb_placanDneBtn"  disabled="disabled"
+               onclick="w_displayCalendar('edb_placanDne',null);" type="button">
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2"style="height: 28px">
+            <strong>Ostali obroki:</strong>
+       </td>
+    </tr>
+    <tr>
+        <td><label for="edb_num_installments">St. obrokov:</label></td>
+        <td style="height: 28px">
+          <input type="num_installments" onchange="Racunaj()"
+             name="edb_num_installments" id="edb_num_installments" size="22"
+             maxlength="80"
+            value="<tmpl_var name=edb_num_installments>" readonly="readonly">
+       </td>
+    </tr>
+    <tr>
+         <tr>
+        <td><label for="edb_amount2">Znesek obroka:</label></td>
+        <td style="height: 28px">
+          <input type="amount2"  name="edb_amount2" id="edb_amount2"
+             onblur="DodajVejico(this.id)" size="22" maxlength="80"
+            value="<tmpl_var name=edb_amount2>" readonly="readonly">
+       </td>
+    </tr>
+        <tr>
+        <td><label for="edb_frekvenca" class="fizicna">Frekvenca:</label></td>
+        <td >                  
+          <select name="edb_frekvenca" id="edb_frekvenca" disabled="disabled">
+            <option></option>
+            <option <tmpl_var name=fr08>>08</option>
+            <option <tmpl_var name=fr18>>18</option>
+            <option <tmpl_var name=fr28>>28</option>
+          </select>
+          
+        </td>
+        </tr>
+    <tr>
+        <td><label for="edb_valuta">Valuta:</label></td>
+        <td style="height: 28px">
+          <input type="text"  name="edb_valuta" id="edb_valuta" size="22"
+             maxlength="80"
+            value="<tmpl_var name=edb_valuta>" readonly="true">
+       </td>
+    </tr>
+     
+    
+    <tr>
+        <td><label for="edb_vrstaBremenitve">Vrsta bremenitve:</label></td>
+        <td style="height: 28px">
+          <select name="edb_vrstaBremenitve" id="edb_vrstaBremenitve"
+              onchange="Uredi()"
+              selected="<tmpl_var name=edb_vrstaBremenitve>"
+              disabled=disabled size=1>
+            <TMPL_LOOP NAME="edb_loop10">
+              <option value="<TMPL_VAR NAME=tip>" <TMPL_VAR NAME="izbran">>
+              <TMPL_VAR NAME="ime">
+              </option>
+             </TMPL_LOOP>
+          </select>
+            
+         </td>
+    </tr>
+     <tr>
+        <td><label for="edb_TRR" class="pravna">TRR:</label></td>
+        <td style="height: 28px">
+          <input type="amount2"  name="edb_TRR" id="edb_TRR" size="22"
+             maxlength="80"
+            value="<tmpl_var name=edb_TRR>" readonly="true">
+       </td>
+    </tr>
+    
+    <tr>
+    
+        <td id="label_edb_aktiviraj"><label for="edb_aktiviraj">Aktiviraj z dnem:</label></td>
+        <td>                  
+          <!--  this is the datepicker input text -->    
+            <input name="edb_aktiviraj" readonly="true"
+               onblur="DatumVnos(this.id)" id="edb_aktiviraj" size="12"
+               maxlength="80" value="<tmpl_var name=edb_aktiviraj>"
+               type="text">
+            <!--  attach the w_displayCalendar function to the onClick event -->
+            <input value="..." id="edb_aktivirajBtn"  disabled="disabled"
+               onclick="w_displayCalendar('edb_aktiviraj',null);"
+               type="button">
+        </td>
+    </tr>
+    
+    
+    <tr>
+        <td><label for="edb_zap_st_db">Zap. st. dolznika:</label></td>
+        <td style="height: 28px">
+          <input type="zap_st_db"  name="edb_zap_st_db" id="edb_zap_st_db"
+             size="22" maxlength="80"
+            value="<tmpl_var name=edb_zap_st_db>" disabled="true">
+       </td>
+    </tr>
+    <tr>
+        <td  colspan="2"><label for="komentarLink" <tmpl_var name=edb_bold>">Komentar</label>
+        <input class="buttonLink" type="button" value="pokazi"id="komentarLink"
+           disabled="disabled"
+        <tmpl_var name=edb_disabled>                
+        onclick="popup('?rm=pogodba_komentar&amp;id_pogodbe=<tmpl_var name=edb_id_agreement>&ui=<TMPL_VAR NAME=edb_ui>')"
+        />
+    </tr>
+    <tr>
+        <td ><label for="stara_pogodba">Stara pogodba:</label></td>
+        <td>
+            <input type="checkbox"  name="stara_pogodba" id="stara_pogodba" value="1"
+                size="22" <tmpl_var name=edb_stara_pogodba> DISABLED>
+        </td>
+    </tr>
+    <tr>
+        <td ><label for="opomini">Ne posiljaj opominov:</label></td>
+        <td>
+            <input type="checkbox"  name="opomini" id="opomini" value="1"
+                size="22" <tmpl_var name=edb_opomin> DISABLED>
+        </td>
+    </tr>
+
+</table>
+    <div style="padding: 5px;"><strong>Sifra poverjenika:</strong> <tmpl_var name="edb_staff_name"></div>
+    
+    
+</div>   
+<div style="clear:both">
+<input type="hidden" name="nazaj" value="<tmpl_var name='edb_nazaj_link'>" />
+<input type="button"  name="btn_uredi" value="Uredi" onclick="Uredi()" />
+<input type="button"  name="btn_nazaj" value="Nazaj"
+   onclick="javascript:self.location='<tmpl_var name='edb_nazaj_btn'>'" />
+<input type="button" onclick="CheckFields()" id="shrani"
+   value="Shrani" DISABLED="disabled"/>
+ </div>
+</div>
+<TMPL_INCLUDE NAME="DntMenu.tmpl">
+</form>
+
+
+
+</body>
+</html>

@@ -1,0 +1,182 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<head>
+<title>Donator - <TMPL_VAR NAME=IME_DOKUMENTA></title>
+<link rel="stylesheet" href="/static/izgled4.css" type="text/css" media="all" />
+<SCRIPT LANGUAGE="JavaScript" 
+	 SRC="/static/funkcije.js"></SCRIPT>
+</head>
+<body>
+<div id="banner"><h1>D O N A T O R</h1></div>
+<form name="myForm">        
+<div id="centercontent">
+	<TMPL_VAR NAME=MENU_POT>
+	<p>
+	<strong><i><TMPL_VAR NAME=IME_DOKUMENTA></i></strong> <TMPL_VAR NAME=POMOC>
+	<!--
+	<table border="1" >            
+		<tr>
+		<td>Uporabnisko ime:</td>
+		<td>                  
+		  <input type="ime"  name="edb_ime"
+			id="edb_ime" size="22" maxlength="80"
+			value="<tmpl_var name=edb_ime>">
+		</td>
+		</tr>
+		<tr>
+			<td>Geslo:</td>
+			<td>
+			  <input type="ulica"  name="edb_st" id="edb_st" size="22"
+					 maxlength="80"	value="<tmpl_var name=edb_st>">
+		   </td>
+		</tr>
+		
+	</table>
+	</form>
+	-->
+	<br /><br />
+	<!--
+	 <input type="hidden" name="uporabnik" value="<TMPL_VAR NAME=uporabnik>" />
+	-->
+		<input type="hidden" name="seja" value="<TMPL_VAR NAME=seja>" />
+		<TMPL_VAR NAME=SCRIPT>
+		
+		
+		
+		
+		<input type="text" value="<TMPL_VAR NAME=today>" onblur="DatumVnos(this.id)"
+				id="date" name="date" />
+		<label><input name="don_klic" id="don_klic" size="22" maxlength="80"
+					  value="1"  type="checkbox"
+					  <tmpl_if name=kli_chk>checked=true</tmpl_if>
+					  >donator klici</label>
+		<label><input name="don_kom" id="don_kom" size="22" maxlength="80"
+					  value="1" type="checkbox"
+					  <tmpl_if name=kom_chk>checked=true</tmpl_if>
+					  >donator komentarji</label>
+		<label><input name="zaposleni" id="zaposleni" size="22" maxlength="80"
+					  value="1" type="checkbox"
+					  <tmpl_if name=zap_chk>checked=true</tmpl_if>
+					  >zaposleni</label>
+		<label><input name="pogodba" id="pogodba" size="22"
+					  <tmpl_if name=pog_chk>checked=true</tmpl_if>
+					  maxlength="80" value="1" type="checkbox">pogodbe</label>
+		<br />
+		<br />
+		<input type="hidden" value="seznam" name="rm" />
+		<input type="submit" value="Prikazi za navedeni datum" name="mode" />
+		<input type="submit" value="Prikazi vse" name="mode" />
+		<br />
+		<br />
+		<tmpl_if name=kli_chk>
+		<div style="float:left; margin-right:6px;">
+		<strong>Donator klici:</strong>
+		<TABLE BORDER=1>
+		<tr>
+		<td><strong>Povezava</strong></td>
+		<td><strong>Datum</strong></td>
+		<td><strong>Komentar</strong></td>
+		<td><strong>Tel. st.</strong></td>
+		</tr>		
+		<TMPL_LOOP NAME="donator_loop">
+
+		<TR>
+			<TMPL_VAR NAME="sporocilo">
+			<TD><TMPL_VAR NAME="povezava"></TD>
+			<TD><TMPL_VAR NAME="alarm"></TD>   
+			<TD><TMPL_VAR NAME="comment_alarm"></TD>
+			<TD><TMPL_VAR NAME="phone_num"></TD>
+			
+		</TR>
+		
+	    </TMPL_LOOP>
+		
+	   </TABLE>
+		</div>
+		</tmpl_if>
+		<tmpl_if name=kom_chk>
+		
+		<div style="float:left; margin-right:6px;">
+		<strong>Donator komentarji:</strong>
+		<TABLE BORDER=1>
+		<tr>
+		<td><strong>Povezava</strong></td>
+		<td><strong>Datum</strong></td>
+		<td><strong>Komentar</strong></td>
+		</tr>		
+		<TMPL_LOOP NAME="donator_loop2">
+
+		<TR>
+			<TMPL_VAR NAME="sporocilo">
+			<TD><TMPL_VAR NAME="povezava"></TD>
+			<TD><TMPL_VAR NAME="alarm"></TD>   
+			<TD><TMPL_VAR NAME="comment_alarm"></TD>
+
+
+		</TR>
+		
+	    </TMPL_LOOP>
+		
+	   </TABLE>
+		</div>
+		</tmpl_if>
+		<tmpl_if name=zap_chk>
+		<div style="float:left; margin-right:6px">
+		<strong>Zaposleni:</strong>
+		<TABLE BORDER=1>
+		<tr>
+			<td><strong>Povezava</strong></td>
+			<td><strong>Datum</strong></td>
+			<td><strong>Komentar</strong></td>
+		</tr>		
+		<TMPL_LOOP NAME="donator_loop3">
+
+		<TR>
+			<TMPL_VAR NAME="sporocilo">
+			<TD><TMPL_VAR NAME="povezava"></TD>
+			<TD><TMPL_VAR NAME="alarm"></TD>   
+			<TD><TMPL_VAR NAME="comment_alarm"></TD>
+			
+		</TR>		
+	    </TMPL_LOOP>
+		
+	   </TABLE>
+		</div>
+		</tmpl_if>
+		<tmpl_if name=pog_chk>
+		<div style="float:left; margin-right:6px"">
+		<strong>Pogodbe:</strong>
+		<TABLE BORDER=1>
+
+		<tr>
+			<td><strong>Povezava</strong></td>
+			<td><strong>Datum</strong></td>
+			<td><strong>Komentar</strong></td>
+		</tr>
+
+		<TMPL_LOOP NAME="donator_loop4">
+
+		<TR>
+			<TMPL_VAR NAME="sporocilo">
+			<TD><TMPL_VAR NAME="povezava"></TD>
+			<TD><TMPL_VAR NAME="alarm"></TD>   
+			<TD><TMPL_VAR NAME="comment_alarm"></TD>
+			
+		</TR>
+		
+	    </TMPL_LOOP>
+		
+	   </TABLE>
+	
+
+		</div>
+		</tmpl_if>
+		<div style="clear:both"></div>
+				<tmpl_var name=smeh>
+</div>
+<TMPL_INCLUDE NAME="DntMenu.tmpl">
+
+</form>
+    
+</body>
+</html>
+

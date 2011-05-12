@@ -1,0 +1,124 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<head>
+<title>Donator - <TMPL_VAR NAME=IME_DOKUMENTA></title>
+<link rel="stylesheet" href="/static/izgled4.css" type="text/css" media="all" />
+<SCRIPT LANGUAGE="JavaScript" 
+     SRC="/static/funkcije.js"></SCRIPT>
+</head>
+<body>
+<div id="banner"><h1>D O N A T O R</h1></div>
+<form name="myForm" value="Vpis_uporabnika">        
+<div id="centercontent">
+    <TMPL_VAR NAME=MENU_POT>
+    <p>
+    <strong><i><TMPL_VAR NAME=IME_DOKUMENTA></i></strong> <TMPL_VAR NAME=POMOC>
+    <table border="1" >
+        <tr>
+            <td>Pogodba:</td>
+            <td>                  
+              <input type="pogodba"  name="edb_pogodba" id="edb_pogodba"
+                     size="22" maxlength="80"
+                value="<tmpl_var name=edb_pogodba>">
+            </td>                
+        </tr>
+        <tr>
+            <td>Ime:</td>
+            <td>                  
+            <input type="ime"  name="edb_ime" id="edb_ime" size="22"
+                   maxlength="80"
+              value="<tmpl_var name=edb_ime>">
+              <label>
+              <input type='checkbox' name='po_korenu_ime' value='po_korenu_ime'
+                     <tmpl_var name=edb_korenIme>  >po korenu</label>
+            </td>
+        </tr>
+        <tr>
+            <td>Priimek:</td>
+            <td>
+            <input type="priimek"  name="edb_priimek" id="edb_ime" size="22"
+                   maxlength="80" value="<tmpl_var name=edb_priimek>">
+            <label><input type='checkbox' name='po_korenu_priimek'
+              value='po_korenu_priimek' <tmpl_var name=edb_korenPriimek>>po korenu
+              </label>
+           
+        </tr>
+        <tr>            
+        <td>Ulica:</td>
+        <td>
+        <input type="ulica"  name="edb_ulica" id="edb_ulica" size="22"
+               maxlength="80"
+            value="<tmpl_var name=edb_ulica>">
+        <label><input type='checkbox' name='po_korenu_ulica'
+              value='po_korenu_ulica' <tmpl_var name=edb_korenUlica>>po korenu
+              </label>
+        </td>
+        </tr>
+         <tr>            
+        <td>Posta:</td>
+        <td>
+            <input type="ulica"  name="edb_posta" id="edb_posta" size="22"
+                   maxlength="80" value="<tmpl_var name=edb_posta>">                
+        </td>
+        </tr>
+        
+    </table>
+    <INPUT TYPE="submit"  NAME ="rm" VALUE="Prikazi">
+    <INPUT TYPE="submit"  NAME ="rm" VALUE="Nova pogodba">
+
+        <input type="hidden" name="seja" value="<TMPL_VAR NAME=seja>" />
+        <TMPL_VAR NAME=SCRIPT>
+        
+        <tmpl_if some_errors>Napaka v dokumentu</tmpl_if>
+        <b><i><TMPL_VAR NAME=SPOROCILO></i></b>
+    </form>
+        
+        <TABLE BORDER=1>
+            <form name="brisi">
+            <TR>
+                <TH>Izbor</TH>
+                <TH>Pogodba</TH>
+                <TH>Podjetje</TH>
+                <TH>Ime</TH>
+                <TH>Priimek</TH>
+                <TH>Naslov</TH>
+                <TH>Posta</TH>
+                <td style="text-align:center;">
+                <label><input type="checkbox" name="izberiVse" value=""
+                       id="izberiVse" onClick="IzberiVse(this.id)" />
+                <strong >Brisi</strong></label>
+                </td>
+            </TR>
+            <input type="hidden" name="rm" id="rm" value="zbrisi" />
+            <input type="hidden" name="brisi" value="pogodba" />
+            <input type="hidden" name="id_pogodbe" value="<tmpl_var name=edb_id>" />
+         <TMPL_LOOP NAME="donator_loop">
+            
+            <TR>
+                <div id="navigation">
+                <TD><TMPL_VAR NAME="izbor"></TD>
+                </div>
+                <TD><TMPL_VAR NAME="id_agreement"></TD>
+                <TD><TMPL_VAR NAME="podjetje"></TD>
+                <TD><TMPL_VAR NAME="ime"></TD>
+                <TD><TMPL_VAR NAME="priimek"></TD>
+                <TD><TMPL_VAR NAME="naslov"></TD>
+                <TD><TMPL_VAR NAME="posta"></TD>
+                <TD style="text-align:center;">
+                <input type="checkbox" onclick="PreveriOznacene()"
+                       name="brisiId" value="<TMPL_VAR NAME="id_agreement">" />
+                </TD> 
+            </TR>
+            
+         </TMPL_LOOP>
+        <tr>
+            <td colspan=7></td>
+            <td><input type="button" name="brisi"
+                onClick="Brisi()" value="brisi" /></td>
+        </tr>
+       </TABLE>
+</div>
+<TMPL_INCLUDE NAME="DntMenu.tmpl">
+</form>
+
+</body>
+</html>

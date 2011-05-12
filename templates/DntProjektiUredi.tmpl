@@ -1,0 +1,121 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<head>
+<title>Donator - <TMPL_VAR NAME=IME_DOKUMENTA></title>
+<link rel="stylesheet" href="/static/izgled4.css" type="text/css" media="all" />
+<SCRIPT LANGUAGE="JavaScript" 
+	 SRC="/static/funkcije.js"></SCRIPT>
+</head>
+<body>
+<div id="banner"><h1>D O N A T O R</h1></div>
+<form name="myForm">
+<input type="hidden" name="uredi" value="<tmpl_var name=edb_uredi>" />
+<div id="centercontent">
+	<TMPL_VAR NAME=MENU_POT>	
+	<strong><i><TMPL_VAR NAME=IME_DOKUMENTA></i></strong> <TMPL_VAR NAME=POMOC>
+	<table border="1" >
+		<tr>
+			<td>Sifra: </td>
+			<td>
+			<TMPL_IF name="edb_uredi">
+				<input type="text" value="<TMPL_VAR NAME="edb_id">" name="edb_id" readonly="readonly" />
+			<tmpl_else>
+			<select  name="edb_id" id="edb_id">				
+			  <TMPL_LOOP NAME="edb_loop2">					 
+				<option value="<TMPL_VAR NAME="id">" <TMPL_VAR NAME="selected">>
+				<TMPL_VAR NAME="id"></option>
+			  </TMPL_LOOP>
+			</tmpl_if>
+		   </td>
+		</tr>
+		<tr>
+			<td>Ime Projekta:</td>
+			<td>                  
+			  <input type="ime"  name="edb_ime" id="edb_ime" size="22"
+					 maxlength="80"
+				value="<tmpl_var name=edb_ime>">
+			</td>
+		</tr>
+		<tr>
+			<td>Davcna st.:</td>
+			<td>                  
+			  <input type="ime"  name="edb_davcna" id="edb_davcna" size="22"
+					 maxlength="80"	value="<tmpl_var name=edb_davcna>">
+			</td>
+		</tr>
+		<tr>
+			<td>Zap.st. upnika(pri banki):</td>
+			<td>                  
+			  <input type="ime"  name="edb_upnik" id="edb_upnik" size="22"
+					 maxlength="80"	value="<tmpl_var name=edb_upnik>">
+			</td>
+		</tr>
+		<tr>
+			<td>Opis storitve:</td>
+			<td>                  
+			  <input type="ime"  name="edb_opis" id="edb_opis" size="22"
+					 maxlength="80"	value="<tmpl_var name=edb_opis>">
+			</td>
+		</tr>
+		
+	</table>
+				
+	<INPUT TYPE="submit"  NAME ="rm" VALUE="Shrani">
+	<INPUT TYPE="button"  onclick="javascript:self.location='?rm=seznam&seja='"
+		   VALUE="Nazaj">
+	<!--
+	 <input type="hidden" name="uporabnik" value="<TMPL_VAR NAME=uporabnik>" />
+	-->
+	<input type="hidden" name="seja" value="<TMPL_VAR NAME=seja>" />
+	<TMPL_IF name="edb_uredi">
+	<div style="padding-top:10px;">
+	<strong><i><TMPL_VAR NAME=IME_DOKUMENTA2></i></strong>
+		<TABLE BORDER=1>
+		</form>
+		<form name="brisi" id="brisi">
+		<TR>
+			<TD><B>Izbor</B></TD>                    
+			<TD><B>Id TRR</B></TD>
+			<TD><B>Ime banke</B></TD>
+			<td style="text-align:center;">
+			<label><input type="checkbox" name="izberiVse" value=""
+				   id="izberiVse" onClick="IzberiVse(this.id)" />
+			<strong >Brisi</strong></label>
+			</td>
+		</TR>
+		<input type="hidden" name="rm" id="rm" value="zbrisi" />
+		<input type="hidden" name="brisi" value="trr" />
+		<input type="hidden" name="id_projekta" value="<tmpl_var name=edb_id>" />
+			
+		 <TMPL_LOOP NAME="edb_loop">
+			
+			<TR>                    
+				<TD><TMPL_VAR NAME="izbor"></TD>
+				<TD><TMPL_VAR NAME="id_trr"></TD>   
+				<TD><TMPL_VAR NAME="bank_name"></TD>
+				<TD style="text-align:center;">
+				<input type="checkbox" onclick="PreveriOznacene()"
+					   name="brisiId" value="<TMPL_VAR NAME="id_vrstice">" />
+				</TD>
+			</TR>
+			
+		 </TMPL_LOOP>
+		<tr>
+			<td colspan=2></td>
+		<td style="text-align:right;">
+		<INPUT TYPE="button"
+			   onclick="javascript:self.location='?rm=trr&id=<tmpl_var name=edb_id>'"
+			   VALUE="Dodaj"></td>
+		<td><input type="button" name="brisi"
+				onClick="Brisi()" value="brisi" /></td>
+		</tr>
+
+	   </TABLE>
+			</div>
+	</TMPL_IF>
+</div>
+<TMPL_INCLUDE NAME="DntMenu.tmpl">
+</form>
+
+</body>
+</html>
+

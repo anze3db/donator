@@ -1,0 +1,111 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<head>
+<title>Donator - <TMPL_VAR NAME=IME_DOKUMENTA></title>
+<link rel="stylesheet" href="/static/izgled4.css" type="text/css" media="all" />
+<LINK REL=StyleSheet HREF="/static/weeklycalendar/calendar.css" TYPE="text/css">
+<SCRIPT LANGUAGE="JavaScript" 
+	 SRC="/static/weeklycalendar/weeklycalendar.js"></SCRIPT>
+<SCRIPT LANGUAGE="JavaScript" 
+	 SRC="/static/funkcije.js"></SCRIPT>
+</head>
+<body>
+<script>
+buildWeeklyCalendar(1);
+
+function IzberiVse(id){
+	
+	if(document.getElementById(id).checked){
+		
+		var i=0;
+		document.myForm.izberiId.checked=true;
+		while(document.myForm.izberiId[i]){			
+			document.myForm.izberiId[i++].checked=true;
+			
+		}		
+	}
+	else{
+		var i=0;
+		document.myForm.izberiId.checked=false;
+		while(document.myForm.izberiId[i]){			
+			document.myForm.izberiId[i++].checked=false;
+		}
+	}
+}
+
+function PreveriOznacene(){
+	var i=0;
+	var vsi=true;
+	while(document.myForm.izberiId[i]){			
+		if(!document.myForm.izberiId[i++].checked)
+			vsi=false;
+	}
+	if (vsi)
+		document.getElementById('izberiVse').checked=true;
+	else
+		document.getElementById('izberiVse').checked=false;
+}		
+</script>
+<div id="banner"><h1>D O N A T O R</h1></div>
+<form name="myForm">      
+<div id="centercontent">
+	<TMPL_VAR NAME=MENU_POT>
+	<p>
+	<strong><i><TMPL_VAR NAME=IME_DOKUMENTA></i></strong> <TMPL_VAR NAME=POMOC>
+
+<input type="hidden" name="seja" value="<TMPL_VAR NAME=seja>" />
+<TMPL_VAR NAME=SCRIPT>		
+<TABLE BORDER=1>		
+	<TR>
+		<td style="text-align:center;">
+		<label><input type="checkbox" name="izberiVse" value=""
+			   id="izberiVse" onClick="IzberiVse(this.id)" />
+		<strong >Izbor</strong></label>
+		</td>                  
+		<TD><B>Id pogodbe</B></TD>
+		<TD><B>Ime</B></TD>
+		<TD><B>Priimek</B></TD>
+		<TD><B>Podjetje</B></TD>
+		<TD><B>Nacin placila</B></TD>
+		<TD><B>St. obrokov</B></TD>
+		<TD><B>Datum podpisa</B></TD>
+		<TD><B>Datum vnosa</B></TD>
+		<TD><B>Aktiviraj z dnem</B></TD>
+		<TD><B>Prvi obrok</B></TD>
+		<TD><B>Link</B></TD>
+		
+	</TR>
+	<input type="hidden" name="rm" id="rm" value="generiraj" />			
+	<TMPL_LOOP NAME="donator_loop">			
+	<TR>                    
+	<TD style="text-align:center;">
+	<tmpl_if name="check">
+	<input type="checkbox" onclick="PreveriOznacene()"
+	name="izberiId" value="<TMPL_VAR NAME="id">_<tmpl_var name=PrviObrok>" />
+	<tmpl_else>
+	<tmpl_var name=napaka_opis>	
+	</tmpl_if>
+	</TD>
+	<TD><TMPL_VAR NAME="id"></TD>   
+	<TD><TMPL_VAR NAME="ime"></TD>
+	<TD><TMPL_VAR NAME="priimek"></TD>
+	<TD><TMPL_VAR NAME="podjetje"></TD>
+	<TD><TMPL_VAR NAME="nacin_placila"></TD>
+	<TD><TMPL_VAR NAME="stObrokov"></TD>
+	<TD><TMPL_VAR NAME="DatumPodpisa"></TD>
+	<TD><TMPL_VAR NAME="DatumVnosa"></TD>
+	<TD><TMPL_VAR NAME="StartDate"></TD>
+	<TD><span <tmpl_if name=napaka>style="color:red; font-weight:bold"
+	</tmpl_if>><TMPL_VAR NAME="PrviObrok"></span></TD>
+	<TD><a href="DntPogodbe.cgi?rm=uredi_pogodbo&id_agreement=<tmpl_var name=id>&nazaj=obroki
+		&uredi=1">uredi</a></TD>				
+	</TR>			
+	</TMPL_LOOP>		
+</TABLE>
+<input type="submit" name="generiraj" value="Generiraj obroke" />
+</div>
+<TMPL_INCLUDE NAME="DntMenu.tmpl">
+</form>
+
+</body>
+</html>
+

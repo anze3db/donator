@@ -1,0 +1,19 @@
+[% BLOCK params %][%- IF qparams.keys.size %]?[%- FOREACH p = qparams.keys %][% p %]=[% qparams.$p %];[% END %][% END %][% END %]
+[% IF profile.nick %]
+  <a href="[%myurl%]?rm=logout">Logout</a>
+[% ELSE %]
+[% IF badlogins %]
+Wrong nick or password. [% badlogins %] attempts.<br>
+[% END %]
+<form method="post" action="[%myurl%][%- PROCESS params %]" enctype="application/x-www-form-urlencoded">
+nick: <input type="text" name="lg_nick"/><br/>
+pass: <input type="password" name="lg_pass"/><br/>
+[% FOREACH p = qparams.keys %]
+<input type="hidden" name="[% p %]" value="[% qparams.$p %]">
+[% END %]
+<input type="submit" name="submit" value="Login" />
+</form>
+<hr/>
+<a href="[%myurl%]?rm=regform">Register</a>
+[% END %]
+</html>

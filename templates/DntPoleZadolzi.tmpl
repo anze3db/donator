@@ -1,0 +1,88 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<head>
+<title>Donator - dodaj klic</title>
+<link rel="stylesheet" href="/static/izgled4.css" type="text/css" media="all" />
+<LINK REL=StyleSheet HREF="/static/weeklycalendar/calendar.css" TYPE="text/css">
+<SCRIPT LANGUAGE="JavaScript" 
+	 SRC="/static/weeklycalendar/weeklycalendar.js">	
+	
+</SCRIPT>
+<SCRIPT LANGUAGE="JavaScript" 
+	 SRC="/static/funkcije.js"></SCRIPT>
+
+</head>
+<body <TMPL_VAR NAME=edb_onload>>
+<script language="javascript">
+		// call the function to build the calendar
+		// function's param specify the first day of week 
+		// 0=Sunday, 1 = Monday, ..., 6=Saturday
+		buildWeeklyCalendar(1);
+</script>
+<div id="banner"><h1>D O N A T O R</h1></div>
+  
+<div id="centercontent">
+	<p>
+	<strong><i><TMPL_VAR NAME=IME_DOKUMENTA></i></strong> <TMPL_VAR NAME=POMOC>
+	<table border="1" >
+		<form name="myForm" value="dodaj_klic">
+		<input type="hidden" name="Id" value="<tmpl_var name=edb_id>" />
+		<tr>
+			<td>ID:</td>
+			<td>                  
+			  <input style="width: 40px;" type="ime" readonly="readonly"
+					 name="edb_id" id="edb_id" size="22" maxlength="80"
+				value="<tmpl_var name=edb_id>">
+			</td>
+		</tr>
+		<tr>
+			<td>Serial root:</td>
+			<td>                  
+			  <input type="ime" readonly="readonly" name="edb_od"
+					 id="edb_od" size="22" maxlength="80"
+				value="<tmpl_var name=edb_serial>">
+			</td>
+		</tr>
+		<tr>
+			<td>Od stevilke:</td>
+			<td>                  
+			  <input style="width: 40px;" type="ime" readonly="readonly"
+					 name="edb_od" id="edb_od" size="22" maxlength="80"
+				value="<tmpl_var name=edb_od>">
+			</td>
+		</tr>
+		<tr>
+			<td>St. pol:</td>
+			<td>                  
+			  <input style="width: 40px;" type="ime" readonly="readonly"
+					 name="edb_od" id="edb_od" size="22" maxlength="80"
+				value="<tmpl_var name=edb_st_pol>">
+			</td>
+		</tr>
+
+		<tr>
+			<td>Datum zadolzitve:</td>
+			<td>                  
+			  <!--  this is the datepicker input text -->    
+				<input name="edb_datum" onblur="DatumVnos(this.id)"
+					   id="edb_datum" size="12" maxlength="80"
+					   value="<tmpl_var name=date>" type="text">
+				<!--  attach the w_displayCalendar function to the onClick event -->
+				<input value="..." id="edb_koledar"
+					   onclick="w_displayCalendar('edb_datum',null);"
+					   type="button">
+			</td>
+		</tr>
+		
+		
+		<tr><td colspan="2">
+	<input type="hidden" value="1" name="zadolzi" />
+	<input type="submit" value="Zadolzi" id="edb_dodaj" name="rm" />
+	<input value="Nazaj" onclick="javascript:self.location='?rm=seznam&seja='"
+		   type="button" />
+	</td></tr>
+	</form>
+	</table>
+</div>
+<TMPL_INCLUDE NAME="DntMenu.tmpl">
+</body>
+</html>
