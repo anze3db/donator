@@ -260,7 +260,7 @@ if($izvor eq "obroki" && $poloznice eq "ON"){
 	        );
 	        
 	        my @vrstica = (
-	            "Negotovinsko nakazilo", "SI56051008011104261", "", "", 
+	            "Negotovinsko nakazilo", "", "", "", 
                 join(',', @address),  'SI12' . DntFunkcije::trim($project->{'id_trr'}), "",
                 DntFunkcije::trim($res->{'id_agreement'}), DntFunkcije::trim($project->{'name_project'}), 'ABANSI2X',
                 $res->{'amount'}, $res->{'date_activate'}, 'Pogodbena donacija', 
