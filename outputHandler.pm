@@ -207,7 +207,7 @@ if(defined $datumChk && $datumChk eq "ON"){
 
 
 
-#ZAPI�I V BAZO TO DATOTEKO!
+#ZAPII V BAZO TO DATOTEKO!
 if(my $dbh = DntFunkcije->connectDB){
 my $sql = "INSERT INTO datoteke_izvozene (filename, content)
 						VALUES (?, ?)";
@@ -215,11 +215,61 @@ my $sth = $dbh->prepare($sql);
 $sth->execute($filename, $content);
 }
 
-print "\n\n";
 print "Content-disposition: attachment; filename=$filename;";
 print "Content-type:text/plain\n\n";
 if($izvor eq "obroki" && $poloznice eq "ON"){
-    print "hello world";
+    my $NEWLINE = "\r\n";
+
+    @polja = ("Tip dokumenta", "IBAN v breme", "Model v breme","Sklic v breme", 
+              "Ime v breme", "IBAN v dobro", "Model v dobro", 
+              "Sklic v dobro", "Ime v dobro","BIC banke prejemnika", 
+              "Znesek", "Datum plačila", "Namen", 
+              "Koda namena", "Nujno", "Izjava");
+
+
+    print join("\t", @polja) . $NEWLINE;
+
+
+    
+    $pogoj = substr($pogoj, 0, -1);
+    if(my $dbh = DntFunkcije->connectDB){
+        
+        $sql = "SELECT * FROM sfr_project as p LEFT JOIN sfr_project_trr as pt ON CAST(p.id_project as INTEGER) = pt.id_project LEFT JOIN sfr_bank as b ON b.id_bank = pt.id_bank  WHERE p.id_project = '2';";
+        my $sth = $dbh->prepare($sql);
+	    $sth->execute();
+	    my $res;   
+	       
+	    my $project = $sth->fetchrow_hashref;
+
+        
+        
+        
+        $sql = "SELECT a.first_name, a.scnd_name, a.street, a.street_number, a.id_post, a.post_name, a.id_agreement, p.amount, p.date_activate FROM agreement_pay_installment as p LEFT JOIN sfr_agreement as a ON p.id_agreement = a.id_agreement WHERE id_vrstica IN ($pogoj) ORDER BY a.id_agreement";
+
+        $sth = $dbh->prepare($sql);
+	    $sth->execute();
+	    
+	    while($res = $sth->fetchrow_hashref){
+	        $res->{'amount'} =~ s/\./,/;
+	        $res->{'date_activate'} = substr($res->{'date_activate'}, 8, 2) . "." . substr($res->{'date_activate'}, 5, 2) . "." . substr($res->{'date_activate'}, 0, 4);
+	        my @address = (
+	            DntFunkcije::trim($res->{'first_name'}) . " " . DntFunkcije::trim($res->{'scnd_name'}),
+	            DntFunkcije::trim($res->{'street'}) . " " . DntFunkcije::trim($res->{'street_number'}),
+	            DntFunkcije::trim($res->{'id_post'}) . " " . DntFunkcije::trim($res->{'post_name'}), 
+	        );
+	        
+	        my @vrstica = (
+	            "negotovinsko placilo", "", "", "", 
+                join(',', @address),  DntFunkcije::trim($project->{'id_trr'}), 'SI12',
+                DntFunkcije::trim($res->{'id_agreement'}), DntFunkcije::trim($project->{'name_project'}), DntFunkcije::trim($project->{'sifra_banke'}),
+                $res->{'amount'}, $res->{'date_activate'}, 'Pogodbena donacija', 
+                'CHAR', '', ''
+                
+                    	            
+	        );
+		    print join("\t", @vrstica) . $NEWLINE;
+	    }
+    }
 
 }
 else{
