@@ -375,7 +375,7 @@ sub OpominiPrikazi{
 				$a_id_agreement=1;
 			}
 			elsif ($_ eq "id_post"){
-				$sql.= ", a.$_, p.name_post";
+				$sql.= ", a.$_";
 			}
 			elsif($_ eq "amount"){
                                 $sql .= ", a.$_ as znesek";
