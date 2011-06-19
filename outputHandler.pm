@@ -241,9 +241,6 @@ if($izvor eq "obroki" && $poloznice eq "ON"){
 	    my $res;   
 	       
 	    my $project = $sth->fetchrow_hashref;
-
-        print "POGOJ : $pogoj";
-        
         
         $sql = "SELECT a.first_name, a.scnd_name, a.street, a.street_number, a.id_post, a.post_name, a.id_agreement, p.amount, p.date_activate FROM agreement_pay_installment as p LEFT JOIN sfr_agreement as a ON p.id_agreement = a.id_agreement WHERE id_vrstica IN ($pogoj) ORDER BY a.id_agreement";
 
