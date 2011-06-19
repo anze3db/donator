@@ -229,9 +229,10 @@ if($izvor eq "obroki" && $poloznice eq "ON"){
 
     print join("\t", @polja) . $NEWLINE;
 
+    if(substr($pogoj, length($pogoj)-1, 1) eq ","){
+        $pogoj = substr($pogoj, 0, -1);
+    }
 
-    
-    $pogoj = substr($pogoj, 0, -1);
     if(my $dbh = DntFunkcije->connectDB){
         
         $sql = "SELECT * FROM sfr_project as p LEFT JOIN sfr_project_trr as pt ON CAST(p.id_project as INTEGER) = pt.id_project LEFT JOIN sfr_bank as b ON b.id_bank = pt.id_bank  WHERE p.id_project = '2';";
@@ -241,7 +242,7 @@ if($izvor eq "obroki" && $poloznice eq "ON"){
 	       
 	    my $project = $sth->fetchrow_hashref;
 
-        
+        print "POGOJ : $pogoj";
         
         
         $sql = "SELECT a.first_name, a.scnd_name, a.street, a.street_number, a.id_post, a.post_name, a.id_agreement, p.amount, p.date_activate FROM agreement_pay_installment as p LEFT JOIN sfr_agreement as a ON p.id_agreement = a.id_agreement WHERE id_vrstica IN ($pogoj) ORDER BY a.id_agreement";

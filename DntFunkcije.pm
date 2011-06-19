@@ -1663,7 +1663,14 @@ sub output_form($$$$){
                     -maxlength=>80,
 					);
 		
-		if($name eq 'obroki'){
+
+		$form .= "<br /><br />";
+	}
+	$form .= $q->textfield(-value => $fn,
+					   -name => 'filename');
+	$form .= $q->submit(-name=>'izvoz', -value=>'izvoz');
+	
+			if($name eq 'obroki'){
 		
 		$form .= $q->checkbox(-name=>'poloznice',
 					-checked => 'checked',
@@ -1672,11 +1679,6 @@ sub output_form($$$$){
 					);
 		
 		}
-		$form .= "<br /><br />";
-	}
-	$form .= $q->textfield(-value => $fn,
-					   -name => 'filename');
-	$form .= $q->submit(-name=>'izvoz', -value=>'izvoz');
 	$form .= $q->endform();
 	return $form;
 }
