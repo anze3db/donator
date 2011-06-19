@@ -391,7 +391,7 @@ sub OpominiPrikazi{
 			  " WHERE c.id_agreement = a.id_agreement AND".
 			  " c.id_agreement = b.id_agreement AND c.storno ISNULL".
 			  #" AND (c.amount_payed < c.amount OR c.amount_payed IS NULL)".
-			  " AND c.amount>0 AND b.id_notice ISNULL AND a.ne_posiljaj_opomine = '0'";
+			  " AND c.amount>0 AND a.ne_posiljaj_opomine = '0'";
 			  
 		if($zapadlost){
 			$sql.=" AND c.date_activate < '$zapadlost' ";
@@ -402,7 +402,7 @@ sub OpominiPrikazi{
 			  " WHERE c.id_agreement = a.id_agreement AND".
 			  " c.id_agreement = b.id_agreement AND c.storno ISNULL".
 			  " AND (c.amount_payed < c.amount OR c.amount_payed IS NULL)".
-			  " AND c.amount>0 AND b.id_notice ISNULL AND a.ne_posiljaj_opomine = '0'";
+			  " AND c.amount>0 AND a.ne_posiljaj_opomine = '0'";
 			  
 		if($zapadlost){
 			$sql.=" AND c.date_activate < '$zapadlost' ";
