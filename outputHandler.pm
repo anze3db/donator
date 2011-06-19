@@ -251,6 +251,7 @@ if($izvor eq "obroki" && $poloznice eq "ON"){
 	    
 	    while($res = $sth->fetchrow_hashref){
 	        $res->{'amount'} =~ s/\./,/;
+	        $project->{'id_trr'} =~ s/-//;
 	        $res->{'date_activate'} = substr($res->{'date_activate'}, 8, 2) . "." . substr($res->{'date_activate'}, 5, 2) . "." . substr($res->{'date_activate'}, 0, 4);
 	        my @address = (
 	            DntFunkcije::trim($res->{'first_name'}) . " " . DntFunkcije::trim($res->{'scnd_name'}),
@@ -259,9 +260,9 @@ if($izvor eq "obroki" && $poloznice eq "ON"){
 	        );
 	        
 	        my @vrstica = (
-	            "negotovinsko placilo", "", "", "", 
-                join(',', @address),  DntFunkcije::trim($project->{'id_trr'}), 'SI12',
-                DntFunkcije::trim($res->{'id_agreement'}), DntFunkcije::trim($project->{'name_project'}), DntFunkcije::trim($project->{'sifra_banke'}),
+	            "Negotovinsko nakazilo", "SI56051008011104261", "", "", 
+                join(',', @address),  'SI12' . DntFunkcije::trim($project->{'id_trr'}), "",
+                DntFunkcije::trim($res->{'id_agreement'}), DntFunkcije::trim($project->{'name_project'}), 'ABANSI2X',
                 $res->{'amount'}, $res->{'date_activate'}, 'Pogodbena donacija', 
                 'CHAR', '', ''
                 
