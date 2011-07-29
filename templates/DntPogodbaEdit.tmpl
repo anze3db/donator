@@ -277,7 +277,7 @@ function SkrijNic(){
 function NastaviDirektne(){
     
     if(document.getElementById('edb_id_agreement').value.length>0){
-        if(document.getElementById('edb_id_agreement').value.substr(4, 1)==1){
+        if(document.getElementById('edb_id_agreement').value.substr(3, 2)=="01"){
             document.myForm['edb_vrstaBremenitve'].options[3].selected= true;
             disabled['edb_vrstaBremenitve'] = 1;
 
