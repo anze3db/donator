@@ -403,7 +403,7 @@ sub ObracunSeznam{
 					   '<th>' .'znesek obrok'. '</th>' .
 					   '<th>' .'opomin'. '</th>';
 			$result .= '</tr>';
-			$csv .= "id pogodbe;datum pogodbe;priimek ime/podjetje;nacin placila;obrok;znesek obrok\n";
+			$csv .= "id pogodbe;datum placila;priimek ime/podjetje;nacin placila;obrok;znesek obrok;opomin\n";
 			$sql = "SELECT a.amount as obrok, a.storno, * FROM agreement_pay_installment AS a, sfr_agreement AS b WHERE ";
 			$sql .= " a.obracun IS NULL AND ".
 				    "((a.amount_payed IS NOT NULL AND a.date_due <= '$do_dne' AND a.date_due >= '$od_dne' AND a.date_due IS NOT NULL AND a.amount = a.amount_payed AND a.amount != 0) ".
