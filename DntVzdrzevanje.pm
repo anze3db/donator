@@ -63,6 +63,8 @@ sub VzdrzevanjeSeznam{
 	my $res;
 	my $sql;
 	my $sth;
+	
+	my $DONATOR = "1.1.1";
 
 	
     # Fill in some parameters	
@@ -97,6 +99,7 @@ sub VzdrzevanjeSeznam{
 		mod_perl => $q->strong($mod_perl::VERSION),
 		list => \@versions,
 		MENU => DntFunkcije::BuildMenu(),
+		DONATOR => $DONATOR,
 
 
 	);
