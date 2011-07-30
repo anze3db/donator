@@ -185,20 +185,26 @@ if(defined $datumChk && $datumChk eq "ON"){
 			}
 			my @pogoji = split(",", $pogoj);
 			foreach (@pogoji){
+			
+			    my $input_string = DntFunkcije::trim($_);
+			    
+			    $input_string =~ s/'//g;
+
 				if($id eq "id_agreement"){
-                			$sql .= " OR $id = '".DntFunkcije::trim($_)."'";
-            			}
-            			else{
-                			$sql .= " OR $id = ".DntFunkcije::trim($_);
-            			}	
+                	$sql .= " OR $id = '".$input_string."'";
+                }
+    			else{
+        			$sql .= " OR $id = ".$input_string;
+    			}	
 			}
 			$sql =~ s/,'$/'/;
 			
+		    
 			$sth = $dbh->prepare($sql);
 			unless($sth->execute($datum)){
 				print "Content-type: text/plain;\n\n";
 				print "Napaka pri zapisu podatkov v bazo - nepravilen format datuma?";
-				print "\n$sql $datum";
+				print "\nPrebrani datum: $datum";
 				exit();
 			}
 		}
