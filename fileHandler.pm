@@ -341,8 +341,8 @@ sub UvoziDavcneZavezance($$){
 					my $davcnaSt=substr($vrstica,4,8);
 					my $maticnaSt=substr($vrstica,13,10);
 					my $sifraDejavnosti=substr($vrstica,35,6);
-					my $ime=DntFunkcije::ansi_to_utf(DntFunkcije::trim(substr($vrstica,42,100)));
-					my $naslov=DntFunkcije::ansi_to_utf(DntFunkcije::trim(substr($vrstica,143,100)));
+					my $ime=(DntFunkcije::trim(substr($vrstica,42,100)));
+					my $naslov=(DntFunkcije::trim(substr($vrstica,143,100)));
 						
 					$sth = $dbh->prepare($sql);
 					unless($sth->execute($tip, $davcniZavezanec, $davcnaSt,
