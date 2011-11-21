@@ -274,15 +274,15 @@ sub UvoziDavcneZavezance($$){
 	my $sth;
 	my $dbh;
 	
-	if($filename =~ /^PO/){
+	if($filename =~ /^PO/ || $filename =~ m/DURS_zavezanci_PO/){
 
 		$tip="D";
 	}
-	elsif($filename =~ /^FOzD/){
+	elsif($filename =~ /^FOzD/ || $filename =~ m/DURS_zavezanci_DEJ/){
 
 		$tip="S";
 	}
-	elsif($filename =~ /^FObD/){
+	elsif($filename =~ /^FObD/ || $filename =~ m/DURS_zavezanci_FO/){
 		
 		$tip="F";
 	}
@@ -326,6 +326,28 @@ sub UvoziDavcneZavezance($$){
 			}	
 				
 		}
+		elsif($tip eq "S"){
+
+		    $sql="INSERT INTO davcni_zavezanci (vrsta_zavezanca, reg_za_ddv, davcna_st, maticna_st, sifra_dejavnosti, ime, naslov) VALUES "
+				." (?, ?, ?, ?, ?, ?, ?)";
+			foreach $vrstica (@content){
+				if(length(DntFunkcije::trim($vrstica))>0){
+					my $davcniZavezanec = "1";
+					my $davcnaSt=substr($vrstica,0,9);
+					my $maticnaSt=substr($vrstica,9,10);
+					my $sifraDejavnosti=substr($vrstica,20,6);
+					my $ime=(DntFunkcije::trim(substr($vrstica,27,100)));
+					my $naslov=(DntFunkcije::trim(substr($vrstica,128,100)));
+						
+					$sth = $dbh->prepare($sql);
+					unless($sth->execute($tip, $davcniZavezanec, $davcnaSt,
+										 $maticnaSt, $sifraDejavnosti, $ime, $naslov)){
+						
+						my $napaka_opis = $sth->errstr;
+					}
+				}						
+			}
+		}
 		else{
 			$sql="INSERT INTO davcni_zavezanci (vrsta_zavezanca, reg_za_ddv, davcna_st, maticna_st, sifra_dejavnosti, ime, naslov) VALUES "
 				." (?, ?, ?, ?, ?, ?, ?)";
@@ -350,7 +372,6 @@ sub UvoziDavcneZavezance($$){
 						
 						my $napaka_opis = $sth->errstr;
 					}
-					
 				}						
 			}
 			
