@@ -16,8 +16,17 @@ function Zapri(frm, id, vrednost, vrstica){
 	var naslov = document.getElementById('tabela').rows[vrstica].cells[2].childNodes[0].data;
 	var dz = document.getElementById('tabela').rows[vrstica].cells[3].childNodes[0].data;
 	var arr = naslov.split(",");
-	var ulica  = arr[0].substr(0, arr[0].lastIndexOf(" "));
-	var st = arr[0].substr(arr[0].lastIndexOf(" "), arr[0].length);
+	var ulica = "";
+	var st = "";
+	var naslov = arr[0].split(' ');
+	for(var i in naslov){
+		if(!isNaN(naslov[i])){
+			st += naslov.splice(i, naslov.length - i).join(' '); 			
+			break;		
+		}
+
+		ulica += naslov[i] + " ";
+	}
 	arr[1] = trim(arr[1]);
 	var postnaSt = arr[1].substr(0, arr[1].indexOf(" "));
 	var posta = arr[1].substr(arr[1].indexOf(" "), arr[1].length);
