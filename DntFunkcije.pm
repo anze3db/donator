@@ -477,8 +477,11 @@ sub debitNames{
 
 #Prevodi stolpcev iz baze:
 sub SloColumns($){
-	
 	my $tmp=shift;
+	my @col = split(/__/, $tmp);
+	if(@col > 1){
+		$tmp = $col[1];
+	}
 	if($tmp eq "id_staff"){
 		$tmp="id zaposlenega";
 	}

@@ -672,8 +672,12 @@ sub Izpis(){
 		
 	
 		foreach (@izpis){
-			$sql.= " $_,";
+			my $x = $_;
+			$x =~ s/\./__/;
+			$sql.= " $_ as $x,";
 		}	
+
+		#	return;
 		$sql = substr($sql, 0, length($sql)-1);
 		$sql .= " FROM ";
 		
@@ -792,9 +796,9 @@ sub Izpis(){
 	else{
 		return 'Povezava do baze ni uspela';
 	}
-
-	$url =~ s/&/_._/g;	
 	#return $sql;
+	$url =~ s/&/_._/g;	
+
 	$menu_pot = $q->a({-href=>"dntStart.cgi?seja="}, "Zacetek")  ;
 	$template = $self->load_tmpl(	    
 	             'DntIsciIzpis.html',
