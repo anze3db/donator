@@ -371,7 +371,7 @@ sub ObrokiGeneriraj(){
 					"'$tax_number', '$id_project', '$debit_type', NULL, ".
 					"NULL, NULL".
 					")";
-					if($debit_type=~"01" || $debit_type=~"P1" || $debit_type=~"04"){ 
+					if($debit_type=~"01" || $debit_type=~"P1" || $debit_type=~"04" || $debit_type=~"T1"){ 
 						$mesec++;
 						if($mesec==13){
 							$mesec=1;
