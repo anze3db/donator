@@ -278,6 +278,7 @@ sub PoleSeznam{
 				push(@loop5, \%row);
 				
 			}
+			$now++;
 			while($now>5){
 				if ($now <10 && $now!~ /[0]/g){
 					$now="0".$now;
@@ -808,7 +809,7 @@ sub PoleUredi{
 		
 		$sth = $dbh->prepare($sql);
 		$sth->execute();
-				
+				$now++;
 				while($now >= 6){
 					
 					if(length($now)<2){
