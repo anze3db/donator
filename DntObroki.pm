@@ -125,7 +125,7 @@ sub ObrokiSeznam{
 				my $zapStDol = DntFunkcije::trim($res->{'zap_st_dolznika'}) || "";
 				
 				#izpis poloznic in placilnih nalogov BN 02
-				if($res->{'debit_type'} eq "01" || $res->{'debit_type'} eq "P1" ){
+				if($res->{'debit_type'} eq "01" || $res->{'debit_type'} eq "P1" || $res->{'debit_type'} eq "T1" ){
 					
 					if($aktivirajZDnem eq ""){					
 						#return $datumPodpisa;
@@ -137,8 +137,13 @@ sub ObrokiSeznam{
 						}						
 						elsif($mesec<10){
 							$mesec="0".$mesec;
-						}	
+						}
 						$prviObrok = $res->{'frequency'}."/".$mesec."/".$leto;
+						if($res->{'frequency'} eq ""){
+							$napaka = 1;
+							$napaka_opis = "Frekvenca ni določena";
+							$prviObrok = "!";
+						}	
 					}
 					else{
 						$prviObrok = DntFunkcije::sl_date($aktivirajZDnem);
