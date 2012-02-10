@@ -1678,7 +1678,8 @@ sub output_form($$$$){
 		$form .= $q->checkbox(-name=>'poloznice',
 					-checked => 'checked',
 					-value => 'ON',
-					-label => "Izvoz za položnice",
+					-label => "",
+					-style => "display:none",
 					);
 		
 		}
