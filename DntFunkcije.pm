@@ -1676,7 +1676,6 @@ sub output_form($$$$){
 			if($name eq 'obroki'){
 		
 		$form .= $q->checkbox(-name=>'poloznice',
-					-checked => 'checked',
 					-value => 'ON',
 					-label => "",
 					-style => "display:none",
