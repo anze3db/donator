@@ -44,21 +44,21 @@
 	   </td>
 	</tr>
 	</table>
-</form>
-
 	<INPUT TYPE="submit"  NAME ="rm" VALUE="Prikazi">
 	<INPUT TYPE="button"  onclick="javascript:self.location='?rm=uredi&seja='"
 		   VALUE="Nov">
+</form>
+
 
 	<!--
 		 <input type="hidden" name="uporabnik" value="<TMPL_VAR NAME=uporabnik>" />
 		-->
+		<form name="brisi">
 		<input type="hidden" name="seja" value="<TMPL_VAR NAME=seja>" />
 		<TMPL_VAR NAME=SCRIPT>
 		
 		<tmpl_if some_errors>Napaka v dokumentu</tmpl_if>
 		<b><i><TMPL_VAR NAME=SPOROCILO></i></b>
-		<form name="brisi">
 		<TABLE BORDER=1>
 
 			<TR>
