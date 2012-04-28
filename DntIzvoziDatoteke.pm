@@ -217,7 +217,10 @@ sub IzvoziDatotekeOutput(){
 			print $_."\n";
 		}
 	}
-	exit;
+	$self->header_type('none');
+	return "";
+}
+	
 }
 sub Login(){
 	my $self = shift;	
