@@ -218,8 +218,9 @@ sub Shrani_placilo_DB(){
     $datum_placila = $q->param('edb_datum_placila');
     $id_agreement = $q->param('edb_id_agreement');
     $znesek_placano = $q->param('edb_znesek_placila');
-	my $znsk = $znesek_placano;
+	
 	$znesek_placano =~ s/,/./;
+	my $znsk = $znesek_placano;
 	
 	#shranjevanje datuma:
 	DntFunkcije::SetCookie('datumPlacila', $datum_placila, 60*60*24);
