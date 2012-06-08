@@ -72,6 +72,7 @@ sub setup {
 		'posta' => 'IzberiPosto',
 		'davcna' => 'IzberiDavcno',
 		'zbrisi' => 'DonatorZbrisi',
+		'check' => 'check',
 		'login' => 'Login',
 		'error' => 'Error'
 		
@@ -2566,6 +2567,26 @@ sub IzberiDavcno(){
 	$html_output = $template->output; #.$tabelica;
 	return $html_output;
 }
+sub check{
+    my $self = shift;
+    my $q = $self->query();
+    my $sth;
+    
+    my $dbh = DntFunkcije->connectDB;
+
+	if ($dbh) {
+		my $sql = "SELECT * FROM sfr_donor WHERE tax_number = ? ";
+		$sth = $dbh->prepare($sql);
+		$sth->execute($q->param('davcna'));
+        if($sth->rows > 0){
+            return $sth->fetchrow_hashref->{'id_donor'};
+        }
+	
+	}
+    return "";
+}
+
+
 #če uporabnik ni prijavljen:
 sub Login(){
 	my $self = shift;	

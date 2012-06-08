@@ -2,9 +2,48 @@
 <head>
 <title>Donator - uredi</title>
 <link rel="stylesheet" href="/static/izgled4.css" type="text/css" media="all" />
+<script src="/static/jquery.js"></script>
 <SCRIPT LANGUAGE="JavaScript" 
  SRC="/static/funkcije.js"></SCRIPT>
 <script>
+
+$(document).ready(function() {
+    $.fn.busyChange = function(func){
+    	/** Checks for a change ever 1/10s. Do not overuse! :D */
+    	var element = this;
+    	if($(element).length==0) return;
+    	var tmp = this.val();
+    	setInterval(function(){
+    		if(tmp != element.val()){
+    			tmp = element.val();
+    			func();
+    		}
+    	}, 100);
+    	
+    };
+    $("#tax_warn").hide();
+    $("#edb_davcnaSt").busyChange(function(){
+        $.get('/DntDonatorji.cgi?rm=check', {'davcna': $("#edb_davcnaSt").val()}, function(data){
+            console.log($("#edb_isci"));
+            
+            <TMPL_IF NAME = "edb_isci">
+            var href = "/DntDonatorji.cgi?rm=Prikazi&isci=1&edb_davcna=" + $("#edb_davcnaSt").val();
+            <TMPL_ELSE>
+            var href = '/DntDonatorji.cgi?rm=uredi_donatorja&id_donor=' + data;
+            </TMPL_IF>
+            
+            
+            if(data != "" && data != $("#edb_id").val()){
+                $("#tax_warn").attr('href', href);
+                $("#tax_warn").show();
+            }
+            else{
+                $("#tax_warn").hide();
+            }
+        });
+    });
+});
+
 function SkrijFizicna()
 {
     document.myForm['edb_podjetje'].disabled = false;
@@ -323,7 +362,9 @@ function CheckFields(){
         <tr>
             <td> <input type="button" onclick="DavcnaSeznam('edb_davcnaSt')"
                     id="taxButton" value="Davcna st.:"
-                    disabled="disabled"/></td>
+                    disabled="disabled"/>
+                 <a id="tax_warn" href="/DntDonatorji.cgi?rm=uredi_donatorja&id_donor=" title="Donator s to davcno je bil ze vnesen">!!!</a>
+            </td>
             <td >
               <input style="width:100%;" type="text"  name="edb_davcnaSt"
                      id="edb_davcnaSt" size="22" maxlength="80"
