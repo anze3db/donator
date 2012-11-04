@@ -986,6 +986,7 @@ sub BuildMenu(){
 			$placila .= '<li><a href="/DntStart.cgi?rm=obracun">Obracun</a></li>';	
 			$placila .= '<li><a href="/DntBranjeDatotek.cgi?rm=Nepotrjene_datoteke">Nepotrjene datoteke</a></li>';			
 			$placila .= '<li><a href="/DntRocniVnosi.cgi?rm=zaporedne_stevilke">Zaporedne stevilke</a></li>';		
+			$placila .= '<li><a href="/DntStart.cgi?rm=dbr">Direktne bremenitve</a></li>';	
 			$placila .= '<li><a href="/DntRocniVnosi.cgi?rm=Direktne_br_vnos_placil">Rocni vnos</a></li>';
 			$orodja .= '<li><a href="/DntBranjeDatotek.cgi?rm=IzberiDatoteko">Uvozi datoteke</a></li>';
 			$orodja .= '<li><a href="/DntStart.cgi?rm=IzvozeneDatoteke">Izvozene datoteke</a></li>';	
@@ -1067,6 +1068,11 @@ sub BuildMenu(){
 				$pogodbe .= '<li><a href="/DntStart.cgi?rm=Pole">Pole</a></li>';	
 			}
 			
+			elsif(DntFunkcije::trim($res->{'modul'}) eq "34"){
+
+				$placila .= '<li><a href="/DntStart.cgi?rm=dbr">Direktne bremenitve</a></li>';	
+				$placila .= '<li><a href="/DntRocniVnosi.cgi?rm=Direktne_br_vnos_placil">Rocni vnos</a></li>';	
+			}
 			elsif(DntFunkcije::trim($res->{'modul'}) eq "31"){
 				$placila .= '<li><a href="/DntStart.cgi?rm=obracun">Obracun</a></li>';	
 			}
@@ -1075,9 +1081,6 @@ sub BuildMenu(){
 			}
 			elsif(DntFunkcije::trim($res->{'modul'}) eq "33"){
 				$placila .= '<li><a href="/DntRocniVnosi.cgi?rm=zaporedne_stevilke">Zaporedne stevilke</a></li>';	
-			}
-			elsif(DntFunkcije::trim($res->{'modul'}) eq "34"){
-				$placila .= '<li><a href="/DntRocniVnosi.cgi?rm=Direktne_br_vnos_placil">Rocni vnos</a></li>';	
 			}
 			
 			elsif(DntFunkcije::trim($res->{'modul'}) eq "41"){

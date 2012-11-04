@@ -64,6 +64,7 @@ sub setup {
 		'zahtevki' => 'Zahtevki',
 		'vzdrzevanje' => 'Vzdrzevanje',
 		'IzvozeneDatoteke' => 'IzvozeneDatoteke',
+		'dbr' => 'DirektneBremenitve',
     );
 }
 
@@ -140,7 +141,16 @@ sub index{
     }
     
 }
+sub DirektneBremenitve{
+	my $self = shift;
+	my $template = $self->load_tmpl('DntBremenitve.tmpl', cache => 1,);
+        $template->param(
+                POMOC => "<input type='button' value='?' ".
+                "onclick='Pomoc(\"$ENV{SCRIPT_NAME}\", \"$ENV{QUERY_STRING}\")'  >",  MENU => DntFunkcije::BuildMenu(),
+        );
 
+        return $template->output;
+}
 sub SfrDonatorji(){
 	my $self = shift;
 	my $q = $self->query();
