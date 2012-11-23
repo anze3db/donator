@@ -179,6 +179,8 @@ function NastaviZneske(){
             disabled['edb_vrstaBremenitve']     = 1;
             form['edb_vrstaBremenitve'].options[5].selected = true;
             disabled['edb_TRR']                 = 1;
+            disabled['edb_db_approval']         = 1;
+            disabled['edb_db_approval_date']    = 1;
             disabled['edb_aktivirajBtn']        = 0;
             disabled['edb_aktiviraj']           = 0;
             
@@ -193,6 +195,8 @@ function NastaviZneske(){
             required['edb_valuta']                  = 0;
             required['edb_vrstaBremenitve']         = 0;
             required['edb_TRR']                     = 0;
+            required['edb_db_approval']             = 0;
+            required['edb_db_approval_date']        = 0;
         }
         else{
             
@@ -202,7 +206,7 @@ function NastaviZneske(){
             disabled['edb_aktivirajBtn']            = 0;
             disabled['edb_nacinPlacila']            = 0;
             
-             required['edb_vrstaBremenitve']        = 1;
+            required['edb_vrstaBremenitve']         = 1;
             required['edb_amount1']                 = 0;
             required['edb_nacinPlacila']            = 0;
             required['edb_num_installments']        = 1;
@@ -242,6 +246,8 @@ function NastaviZneske(){
         disabled['edb_vrstaBremenitve']         = 1;
         form['edb_vrstaBremenitve'].options[5].selected = true;
         disabled['edb_TRR']                     = 1;
+        disabled['edb_db_approval']             = 1;
+        disabled['edb_db_approval_date']        = 1;
         disabled['edb_aktivirajBtn']            = 1;
         disabled['edb_aktiviraj']               = 1;
         
@@ -254,6 +260,8 @@ function NastaviZneske(){
         required['edb_valuta']                  = 0;
         required['edb_vrstaBremenitve']         = 0;
         required['edb_TRR']                     = 0;
+        required['edb_db_approval']             = 0;
+        required['edb_db_approval_date']        = 0;
         required['edb_aktivirajBtn']            = 0;
         required['edb_aktiviraj']               = 0;
         
@@ -310,14 +318,23 @@ function NastaviDirektne(){
     
     if(polje.options[0].selected){            
             disabled['edb_TRR'] = 0;
+            disabled['edb_db_approval'] = 0;
+            disabled['edb_db_approval_date'] = 0;
 
-            required['edb_TRR'] = 1;        
+            required['edb_TRR'] = 1;   
+            required['edb_db_approval'] = 1;
+            required['edb_db_approval_date'] = 1;
+                 
     }
         
     else{
         disabled['edb_TRR'] = 1;
+        disabled['edb_db_approval'] = 1;
+        disabled['edb_db_approval_date'] = 1;
 
-        required['edb_TRR'] = 0;   
+        required['edb_TRR'] = 0;  
+        required['edb_db_approval'] = 0;
+        required['edb_db_approval_date'] = 0; 
     }
     
     
@@ -440,6 +457,15 @@ function PostaSeznam(ID){
     //window.open(", "mywindow", "height=500, width=400, scrollbars=1, resizable=1");
 }
 
+function Approval(ID){
+    var polje = document.getElementById(ID);
+    var link = "DntDonatorji.cgi?rm=posta&src=db&insert="+ID+"&st="+polje.value;
+    var handle = window.open(link,"donatorji","status=1, height=500, width=250, scrollbars=1, resizable=1");
+    if(window.focus)
+        handle.focus();
+    //window.open(", "mywindow", "height=500, width=400, scrollbars=1, resizable=1");
+}
+
 function PogodbeSeznam(ID){
     
     var projekt = document.getElementById('edb_projekt').value;
@@ -522,6 +548,9 @@ function onemogociOstale(){
     document.getElementById('edb_vrstaBremenitve').disabled = true;
     document.getElementById('edb_aktiviraj').disabled = true;
     document.getElementById('edb_TRR').disabled = true;
+    document.getElementById('edb_db_approval').disabled = true;
+    document.getElementById('edb_db_approval_date').disabled = true;
+
     
     document.getElementById('label_edb_num_installments').style.fontWeight='normal';
     document.getElementById('label_edb_amount2').style.fontWeight='normal';
@@ -538,6 +567,9 @@ function onemogociOstale(){
 
     document.getElementById('edb_aktiviraj').value = "";
     document.getElementById('edb_TRR').value = ""; 
+    document.getElementById('edb_db_approval').value = ""; 
+    document.getElementById('edb_db_approval_date').value = ""; 
+
     
 
 }
@@ -554,7 +586,9 @@ function omogociOstale(){
 
     
     if(document.getElementById('edb_status1').checked){
-       document.getElementById('edb_TRR').disabled = false;
+        document.getElementById('edb_TRR').disabled = false;
+        document.getElementById('edb_db_approval').disabled = false; 
+        document.getElementById('edb_db_approval_date').disabled = false; 
        //document.getElementById('label_edb_TRR').style.fontWeight='bold';
     }
 
@@ -1286,7 +1320,28 @@ function Komentar(id_vrstica, id_agreement){
             value="<tmpl_var name=edb_TRR>" readonly="true">
        </td>
     </tr>
-    
+     <tr>
+        <td><input type="button" onclick="Approval('edb_db_approval')"
+                 id="approvalBtn" value="Soglasje:" disabled="disabled"/></td>
+        <td style="height: 28px">
+          <input type="amount2"  name="edb_db_approval" id="edb_db_approval" size="22"
+             maxlength="80"
+            value="<tmpl_var name=edb_db_approval>" readonly="true">
+       </td>
+    </tr>
+     <tr>
+        <td><label for="edb_db_approval_date" class="pravna">Datum podpisa soglasja:</label></td>
+        <td style="height: 28px">
+          <input name="edb_db_approval_date" readonly="true"
+               onblur="DatumVnos(this.id)" id="edb_db_approval_date" size="12"
+               maxlength="80" value="<tmpl_var name=edb_db_approval_date>"
+               type="text">
+            <!--  attach the w_displayCalendar function to the onClick event -->
+            <input value="..." id="edb_db_approval_dateBtn"  disabled="disabled"
+               onclick="w_displayCalendar('edb_db_approval_date',null);"
+               type="button">
+       </td>
+    </tr>    
     <tr>
     
         <td id="label_edb_aktiviraj"><label for="edb_aktiviraj">Aktiviraj z dnem:</label></td>

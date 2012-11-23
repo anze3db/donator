@@ -83,7 +83,6 @@ sub setup {
 }
 
 sub DonatorjiSeznam{
-	
     my $self = shift;
     my $q = $self->query();
     my $seja;
@@ -2436,6 +2435,7 @@ sub IzberiPosto(){
 	my $st = $q->param('st');
 	my $insertId= $q->param('insert');
 	my $pogodba= $q->param('pogodba') || 0;
+	my $src = $q->param('src') || 0;
 	my $html_output;
 	my $menu_pot;
 	my $template;
@@ -2468,9 +2468,28 @@ sub IzberiPosto(){
 		}
 		$imeDokumenta="Seznam pogodb";
 	}
+	elsif ($src eq "db"){
+		$imeDokumenta="Seznam soglasij";
+		if ($dbh) {	
+				
+			$sql = "SELECT * FROM approvals WHERE available = TRUE AND approval ilike '$st%'";
+			$sth = $dbh->prepare($sql);			
+			$sth->execute();
+			
+			while($res = $sth->fetchrow_hashref){
+					
+				my %row = (postnaSt => $res->{'approval'},
+						   posta => "",
+						   insertId => $insertId,
+						   );
+				push(@loop, \%row);
+			}
+		}
+	}
 	else{
 		$imeDokumenta="Seznam post";
-		if ($dbh) {		
+		if ($dbh) {	
+				
 			$sql = "SELECT * FROM sfr_post WHERE CAST(id_post AS char) ilike '$st%' or ".
 					"name_post ilike '$st%' ORDER BY id_post";
 			$sth = $dbh->prepare($sql);			

@@ -151,11 +151,10 @@ sub ObrokiSeznam{
 				}
 				#izpis direktnih bremenitev
 				elsif($res->{'debit_type'} eq "04"){
-					
-					if($zapStDol eq ""){
-						$napaka_opis="Ni zap. st. dolznika!";
+					#if($zapStDol eq ""){
+						#$napaka_opis="Ni zap. st. dolznika!";
 							
-					}					
+					#}					
 					if($aktivirajZDnem eq ""){
 						
 						$mesec=substr($datumPodpisa, 5, 2)+1;
@@ -219,10 +218,10 @@ sub ObrokiSeznam{
 					$check=1;
 					$napaka=0;
 				}
-				if($res->{'debit_type'} eq "04" && $zapStDol eq ""){
-					$check =0;
-					$napaka_opis = "Ni zap. st. dolznika!";
-				}
+				#if($res->{'debit_type'} eq "04" && $zapStDol eq ""){
+				#	$check =0;
+				#	$napaka_opis = "Ni zap. st. dolznika!";
+				#}
 				#return $odmik." $d, $m, $y";
 
 				my %row = (				

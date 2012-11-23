@@ -272,6 +272,8 @@ sub PogodbaUredi() {
 	my $statusP;
 	my $status_kontrole;
 	my $trr;
+	my $approval;
+	my $approvalDate;
 	my $ulica;
 	my $upokojenec;
 	my $uredi=DntFunkcije::trim($q->param('uredi'));
@@ -391,6 +393,8 @@ sub PogodbaUredi() {
 				$frekvenca=$res->{'frequency'};
 				$placanDne=$res->{'date_1st_amount'};
 				$trr=$res->{'bank_account2'};
+				$approval=$res->{'approval'};
+				$approvalDate=$res->{'approval_date'};
 				$vrstaBremenitve=$res->{'pay_type2'};
 				$aktivirajDne=$res->{'start_date'};
 				$amount1= $res->{'amount1'};
@@ -644,6 +648,11 @@ sub PogodbaUredi() {
 					substr($datumVnosa, 5,2)."/".
 					substr($datumVnosa, 0,4);
 	}
+	if(defined $approvalDate){
+		$approvalDate=substr($approvalDate, 8,2)."/".
+					substr($approvalDate, 5,2)."/".
+					substr($approvalDate, 0,4);
+	}
 	if(defined $datumPogodbe){
 		$datumPogodbe=substr($datumPogodbe, 8,2)."/".
 					  substr($datumPogodbe, 5,2)."/".
@@ -865,6 +874,8 @@ sub PogodbaUredi() {
 		edb_zap_st_db => DntFunkcije::trim($zap_st_dolznika),
 		hid_id_agreement => DntFunkcije::trim($id_agreement),
 		edb_trr => DntFunkcije::trim($trr),
+		edb_db_approval => DntFunkcije::trim($approval),
+		edb_db_approval_date => DntFunkcije::trim($approvalDate),
 		hid_urejanje => $urejanje,
 		edb_uredi => $uredi,
 		edb_loop4 => \@loop4,
@@ -946,6 +957,8 @@ sub PogodbaShrani{
 	my $statusP;
 	my $status_kontrole;
 	my $trr= DntFunkcije::trim($q->param('edb_TRR'));
+	my $approval= DntFunkcije::trim($q->param('edb_db_approval')) || 0;
+	my $approvalDate= DntFunkcije::trim($q->param('edb_db_approval_date')) || "0";
 	my $ulica= DntFunkcije::trim($q->param('edb_ulica'));
 	my $upokojenec= DntFunkcije::trim($q->param('upokojenec')) || 0;
 	my $staraPogodba= DntFunkcije::trim($q->param('stara_pogodba')) || 0;
@@ -1027,6 +1040,11 @@ sub PogodbaShrani{
 							substr($placanDne,3,2).'-'.
 							substr($placanDne,0,2);
 	}
+	if($approvalDate ne "0"){
+			$approvalDate = substr($approvalDate,6,4).'-'.
+							substr($approvalDate,3,2).'-'.
+							substr($approvalDate,0,2);
+	}
 
 	$amount = substr($amount, 0, length($amount)-3).".".
 				substr($amount, length($amount)-2, 2);
@@ -1056,7 +1074,7 @@ sub PogodbaShrani{
 						"num_installments=?, ".
 						"amount=?, amount1=?, amount2=?, ".
 						"retired=?, pokrovitelj=?, podaljsanje_pogodbe=?, sifra_banke=?, ".
-						"ne_posiljaj_opomine=?, stara_pogodba=?, id_staff_enter=? ".
+						"ne_posiljaj_opomine=?, stara_pogodba=?, id_staff_enter=?, approval=? ".
 						"WHERE id_agreement=?";
 				#print $q->p($sql_vprasaj);
 				$sth = $dbh->prepare($sql);
@@ -1072,7 +1090,7 @@ sub PogodbaShrani{
 						$num_installments,
 						$amount, $amount1, $amount2,
 						$upokojenec, $pokrovitelj, $podaljsanjePogodbe, $sifrantBank,
-						$posiljanjeOpominov, $staraPogodba, $cookie, 
+						$posiljanjeOpominov, $staraPogodba, $cookie, $approval, 
 						$id_agreement)){
 						
 					my $napaka_opis = $sth->errstr;
@@ -1111,6 +1129,32 @@ sub PogodbaShrani{
 					$sth->execute($placanDne,
 								  $id_agreement);	
 				}
+
+				if($approvalDate eq "0"){
+					$sql = "UPDATE sfr_agreement ".
+						   "SET approval_date=NULL ".		
+						   "WHERE id_agreement=?";
+				#print $q->p($sql_vprasaj);
+					$sth = $dbh->prepare($sql);
+					
+					$sth->execute($id_agreement);		
+					
+				}
+				else{
+					$sql = "UPDATE sfr_agreement ".
+						   "SET approval_date=? ".		
+						   "WHERE id_agreement=?";
+				#print $q->p($sql_vprasaj);
+					$sth = $dbh->prepare($sql);
+					
+					$sth->execute($approvalDate,
+								  $id_agreement);	
+				}
+				$sql = "UPDATE approvals ".
+						   "SET available=FALSE ".		
+						   "WHERE approval=?";
+				$sth = $dbh->prepare($sql);
+				$sth->execute($approval);
 				
 				if($aktivirajDne eq "0"){
 					
@@ -1231,7 +1275,7 @@ sub PogodbaShrani{
 						"retired, pokrovitelj, podaljsanje_pogodbe,".
 						"id_project, id_event, id_staff,".
 						"amount, amount1, amount2,status, sifra_banke, ".
-						"ne_posiljaj_opomine, stara_pogodba, id_staff_enter) ".
+						"ne_posiljaj_opomine, stara_pogodba, id_staff_enter, approval) ".
 						"VALUES (?, ?,".
 								"?, ?, ?,".
 								"?, ?,".
@@ -1244,7 +1288,7 @@ sub PogodbaShrani{
 								"?, ?, ?,".
 								"?, ?, ?,".
 								"?, ?, ?, ?, ?,".
-								"?, ?, ?)";
+								"?, ?, ?, ?)";
 				#print $q->p($sql_vprasaj);
 				$sth = $dbh->prepare($sql);
 				
@@ -1260,7 +1304,7 @@ sub PogodbaShrani{
 						$upokojenec, $pokrovitelj, $podaljsanjePogodbe,
 						$projekt, $dogodek, $komercialist,
 						$amount, $amount1, $amount2, $status_pogodbe, $sifrantBank,
-						$posiljanjeOpominov, $staraPogodba, $cookie ))
+						$posiljanjeOpominov, $staraPogodba, $cookie, $approval ))
 				{
 					if($test == 0){	
 						$sql = "UPDATE sheets SET id_agreement=? WHERE serial_id=?";
@@ -1296,6 +1340,16 @@ sub PogodbaShrani{
 					$sth->execute("'".$datumRojstva."'",
 								  $id_agreement);
 					}
+					if($approvalDate ne "0"){
+					$sql = "UPDATE sfr_agreement ".
+						   "SET approval_date=? ".		
+						   "WHERE id_agreement=?";
+					#print $q->p($sql_vprasaj);
+					$sth = $dbh->prepare($sql);
+					
+					$sth->execute("'".$approvalDate."'",
+								  $id_agreement);
+					}
 					$sql = "UPDATE sfr_agreement ".
 						   "SET id_post=?, post_name=? ".		
 						   "WHERE id_agreement=?";
@@ -1304,6 +1358,16 @@ sub PogodbaShrani{
 					
 					$sth->execute($postnaSt, $post_name,
 								  $id_agreement);
+
+
+					$sql = "UPDATE approvals ".
+						   "SET available=FALSE ".		
+						   "WHERE approval=?";
+					#print $q->p($sql_vprasaj);
+					$sth = $dbh->prepare($sql);
+					
+					$sth->execute($approval);
+
 					my $ui=$q->param('ui');
 					#Vstavljanje komentarjev iz zacasnih tabel:
 					if($test == 0){
