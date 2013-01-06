@@ -978,7 +978,7 @@ sub PogodbaShrani{
 	my $res;
 	
 	my $cookie = $ENV{'HTTP_COOKIE'};
-	$cookie = substr ($cookie, 3);
+	$cookie = substr ($cookie, index($cookie, 'id=')+3);
 	my @arr = split(",", $cookie);
 	$cookie = $arr[0];
 	
