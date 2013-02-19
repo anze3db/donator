@@ -365,7 +365,8 @@ sub PotrdilaPrikazi{
 	#	$a_select.=" AND ag.debit_type = '01'";
 	#}
 	if($zapadlost){
-		$a_select.=" AND ((SELECT ag1.date_due FROM agreement_pay_installment as ag1 WHERE ag1.date_due IS NOT NULL AND ag1.id_agreement = a.id_agreement ORDER BY ag1.date_due DESC LIMIT 1) <= '$zapadlost' OR ag.id_agreement IS NULL)";
+	    # Issue 80
+		$a_select.=" AND ((SELECT ag1.date_due FROM agreement_pay_installment as ag1 WHERE ag1.date_due IS NOT NULL AND ag1.id_agreement = a.id_agreement ORDER BY ag1.date_due DESC LIMIT 1) <= '$zapadlost' OR ag.id_agreement IS NULL OR (a.status = 'S' AND a.date_1st_amount <= '$zapadlost'))";
 	}
 	#return $a_select;
 	$dbh = DntFunkcije->connectDB;

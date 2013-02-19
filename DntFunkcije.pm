@@ -1232,9 +1232,9 @@ sub log(){
 	my $cookie = $ENV{'HTTP_COOKIE'};
 	my $id;
 	if ($cookie){
-		$cookie = substr ($cookie, 3);
-		my @arr = split(",", $cookie);
-		$id=$arr[0];
+		$cookie = substr ($cookie, index($cookie, 'id=')+3);
+	    my @arr = split(",", $cookie);
+	    $id = $arr[0];
 	}
 	else{
 		$id=0;
