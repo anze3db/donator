@@ -546,7 +546,7 @@ sub SloColumns($){
 		$tmp="dovoli email";
 	}
 	elsif($tmp eq "post_emailing_alow"){
-		$tmp="id zaposlenega";
+		$tmp="dovoli posto";
 	}
 	elsif($tmp eq "special_donor"){
 		$tmp="posebni donator";
