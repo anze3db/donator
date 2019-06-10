@@ -152,7 +152,7 @@ sub DirektneBremenitve{
 
         return $template->output;
 }
-sub IzboziRacune{
+sub IzvoziRacune{
 	my $self = shift;
 	my $template = $self->load_tmpl('IzvoziRacune.tmpl', cache => 1,);
         $template->param(
