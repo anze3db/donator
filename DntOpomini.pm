@@ -317,6 +317,7 @@ sub OpominiPrikazi{
 	my $leto= $q->param('edb_leto');
 	my $dogodek= $q->param('edb_dogodek');
 	my $bremenitev= $q->param('edb_bremenitev');
+	my $posta= $q->param('edb_posta');
 	my $zapadlost= $q->param('zapadlost');
 	my $datum= $q->param('uporabi_datum');
 	my $datum_now= localtime;
@@ -357,6 +358,7 @@ sub OpominiPrikazi{
 	elsif($bremenitev eq "1"){
 		$a_select.=" AND b.debit_type = '01'";
 	}
+	
 	#return $a_select;
 	$dbh = DntFunkcije->connectDB;
 	if ($dbh) {
@@ -428,8 +430,16 @@ sub OpominiPrikazi{
 		$sql.=" WHERE a.id_agreement = b.id_agreement AND".
 			  " a.id_donor = c.id_donor ".
 			  " AND b.storno ISNULL AND (b.amount_payed < b.amount OR b.amount_payed IS NULL) ".
-			  " AND b.amount>0 AND p.id_post = a.id_post ".
-			  " AND a.ne_posiljaj_opomine = '0' ";
+			  " AND b.amount>0 AND p.id_post = a.id_post ";
+
+		if($posta){
+    	    $sql .= " AND (c.post_emailing_alow = '1' OR a.ne_posiljaj_opomine = '1') ";
+	    }
+	    else{
+			$sql .= " AND a.ne_posiljaj_opomine = '0' ";
+			$sql .= " AND c.post_emailing_alow = '0' ";
+	    }
+
 		if($zapadlost){
 			$sql.=" AND b.date_activate < '$zapadlost' ";
 		}

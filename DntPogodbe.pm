@@ -969,7 +969,7 @@ sub PogodbaShrani{
 	my $zap_st_dolznika= DntFunkcije::trim($q->param('edb_zap_st_db'));
 	my $sifrantBank;
 	my $znesek;
-	my $status_pogodbe="O";
+	my $status_pogodbe= ($num_installments == 0) ? "P" : "O";
 	my @loop4;
 	
 	my $dbh;

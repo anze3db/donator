@@ -426,7 +426,7 @@ sub PotrdilaPrikazi{
 		#$sql.="$a_select ORDER BY c.id_vrstica DESC LIMIT 1) AS id_obroka";
 	
 		#izbor tabel iz katerih stavek crpa podatke:
-		$sql.=" FROM sfr_agreement AS a LEFT JOIN agreement_pay_installment as ag ON a.id_agreement = ag.id_agreement".
+		$sql.=" FROM sfr_agreement AS a LEFT OUTER JOIN agreement_pay_installment as ag ON a.id_agreement = ag.id_agreement".
 			  ", sfr_donor AS b";
 		#povezave med tabelami, da se vrstice ne podvajajo:	  
 		$sql.=" WHERE ".

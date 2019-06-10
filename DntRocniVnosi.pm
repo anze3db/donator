@@ -420,7 +420,8 @@ sub Shrani_placilo_DB(){
     }
 	$id_obroki = substr($id_obroki, 0, -1);
 	$zneski = substr($zneski, 0, -1);
-	if ($sum_ostanek - $sum_placano<0){
+	my $left = sprintf("%.2f", ($sum_ostanek - $sum_placano))+0.0;
+	if ($left < 0){
 	    $template = $self->load_tmpl(	    
 		'DntRocniVnosNapaka.tmpl',
 		  cache => 1,
@@ -429,7 +430,7 @@ sub Shrani_placilo_DB(){
 		MENU_POT => '',
 		MENU => DntFunkcije::BuildMenu(),
 		IME_DOKUMENTA => 'Napaka pri vnosu !',
-		napaka_opis => "Znesek je vecji od vsote obrokov.",
+		napaka_opis => "Znesek je vecji od vsote obrokov. Vnos: " . sprintf("%.2f", ($sum_placano)) . " Neplacano: " . sprintf("%.2f", ($sum_ostanek)) . " Razlika: " . sprintf("%.2f", ($left)),
 		akcija => ''
 	    );
     
@@ -477,7 +478,7 @@ sub Shrani_placilo_DB(){
 	vrsta_bremenitve_opis => $vrsta_bremenitve_opis,
 	sum_skupaj => DntFunkcije::FormatFinancno($sum_obroki),
 	sum_placano => DntFunkcije::FormatFinancno($sum_placano+$sum_placani_obroki),
-	sum_odprto => "Odprto: ".DntFunkcije::FormatFinancno($sum_obroki - ($sum_placano+$sum_placani_obroki)-$storno)
+	sum_odprto => "Odprto: ".DntFunkcije::FormatFinancno(sprintf("%.2f", $sum_obroki - ($sum_placano+$sum_placani_obroki)-$storno)+0.0)
 	
 	 );
 

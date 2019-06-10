@@ -62,6 +62,7 @@ function PreveriOdprte(form){
 			<option onclick="self.location='DntOpomini.cgi?rm=zacetek&bremenitev=2'"
 					<tmpl_var name=racun>
 					value="2">Racun</option>
+		    </select>
 
 		</TD>
 	</TR>	
@@ -74,6 +75,7 @@ function PreveriOdprte(form){
 		  <option value="<TMPL_VAR NAME="id">" <TMPL_VAR NAME="selected">>
 		  <TMPL_VAR NAME="id_lep"> <TMPL_VAR NAME="ime"></option>
 		</TMPL_LOOP>
+		</select>
 		</TD>
 	</TR>
 	<TR>
@@ -85,6 +87,7 @@ function PreveriOdprte(form){
 		<option value="<TMPL_VAR NAME="datum">" <TMPL_VAR NAME="selected">>
 			<TMPL_VAR NAME="datum"></option>
 		</TMPL_LOOP>
+		</select>
 		</TD>
 	</TR>
 	<TR>
@@ -96,6 +99,13 @@ function PreveriOdprte(form){
 			<option value="<TMPL_VAR NAME="id">" <TMPL_VAR NAME="selected">>
 				<TMPL_VAR NAME="id"> <TMPL_VAR NAME="ime"></option>
 			</TMPL_LOOP>
+			</select>
+		</TD>
+	</TR>
+	<TR>
+		<td><label for="edb_posta"> Ne dovoli poste:</label></td>
+		<TD>
+			<input type="checkbox" name="edb_posta" id="edb_posta" value="1">	
 		</TD>
 	</TR>
 	<TR>
