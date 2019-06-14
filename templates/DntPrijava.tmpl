@@ -1,0 +1,61 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<head>
+<title>Donator - <TMPL_VAR NAME=IME_DOKUMENTA></title>
+<link rel="stylesheet" href="/static/izgled4.css" type="text/css" media="all" />
+<SCRIPT LANGUAGE="JavaScript" 
+	 SRC="/static/funkcije.js"></SCRIPT>
+</head>
+<body>
+<div id="banner"><h1>D O N A T O R</h1></div>
+<form name="myForm" method="post" action="?rm=Prijavi">
+<input type="hidden" name="uredi" value="<tmpl_var name=edb_uredi>" />
+<div id="centercontent">
+	<TMPL_VAR NAME=MENU_POT>
+	<p>
+	<strong><i><TMPL_VAR NAME=IME_DOKUMENTA></i></strong> <TMPL_VAR NAME=POMOC>	
+	<tmpl_if name="logged">
+	<br />
+	<br />
+	Prijavljeni ste z uporabniskim imenom
+	<strong><tmpl_var name="uporabnik"></strong>. <br /> <br />
+	<i>Se zelite <a href="?rm=odjavi">odjaviti</a>?</i>
+	<tmpl_else>
+	<table border="1" >            
+		
+		<tr>
+			<td>Uporabnisko ime: </td>
+			<td>
+			  <input type="text" name="edb_ime" id="edb_ime" size="22"
+					 maxlength="80"	value="<tmpl_var name=edb_ime>" >
+		   </td>
+		</tr>
+		<tr>
+			<td>Geslo:</td>
+			<td>                  
+			  <input type="password"  name="edb_geslo" id="edb_geslo"
+					 size="22" maxlength="80" value="<tmpl_var name=edb_geslo>">
+			</td>
+		</tr>
+		<tr>
+			<td>Zapomni:</td>
+			<td>                  
+			  <input type="checkbox" name="edb_zapomni" id="edb_zapomni"
+				size="22" maxlength="80" value="1" <tmpl_var name=edb_zapomni>>
+			</td>
+		</tr>		
+	</table>
+	<input type="hidden" name="url" value = "<tmpl_var name=return>">
+	<INPUT TYPE="submit"  NAME ="rm" VALUE="Prijavi">
+	</tmpl_if>
+	<!--
+	 <input type="hidden" name="uporabnik" value="<TMPL_VAR NAME=uporabnik>" />
+	-->
+	<input type="hidden" name="seja" value="<TMPL_VAR NAME=seja>" />
+	<!--<a href="?rm=registracija">Registracija</a>-->		
+</div>
+<TMPL_INCLUDE NAME="DntMenu.tmpl">
+</form>
+
+</body>
+</html>
+

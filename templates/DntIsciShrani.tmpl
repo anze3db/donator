@@ -1,0 +1,48 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<head>
+    <title>Donator - dodaj klic</title>
+    <link rel="stylesheet" href="/static/izgled4.css" type="text/css" media="all" />
+	<LINK REL=StyleSheet HREF="/static/weeklycalendar/calendar.css" TYPE="text/css">
+		<SCRIPT LANGUAGE="JavaScript" 
+         SRC="/static/funkcije.js"></SCRIPT>
+	
+
+</head>
+<body onload="NastaviUrl()">
+	<script>
+	
+function NastaviUrl(){
+	
+	document.getElementById('url').value=opener.document.forms[0].elements['url'].value;
+}
+
+	</script>
+
+
+	<strong><i><TMPL_VAR NAME=IME_DOKUMENTA></i></strong> <tmpl_var name="POMOC">
+	<tmpl_if name=shranjeno>
+		<br />
+		<br />
+	<i>Iskanje je bilo shranjeno</i>	
+	<tmpl_else>
+	<form name="myForm"> 
+	<table border="1px" id="tabela">
+		<tr>
+		<td>Ime iskanja:</td><td><input type="text" name="ime" value=""></td>
+		</tr>
+		<tr>
+		<td>Url iskanja:</td><td><input type="text" readonly="true"
+						name="url" id="url" value="<tmpl_var name=url>"></td>
+		</tr>
+	</table>
+	<tmpl_var name=edb_error>
+	<input type="hidden" value="I" name="edb_tip"/> 
+	<input type="submit" value="Shrani" name="rm"/>
+	</tmpl_if>
+	<input type="button" value="zapri" onclick="javascript:window.close()"/>
+	</from>
+
+	</div>
+
+</body>
+</html>

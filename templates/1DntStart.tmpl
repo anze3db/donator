@@ -1,0 +1,27 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<head>
+    <title>Donator - zacetek</title>
+    <link rel="stylesheet" href="/static/izgled4.css" type="text/css" media="all" />
+</head>
+<body>
+    <div id="banner"><h1>D O N A T O R</h1></div>
+    <form name="myForm" value="Vpis_uporabnika">        
+    <div id="centercontent">
+        
+        
+        <strong><i><TMPL_VAR NAME=IME_DOKUMENTA></i></strong>            
+            <!--
+             <input type="hidden" name="uporabnik" value="<TMPL_VAR NAME=uporabnik>" />
+            -->
+            <input type="hidden" name="seja" value="<TMPL_VAR NAME=seja>" />
+            <TMPL_VAR NAME=SCRIPT>
+            <TMPL_VAR NAME=MENU_POT>
+            <tmpl_if some_errors>Napaka v dokumentu</tmpl_if>
+            <b><i><TMPL_VAR NAME=SPOROCILO></i></b>
+            <TMPL_VAR NAME=TABELA>
+    </div>
+    <TMPL_INCLUDE NAME="DntMenu.tmpl">    
+    </form>
+    
+</body>
+</html>

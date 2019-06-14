@@ -1,0 +1,80 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<head>
+<title>Donator - <TMPL_VAR NAME=IME_DOKUMENTA></title>
+<link rel="stylesheet" href="/static/izgled4.css" type="text/css" media="all" />
+<LINK REL=StyleSheet HREF="/static/weeklycalendar/calendar.css" TYPE="text/css">
+<SCRIPT LANGUAGE="JavaScript" 
+	SRC="/static/funkcije.js"></SCRIPT>
+</head>
+<body>
+<script>
+
+function Zapri(frm, id, vrednost, vrstica){
+	opener.SkrijFizicna();
+
+	
+	var naslov = document.getElementById('tabela').rows[vrstica].cells[2].childNodes[0].data;
+	var dz = document.getElementById('tabela').rows[vrstica].cells[3].childNodes[0].data;
+	var arr = naslov.split(",");
+	var ulica = "";
+	var st = "";
+	var naslov = arr[0].split(' ');
+	for(var i in naslov){
+		if(!isNaN(naslov[i])){
+			st += naslov.splice(i, naslov.length - i).join(' '); 			
+			break;		
+		}
+
+		ulica += naslov[i] + " ";
+	}
+	arr[1] = trim(arr[1]);
+	var postnaSt = arr[1].substr(0, arr[1].indexOf(" "));
+	var posta = arr[1].substr(arr[1].indexOf(" "), arr[1].length);
+
+	opener.document.forms[frm].elements[id].value = trim(vrednost);
+	if(vrstica.length>0){
+		opener.document.getElementById('edb_podjetje').value = trim(document.getElementById('tabela').rows[vrstica].cells[1].childNodes[0].data);
+		opener.document.getElementById('edb_ulica').value = trim(ulica);
+		opener.document.getElementById('edb_hisnaSt').value = trim(st);
+		opener.document.getElementById('edb_postnaSt').value = trim(postnaSt);
+		opener.document.getElementById('edb_postnaSt2').value = trim(posta);
+		if(dz == 1){
+			opener.document.getElementById('davcniZavezanec').checked = true;
+		}
+		else{
+			opener.document.getElementById('davcniZavezanec').checked = false;
+		}
+	}
+	self.close();
+   
+}
+
+</script>
+<strong><i><TMPL_VAR NAME=IME_DOKUMENTA></i></strong> <tmpl_var name="POMOC">
+<table border="1px" id="tabela">
+ <th>Davcna st.</th>
+ <th>Podjetje</th>
+ <th>Naslov</th>
+ <th>Davcni zavezanec</th>
+<TMPL_LOOP NAME="edb_loop"> 
+<tr>
+<td>
+	<input type="button"
+		   onclick="Zapri('myForm', '<TMPL_VAR NAME="insertId">','<TMPL_VAR NAME="davcna">', '<TMPL_VAR NAME="vrstica">')"
+		   value="<TMPL_VAR NAME="davcna">" />
+</td>
+<td><TMPL_VAR NAME="podjetje"></td>
+<td><TMPL_VAR NAME="naslov"></td>
+<td><TMPL_VAR NAME="ddv"></td>
+<td>
+	<TMPL_VAR NAME="posta"></td>
+</tr>
+</TMPL_LOOP>
+<tmpl_var name=edb_error>	
+<input type="button" value="zapri" onclick="javascript:window.close()"/>
+
+
+</div>
+
+</body>
+</html>

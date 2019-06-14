@@ -1,0 +1,4 @@
+[% INCLUDE header.tt2 %]
+This is the other page.
+<hr />
+[% INCLUDE footer.tt2 %]

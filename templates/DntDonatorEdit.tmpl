@@ -1,0 +1,621 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<head>
+<title>Donator - uredi</title>
+<link rel="stylesheet" href="/static/izgled4.css" type="text/css" media="all" />
+<script src="/static/jquery.js"></script>
+<SCRIPT LANGUAGE="JavaScript" 
+ SRC="/static/funkcije.js"></SCRIPT>
+<script>
+
+$(document).ready(function() {
+    $.fn.busyChange = function(func){
+    	/** Checks for a change ever 1/10s. Do not overuse! :D */
+    	var element = this;
+    	if($(element).length==0) return;
+    	var tmp = this.val();
+    	setInterval(function(){
+    		if(tmp != element.val()){
+    			tmp = element.val();
+    			func();
+    		}
+    	}, 100);
+    	
+    };
+    $("#tax_warn").hide();
+    $("#edb_davcnaSt").busyChange(function(){
+        $.get('/DntDonatorji.cgi?rm=check', {'davcna': $("#edb_davcnaSt").val()}, function(data){
+            console.log($("#edb_isci"));
+            
+            <TMPL_IF NAME = "edb_isci">
+            var href = "/DntDonatorji.cgi?rm=Prikazi&isci=1&edb_davcna=" + $("#edb_davcnaSt").val();
+            <TMPL_ELSE>
+            var href = '/DntDonatorji.cgi?rm=uredi_donatorja&id_donor=' + data;
+            </TMPL_IF>
+            
+            
+            if(data != "" && data != $("#edb_id").val()){
+                $("#tax_warn").attr('href', href);
+                $("#tax_warn").show();
+            }
+            else{
+                $("#tax_warn").hide();
+            }
+        });
+    });
+});
+
+function SkrijFizicna()
+{
+    document.myForm['edb_podjetje'].disabled = false;
+    document.getElementById('podjetje_b').style.fontWeight='bold';
+    document.getElementById('ime').style.fontWeight='normal';
+    document.getElementById('priimek').style.fontWeight='normal';
+    document.getElementById('edb_status2').checked = true;
+    
+}
+function PokaziFizicna()
+{
+    document.myForm['edb_podjetje'].disabled = true;
+    document.getElementById('podjetje_b').style.fontWeight='normal';
+    document.getElementById('ime').style.fontWeight='bold';
+    document.getElementById('priimek').style.fontWeight='bold';
+}
+
+
+function Uredi()
+{
+    document.myForm['edb_status1'].disabled = false;
+    document.myForm['edb_status2'].disabled = false;
+    document.myForm['edb_prednaziv'].disabled = false;
+    if(document.myForm['edb_status2'].checked == true){
+        document.myForm['edb_podjetje'].disabled = false;
+        document.getElementById('podjetje_b').style.fontWeight='bold';
+        document.getElementById('ime').style.fontWeight='normal';
+        document.getElementById('priimek').style.fontWeight='normal';
+    }
+    else{
+        document.getElementById('podjetje_b').style.fontWeight='normal';
+        document.getElementById('ime').style.fontWeight='bold';
+        document.getElementById('priimek').style.fontWeight='bold';
+    }
+    document.getElementById('ulica').style.fontWeight='bold';            
+    document.myForm['edb_ime'].readOnly = false;
+    document.myForm['edb_ime'].focus();
+    document.myForm['prenesiGumb'].disabled = false;
+    document.myForm['upokojenec'].disabled = false;
+    document.myForm['edb_priimek'].readOnly = false;
+    document.myForm['edb_ulica'].readOnly = false;
+    document.myForm['edb_hisnaSt'].readOnly = false;
+    document.myForm['edb_postnaSt'].readOnly = false;
+    document.myForm['edb_davcnaSt'].readOnly = false;
+    document.myForm['davcniZavezanec'].disabled = false;
+    document.myForm['edb_status'].readOnly = false;
+    document.myForm['edb_danRojstva'].readOnly = false;
+    document.myForm['edb_mesecRojstva'].readOnly = false;
+    document.myForm['edb_letoRojstva'].readOnly = false;
+    document.myForm['edb_emso'].readOnly = false;
+    document.myForm['edb_osebniDokument'].readOnly = false;
+    document.myForm['edb_stOsebnegaDokumenta'].readOnly = false;
+    document.myForm['edb_poEmail'].readOnly = false;
+    document.myForm['edb_poUlica'].readOnly = false;
+    document.myForm['edb_poHisnaSt'].readOnly = false;
+    document.myForm['edb_poPostnaSt'].readOnly = false;
+    document.myForm['edb_oznaci'].disabled = false;
+    document.myForm['edb_odznaci'].disabled = false;
+    document.myForm['edb_dovoliEmail'].disabled = false;
+    document.myForm['edb_dovoliPosta'].disabled = false;
+    document.myForm['edb_cestitka'].disabled = false;
+    document.myForm['edb_novoLeto'].disabled = false;
+    document.myForm['edb_zahvala'].disabled = false;
+    document.myForm['edb_ponudba'].disabled = false;
+    document.myForm['edb_posebniDonator'].disabled = false;
+    document.myForm['edb_aktivniDonator'].disabled = false;
+    document.myForm['shrani'].disabled = false;
+    document.myForm['telefonLink'].disabled = false;
+    document.myForm['klicLink'].disabled = false;
+    document.myForm['komentarLink'].disabled = false;
+    document.myForm['postButton'].disabled = false;
+    document.myForm['taxButton'].disabled = false;
+    document.myForm['postButton2'].disabled = false;
+    
+}
+
+function PrenesiVrednosti(){
+    document.myForm['edb_poUlica'].value=document.myForm['edb_ulica'].value;
+    document.myForm['edb_poHisnaSt'].value=document.myForm['edb_hisnaSt'].value;
+    document.myForm['edb_poPostnaSt'].value=document.myForm['edb_postnaSt'].value;
+    
+}
+function CheckAll(field)
+{
+    document.myForm['edb_dovoliEmail'].checked = true;
+    document.myForm['edb_dovoliPosta'].checked = true;
+    document.myForm['edb_cestitka'].checked = true;
+    document.myForm['edb_zahvala'].checked = true;
+    document.myForm['edb_ponudba'].checked = true;
+    document.myForm['edb_novoLeto'].checked = true;
+}
+  
+function UnCheckAll(field)
+{
+    document.myForm['edb_dovoliEmail'].checked = false;
+    document.myForm['edb_dovoliPosta'].checked = false;
+    document.myForm['edb_cestitka'].checked = false;
+    document.myForm['edb_zahvala'].checked = false;
+    document.myForm['edb_ponudba'].checked = false;
+    document.myForm['edb_novoLeto'].checked = false;
+}
+
+function Prenesi(){
+    
+    var source=document.getElementById("edb_ulica");
+    var field=document.getElementById("edb_poUlica");
+    var source2=document.getElementById("edb_hisnaSt");
+    var field2=document.getElementById("edb_poHisnaSt");
+    var source3=document.getElementById("edb_postnaSt");
+    var field3=document.getElementById("edb_poPostnaSt");
+    
+    field.value=source.value;
+    field2.value=source2.value;
+    field3.value=source3.value;
+    document.myForm['edb_poPostnaSt2'].value=document.myForm['edb_postnaSt2'].value;
+}
+
+function Posta(ID1, ID2){
+    
+    var posta = new Array();
+    var polje = document.getElementById(ID1);
+    var polje2 = document.getElementById(ID2);
+    
+    
+    
+    <TMPL_LOOP NAME="edb_loop4">
+    posta['<TMPL_VAR NAME="id_post">']='<TMPL_VAR NAME="name_post">';
+    </TMPL_LOOP>
+    
+   // alert("izbrana posta="+posta[polje.value]);
+    polje2.value=posta[polje.value];
+}
+
+function PostaSeznam(ID){
+    
+    var polje = document.getElementById(ID);
+    var link = "?rm=posta&insert="+ID+"&st="+polje.value;
+    var handle = window.open(link,"donatorji","status=1, height=500, width=250, scrollbars=1, resizable=1");
+    if(window.focus)
+        handle.focus();
+}
+function DavcnaSeznam(ID){
+
+    var polje = document.getElementById(ID);
+    var link = "?rm=davcna&insert="+ID+"&st="+polje.value;
+    var handle = window.open(link,"davcne","status=1, height=500, width=750, scrollbars=1, resizable=1");
+    if(window.focus)
+        handle.focus();
+}
+
+
+function CheckFields(){          
+    
+    var error="Nekatera obvezna polja so prazna:\n";
+    var error2="Nekatera obvezna polja so prazna:\n";            
+    var id=trim(document.getElementById('edb_id').value);
+    var podjetje=trim(document.getElementById('edb_podjetje').value);
+    var ime=trim(document.getElementById('edb_ime').value);
+    var priimek=trim(document.getElementById('edb_priimek').value);
+    var ulica=trim(document.getElementById('edb_ulica').value);
+    var hisnaSt=trim(document.getElementById('edb_hisnaSt').value);
+    var posta=trim(document.getElementById('edb_postnaSt').value);
+    var davcna=trim(document.getElementById('edb_davcnaSt').value);
+    var pravna=document.getElementById('edb_status2').checked;
+    
+    var ulicaPo=trim(document.getElementById('edb_poUlica').value);
+    var hisnaStPo=trim(document.getElementById('edb_poHisnaSt').value);
+    var postaPo=trim(document.getElementById('edb_poPostnaSt').value);
+
+    if(podjetje.length==0 && pravna)
+        error=error+"- podjetje \n";
+    if(davcna.length==0 && pravna)
+        error=error+"- davcna \n";
+    if(ime.length==0 && !pravna)
+        error=error+"- ime \n";            
+    if(priimek.length==0 && !pravna)
+        error=error+"- priimek \n";
+    if(ulica.length==0)
+        error=error+"- ulica \n";
+    if(hisnaSt.length==0)
+        error=error+"- hisna st. \n";
+    if(posta.length==0)
+        error=error+"- postna st. \n";
+    if(ulicaPo.length==0)
+        error=error+"- ulica posiljanja \n";
+    if(hisnaStPo.length==0)
+        error=error+"- hisna st. posiljanja \n";
+    if(postaPo.length==0)
+        error=error+"- postna st. posiljanja \n";   
+    if(error.length!=error2.length)
+        alert(error);
+    else{    
+        document.myForm.submit();
+    }            
+}
+
+
+</script>
+</head>
+
+<body <TMPL_VAR NAME=edb_onload>>
+<TMPL_UNLESS NAME = "edb_isci">
+<div id="banner"><h1>D O N A T O R</h1></div>
+      
+<div id="centercontent">
+</TMPL_UNLESS>
+<form name="myForm" value="Vpis_uporabnika" onsubmit="?rm=spremeni">      
+    <TMPL_VAR NAME=MENU_POT>
+    <p>
+    
+    <div style="float:left">
+    <strong><i><TMPL_VAR NAME=IME_DOKUMENTA></i></strong> <TMPL_VAR NAME=POMOC>
+    <table border="1" >
+        <input type="hidden" name="hiddenId" value="donator" />
+        <input type="hidden" name="rm" value="shrani" />
+        <input type="hidden" name="ui" value="<tmpl_var name=edb_unique_id>" />
+        <tr>
+            <td >ID:</td>
+            <td >                  
+              <input style="width: 50px;" type="ime" readonly="readonly"
+                     name="edb_id" id="edb_id" size="22" maxlength="80"
+                     value="<tmpl_var name=edb_id>">
+            </td>
+        </tr>
+        
+        <tr>
+            <td >Status:</td>
+            <td >                  
+              <label><input type="radio" value="0"
+                    onclick="PokaziFizicna()" <tmpl_var name=edb_statusF>
+                    name="edb_status" id="edb_status1" disabled="disabled">
+                    fizicna</label>
+              <label><input type="radio" value="1"
+                    onclick="SkrijFizicna()" name="edb_status"
+                    id="edb_status2" <tmpl_var name=edb_statusP>
+                    disabled="disabled">pravna</label>
+            </td>
+        </tr>
+        
+        <tr>
+            <td ><span id="podjetje_b">Podjetje:</span></td>
+            <td>                  
+              <textarea name="edb_podjetje" id="edb_podjetje"
+                disabled="disabled"><tmpl_var name=edb_podjetje></textarea>
+            </td>
+        </tr>
+        
+        <tr>
+            <td >Prednaziv:</td>
+            <td >                  
+              <select name="edb_prednaziv" id="edb_prednaziv"
+                      selected="<tmpl_var name=edb_prednaziv>"
+                      disabled=disabled size=1>
+                <option></option>
+                <option <tmpl_var name=edb_gospod>>Gospod</option>
+                <option <tmpl_var name=edb_gospa>>Gospa</option>
+              </select>
+                
+            </td>
+        </tr>
+        
+        <tr>
+            <td >Upokojenec.:</td>
+            <td>
+                <input type="checkbox"  name="upokojenec" id="upokojenec"
+                       size="22" <tmpl_var name=edb_upokojenec> DISABLED>
+            </td>
+        </tr>
+        
+        <tr>
+            <td ><span id="ime">Ime:</span></td>
+            <td >                  
+              <input style="width:100%;" type="ime"  name="edb_ime"
+                     id="edb_ime" size="22" maxlength="80"
+                     value="<tmpl_var name=edb_ime>"readonly="readonly">
+            </td>
+        </tr>
+        <tr>
+            <td ><span id="priimek">Priimek:</span></td>
+            <td >
+              <input style="width:100%;" type="priimek"  name="edb_priimek"
+                     id="edb_priimek" size="22" maxlength="80"
+                     value="<tmpl_var name=edb_priimek>"readonly="readonly">
+           </td>
+        </tr>
+        <tr>
+            <td><span id="ulica">Ulica:</span></td>
+            <td >
+              <input style="width:110px;" type="ulica"  name="edb_ulica"
+                     id="edb_ulica" size="22" maxlength="80"
+                     value="<tmpl_var name=edb_ulica>"readonly="readonly">
+              <input style="width: 40px;" type="ulica"  name="edb_hisnaSt"
+                     id="edb_hisnaSt" size="22" maxlength="80"
+                     value="<tmpl_var name=edb_hisnaSt>"readonly="readonly">
+           </td>
+        </tr>
+
+        
+        <tr>
+            <td >
+            <input type="button" onclick="PostaSeznam('edb_postnaSt')"
+                    id="postButton" value="Postna st.:"
+                    disabled="disabled"/>
+            </td>
+            <td >
+              <input style="width: 50px;" type="ulica"
+                     onblur="Posta('edb_postnaSt', 'edb_postnaSt2')"
+                     name="edb_postnaSt" id="edb_postnaSt" size="22"
+                     maxlength="80" value="<tmpl_var name=edb_postnaSt>"
+                     readonly="true"> 
+               <input style="width: 140px;" type="ulica" name="edb_postnaSt2"
+                      id="edb_postnaSt2" size="22" maxlength="80"
+                value="<tmpl_var name=edb_imePoste>" readonly="readonly">
+           </td>                
+        </tr>
+        <tr>
+            <td> <input type="button" onclick="DavcnaSeznam('edb_davcnaSt')"
+                    id="taxButton" value="Davcna st.:"
+                    disabled="disabled"/>
+                 <a id="tax_warn" href="/DntDonatorji.cgi?rm=uredi_donatorja&id_donor=" title="Donator s to davcno je bil ze vnesen">!!!</a>
+            </td>
+            <td >
+              <input style="width:100%;" type="text"  name="edb_davcnaSt"
+                     id="edb_davcnaSt" size="22" maxlength="80"
+                value="<tmpl_var name=edb_davcnaSt>"readonly="readonly">
+           </td>
+        </tr>
+        
+        <tr>
+            <td>Davcni zavezanec</td>
+            <td><input type="checkbox"  name="davcniZavezanec"
+                       id="davcniZavezanec" size="22" maxlength="80"
+                <tmpl_var name=edb_davcniZavezanec> DISABLED>
+            </td>
+        </tr>
+        
+        
+        
+        <tr>
+            <td >Datum rojstva:</td>
+            <td >
+              <input style="width:20px;" type="text"  name="edb_danRojstva"
+                     id="edb_danRojstva" size="22" maxlength="80"
+                value="<tmpl_var name=edb_danRojstva>"readonly="readonly"> /
+                <input style="width:20px;" type="text"  name="edb_mesecRojstva"
+                       id="edb_mesecRojstva" size="22" maxlength="80"
+                value="<tmpl_var name=edb_mesecRojstva>"readonly="readonly"> /
+                <input style="width:40px;" type="text"  name="edb_letoRojstva"
+                       id="edb_letoRojstva" size="22" maxlength="80"
+                value="<tmpl_var name=edb_letoRojstva>"readonly="readonly">
+                <span style="font-size: 9px;"> dd/mm/llll</span>
+           </td>
+        </tr>
+        
+        <tr>
+            <td >EMSO:</td>
+            <td >
+              <input style="width:100%;" type="ulica"  name="edb_emso"
+                     id="edb_emso" size="22" maxlength="80"
+                value="<tmpl_var name=edb_emso>"readonly="readonly">
+           </td>
+        </tr>
+        
+        <tr>
+            <td >Osebni dokument:</td>
+            <td >
+            <input style="width:100%;" type="ulica" name="edb_osebniDokument"
+                   id="edb_osebniDokument" size="22" maxlength="80"
+              value="<tmpl_var name=edb_osebniDokument>"readonly="readonly">
+           </td>
+        </tr>
+        
+        <tr>
+            <td >St. os. dok.:</td>
+            <td >
+              <input style="width:100%;" type="ulica"
+                name="edb_stOsebnegaDokumenta" id="edb_stOsebnegaDokumenta"
+                size="22" maxlength="80" readonly="readonly"
+                value="<tmpl_var name=edb_stOsebnegaDokumenta>">
+           </td>
+        </tr>
+    </table>
+    
+    </div>
+    <div style="float:left">
+    <strong><i><TMPL_VAR NAME=IME_DOKUMENTA2></i></strong>
+    <table border="1" >           
+    <tr>
+        <td >Elektronska posta: </td>
+        <td>                    
+          <input type="ime" style="width:100%;" name="edb_poEmail"
+                 id="edb_poEmail" size="22" maxlength="80"
+            value="<tmpl_var name=edb_poEmail>"readonly="readonly">
+       </td>
+    </tr>
+    
+    <tr>
+        <td><strong>Ulica:</strong> <input type="button" value="prenesi" id="prenesiGumb"
+                    disabled="disabled" onclick="Prenesi()" /></td>
+        <td>
+          <input style="width: 110px;" type="ulica"  name="edb_poUlica"
+                 id="edb_poUlica" size="22" maxlength="80"
+            value="<tmpl_var name=edb_poUlica>"readonly="readonly">
+       
+         
+          <input style="width: 40px;" type="ime"  name="edb_poHisnaSt"
+                 id="edb_poHisnaSt" size="22" maxlength="80"
+            value="<tmpl_var name=edb_poHisnaSt>"readonly="readonly">
+            
+        </td>
+    </tr>
+     
+    <tr>
+        <td><input type="button" onclick="PostaSeznam('edb_poPostnaSt')"
+        id="postButton2" value="Postna st.:" disabled="disabled"/></td>
+        <td>                  
+        <input style="width: 50px;" type="ime"  name="edb_poPostnaSt"
+               onblur="Posta('edb_poPostnaSt', 'edb_poPostnaSt2')"
+               id="edb_poPostnaSt" size="22" maxlength="80"
+          value="<tmpl_var name=edb_poPostnaSt>"readonly="readonly">
+        <input style="width: 140px;" type="ulica" name="edb_poPostnaSt2"
+               id="edb_poPostnaSt2" size="22" maxlength="80"
+        value="<tmpl_var name=edb_imePoste2>"readonly="readonly">
+        </td>
+    </tr>
+    <tr>
+        <td >Ne dovoljujem posiljanje:<br />
+        <INPUT TYPE="button" id="edb_oznaci" style="width:85px;"
+               NAME ="oznaci_vse" value ="oznaci vse"
+               onClick="CheckAll(document.myForm.hid_izbrani_obroki)"
+               DISABLED/><br />
+        <INPUT TYPE="button" style="width:85px;" id="edb_odznaci"
+               NAME ="odznaci_vse" value ="odznaci vse"
+               onClick="UnCheckAll(document.myForm.hid_izbrani_obroki)"
+               DISABLED/>
+        </td>
+        <td >                  
+          <label><input type="checkbox"  name="edb_dovoliEmail"
+                        id="edb_dovoliEmail" size="22" maxlength="80"
+            value="1" <tmpl_var name=edb_dovoliEmail>
+            disabled="disabled">email</label>
+          <label><input type="checkbox"  name="edb_dovoliPosta"
+                        id="edb_dovoliPosta" size="22" maxlength="80"
+            value="1" <tmpl_var name=edb_dovoliPosta>
+            disabled="disabled">posta</label>
+          <br /><label><input type="checkbox"  name="edb_cestitka"
+                              id="edb_cestitka" size="22" maxlength="80"
+            value="1" <tmpl_var name=edb_cestitka>
+            disabled="disabled">cestitka</label>
+          <label><input type="checkbox"  name="edb_novoLeto"
+                        id="edb_novoLeto" size="22" maxlength="80"
+            value="1" <tmpl_var name=edb_novoLeto>
+            disabled="disabled">novo leto</label>
+          <br /><label><input type="checkbox"  name="edb_zahvala"
+                              id="edb_zahvala" size="22" maxlength="80"
+            value="1" <tmpl_var name=edb_zahvala>
+            disabled="disabled">zahvala</label>
+          <label><input type="checkbox"  name="edb_ponudba"
+                        id="edb_ponudba" size="22" maxlength="80"
+            value="1" <tmpl_var name=edb_ponudba>
+            disabled="disabled">ponudba</label>
+        </td>
+    </tr>
+    <tr>
+        <td >Poseben donator:</td>
+        <td >
+        <input type="checkbox" name="edb_posebniDonator" id="edb_posebniDonator" 
+          value="1" <tmpl_var name=edb_posebniDonator> DISABLED>
+       </td>
+    </tr>
+    <tr>
+        <td >Aktiven donator:</td>
+        <td >
+        <input type="checkbox" name="edb_aktivniDonator" id="edb_aktivniDonator" 
+          value="1" <tmpl_var name=edb_aktivniDonator> DISABLED>
+       </td>
+    </tr>
+     <tr>
+        <td colspan="2"><span <tmpl_var name=edb_countPhones>>Telefon</span>
+        <input type="button" <tmpl_var name=edb_disabled> value="pokazi"
+        onclick="popup('?rm=donator_telefon&amp;id_donor=<tmpl_var name=edb_id>&amp;ui=<tmpl_var name=edb_unique_id>')" id="telefonLink" disabled="disabled" />                
+        
+        
+        </td>
+        
+    </tr>
+    <tr>
+        <td  colspan="2"><span <tmpl_var name=edb_countCalls>>Klici</span>
+        <input type="button" <tmpl_var name=edb_disabled> value="pokazi"
+        onclick="popup('?rm=donator_klici&amp;id_donor=<tmpl_var name=edb_id>&amp;ui=<tmpl_var name=edb_unique_id>')" id="klicLink" disabled="disabled" />
+        </td>
+    </tr>            
+    <tr>        
+    </tr>
+    <tr>
+        <td  colspan="2"><span <tmpl_var name=edb_countComments>">Komentar</span>
+        <input class="buttonLink" <tmpl_var name=edb_disabled>
+        type="button"
+        onclick="popup('?rm=donator_komentar&amp;id_donor=<tmpl_var name=edb_id>&amp;ui=<tmpl_var name=edb_unique_id>')"
+        value="pokazi" id="komentarLink" disabled="disabled" />
+    </tr>    
+    </table>  
+    
+    </div>
+    <div style="float:left;">
+         <strong><i>Pogodbe</i></strong>
+    <TABLE BORDER=1>
+        
+            <TR>
+                <TD><B>Izbor</B></TD>
+                <TD><B>pogodba</B></TD>
+                <TD><B>status</B></TD>
+                <!--<td style="text-align:center;">
+                <input type="checkbox" name="izberiVse" value=""
+                       id="izberiVse" onClick="IzberiVse(this.id)" />
+                <strong >Brisi</strong>
+                </td>-->
+            </TR>
+            <!--
+ <input type="hidden" name="rm" id="rm" value="zbrisi" />
+     <input type="hidden" name="brisi" value="pogodba" />
+    <input type="hidden" name="id_donor" value="<tmpl_var name=edb_id>" />
+         -->
+         <TMPL_LOOP NAME="edb_loop5">
+            
+            <TR>
+                <div id="navigation">
+                <TD><TMPL_VAR NAME="izbor"></TD>
+                </div>
+                <TD align="center"><TMPL_VAR NAME="id_agreement"></TD>
+                <TD><TMPL_VAR NAME="agreement_status"></TD>
+                <!--<TD style="text-align:center;">
+                <input type="checkbox" onclick="PreveriOznacene()"
+                       name="brisiId" value="<TMPL_VAR NAME="id_agreement">" />
+                </TD>-->
+            </TR>
+               
+            
+         </TMPL_LOOP>
+        <!--<tr>
+            <td colspan=2></td>
+            <td><input type="button" name="brisi"
+                onClick="Brisi()" value="brisi" /></td>
+        </tr>-->
+       </TABLE>      
+        
+    </div>
+    <div style="clear:left;"></div>           
+    
+<TMPL_IF NAME = "edb_isci">
+<input type="button"  name="btn_nazaj" value="Nazaj"
+       onclick="javascript:self.location='?rm=seznam&seja=&isci=1'" />
+<input type="hidden" name="isci" value="1" />
+<TMPL_ELSE>
+<input type="button"  name="btn_nazaj" value="Nazaj"
+       onclick="javascript:self.location='?rm=seznam&seja='" />
+
+</TMPL_IF>
+    <input type="button"  name="btn_uredi" value="Uredi" onclick="Uredi()" />
+    <input type="button" id="shrani" name="rm" value="shrani"
+           onClick="CheckFields()" DISABLED/>   
+   
+    
+    </form>    
+  
+    
+
+<TMPL_UNLESS NAME = "edb_isci">
+</div>
+<TMPL_INCLUDE NAME="DntMenu.tmpl">
+</TMPL_UNLESS>
+    
+    
+</body>
+</html>

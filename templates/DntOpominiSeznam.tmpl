@@ -1,0 +1,82 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<head>
+<title>Donator - <TMPL_VAR NAME=IME_DOKUMENTA></title>
+<link rel="stylesheet" href="/static/izgled4.css" type="text/css" media="all" />
+<SCRIPT LANGUAGE="JavaScript" 
+	 SRC="/static/funkcije.js"></SCRIPT>
+<LINK REL=StyleSheet HREF="/static/weeklycalendar/calendar.css" TYPE="text/css">
+<SCRIPT LANGUAGE="JavaScript" 
+	 SRC="/static/weeklycalendar/weeklycalendar.js"></SCRIPT>
+</head>
+<body>
+<script>
+
+// call the function to build the calendar
+// function's param specify the first day of week 
+// 0=Sunday, 1 = Monday, ..., 6=Saturday
+buildWeeklyCalendar(1);
+
+function Tiskaj(id){
+	
+	var link="?rm=tiskaj&amp;id="+id;
+	window.open(link, 'mywindow', 'height=250, width=300, scrollbars=1,resizable=1');              
+		   
+}
+</script>
+<div id="banner"><h1>D O N A T O R</h1></div>
+<form name="myForm">        
+<div id="centercontent">
+<TMPL_VAR NAME=MENU_POT>
+<p>
+<strong><i><TMPL_VAR NAME=IME_DOKUMENTA></i></strong> <TMPL_VAR NAME=POMOC>
+<br /><br />
+<!--
+<input name="uporabi_datum" id="uporabi_datum" onblur="DatumVnos(this.id)"
+	   size="12" maxlength="80" value="<tmpl_var name=uporabi_datum>"
+	   type="text">
+ attach the w_displayCalendar function to the onClick event 
+<input value="..." id="edb_koledar"
+	   onclick="w_displayCalendar('uporabi_datum',null);" type="button">
+<br /><br />-->
+ <strong>Stevilo izpisanih:</strong> <tmpl_var name="edb_stevilo">
+<br />
+<TABLE BORDER=1>		
+	<TR>
+	
+	<TD><label><input type="checkbox" name="izberiVse" value=""
+			   id="izberiVse" checked="true" onClick="IzberiVseIzvoz(this.id)" />
+		<B>Izbor</B></label></TD>
+	
+	<TMPL_LOOP NAME=edb_naslovi>		
+		<TD><B><TMPL_VAR NAME="naslov"></B></TD>		
+	</TMPL_LOOP>
+	<TD><B>Povezava</B></TD>
+	</TR>
+
+	<TMPL_LOOP NAME=edb_vsebina>		
+	<TR>
+		
+		<td align="center">
+		<input type="checkbox" checked="true" name="izberiId"
+			   onclick="PreveriOznaceneIzvoz()" value="<TMPL_VAR NAME="izbor">">
+		</td>
+		
+		<TMPL_LOOP NAME="loop">
+		<TD><TMPL_VAR NAME="vsebina"></TD>
+		</TMPL_LOOP>
+		<td>
+		<a href="DntPogodbe.cgi?rm=uredi_pogodbo&id_agreement=<TMPL_VAR NAME="link">&uredi=1&nazaj=opomini&return=<TMPL_VAR NAME="url">">
+		Uredi</a>
+		</td>
+	</TR>		
+	</TMPL_LOOP>			
+</TABLE>
+</form>
+<tmpl_var name="form">
+</div>
+<TMPL_INCLUDE NAME="DntMenu.tmpl">
+
+
+
+</body>
+</html>

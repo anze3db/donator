@@ -1,0 +1,171 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<head>
+<title>Donator - <TMPL_VAR NAME=IME_DOKUMENTA></title>
+<link rel="stylesheet" href="/static/izgled4.css" type="text/css" media="all" />
+<SCRIPT LANGUAGE="JavaScript" 
+	 SRC="/static/funkcije.js"></SCRIPT>
+<LINK REL=StyleSheet HREF="/static/weeklycalendar/calendar.css" TYPE="text/css">
+<SCRIPT LANGUAGE="JavaScript" 
+	 SRC="/static/weeklycalendar/weeklycalendar.js"></SCRIPT>
+</head>
+<body>
+<script>
+
+// call the function to build the calendar
+// function's param specify the first day of week 
+// 0=Sunday, 1 = Monday, ..., 6=Saturday
+buildWeeklyCalendar(1);
+
+function Tiskaj(id){
+	
+	var link="?rm=tiskaj&amp;id="+id;
+	window.open(link, 'mywindow', 'height=250, width=300, scrollbars=1,resizable=1');              
+		   
+}
+
+function PreveriOdprte(form){
+	
+	var vrni;
+	
+	if(form.odprte.checked){
+		if(form.edb_projekt.options[0].selected ||
+			form.edb_leto.options[0].selected ||
+			form.edb_dogodek.options[0].selected ||
+			form.edb_komercialist.options[0].selected)
+		{
+			alert("Izbrana morajo biti vsa polja!");
+			vrni=false;		
+		}
+	}
+	else
+		vrni=true;
+		
+	return vrni;
+}
+</script>
+<div id="banner"><h1>D O N A T O R</h1></div>
+<form name="myForm" onsubmit="javascript: return PreveriOdprte(this);">        
+<div id="centercontent">
+<TMPL_VAR NAME=MENU_POT>
+<p>
+<strong><i><TMPL_VAR NAME=IME_DOKUMENTA></i></strong> <TMPL_VAR NAME=POMOC>
+<div style="float:left;">
+<table border="1" >
+	<TR>
+		<td>Bremenitev:</td>
+		<TD>
+			<select name="edb_bremenitev" id="edb_bremenitev">
+			<option onclick="self.location='DntOpomini.cgi?rm=zacetek'"></option>
+			<option onclick="self.location='DntOpomini.cgi?rm=zacetek&bremenitev=1'"
+					<tmpl_var name=poloznica>
+					value="1">Poloznica</option>
+			<option onclick="self.location='DntOpomini.cgi?rm=zacetek&bremenitev=2'"
+					<tmpl_var name=racun>
+					value="2">Racun</option>
+		    </select>
+
+		</TD>
+	</TR>	
+	<TR>
+		<td>Projekt:</td>
+		<TD>
+		<select  name="edb_projekt" id="edb_projekt">
+		  <option></option>
+		<TMPL_LOOP NAME="edb_loop7">					 
+		  <option value="<TMPL_VAR NAME="id">" <TMPL_VAR NAME="selected">>
+		  <TMPL_VAR NAME="id_lep"> <TMPL_VAR NAME="ime"></option>
+		</TMPL_LOOP>
+		</select>
+		</TD>
+	</TR>
+	<TR>
+		<td>Leto:</td>
+		<TD>
+		<select name="edb_leto" id="edb_leto">
+		<option></option>
+		<TMPL_LOOP NAME="edb_loop6">
+		<option value="<TMPL_VAR NAME="datum">" <TMPL_VAR NAME="selected">>
+			<TMPL_VAR NAME="datum"></option>
+		</TMPL_LOOP>
+		</select>
+		</TD>
+	</TR>
+	<TR>
+		<td>Dogodek:</td>
+		<TD>
+			<select name="edb_dogodek" id="edb_dogodek">
+			<option></option>
+			<TMPL_LOOP NAME="edb_loop8">
+			<option value="<TMPL_VAR NAME="id">" <TMPL_VAR NAME="selected">>
+				<TMPL_VAR NAME="id"> <TMPL_VAR NAME="ime"></option>
+			</TMPL_LOOP>
+			</select>
+		</TD>
+	</TR>
+	<TR>
+		<td><label for="edb_posta"> Ne dovoli poste:</label></td>
+		<TD>
+			<input type="checkbox" name="edb_posta" id="edb_posta" value="1">	
+		</TD>
+	</TR>
+	<TR>
+	<td>Zapadlost:</td>
+	<td>
+	<input name="zapadlost" id="zapadlost" onblur="DatumVnos(this.id)"
+		   size="12" maxlength="80" value="<tmpl_var name=zapadlost>"
+		   type="text">
+	<!--  attach the w_displayCalendar function to the onClick event -->
+	<input value="..." id="edb_koledar"
+		   onclick="w_displayCalendar('zapadlost',null);" type="button">
+	
+	</td>
+	</TR>
+	</TABLE>
+	<TABLE>
+	<TR>
+		<TD>
+			<STRONG>Donatorji:</STRONG><br />
+			<select name="donatorji" style="height:320px;"
+					id="donatorji" <tmpl_var name=id_pogoj>"
+					multiple="true"  style="width:100%; height:100px">						
+			<TMPL_LOOP NAME="donatorji">	
+			  <option value="<TMPL_VAR NAME="column">" <tmpl_var name=selected>><TMPL_VAR NAME="column_slo"></option>
+			</TMPL_LOOP>
+			</select>
+		</td>
+		<TD>
+			<STRONG>Pogodbe:</STRONG><br />
+			<select name="pogodbe" style="height:320px;"
+					id="pogodbe" <tmpl_var name=id_pogoj>"
+					multiple="true"  style="width:100%; height:100px">						
+			<TMPL_LOOP NAME="pogodbe">	
+			  <option value="<TMPL_VAR NAME="column">" <tmpl_var name=selected>><TMPL_VAR NAME="column_slo"></option>
+			</TMPL_LOOP>
+			</select>
+		</TD>
+	<!--
+		<TD>
+			<STRONG>Obroki:</STRONG><br />
+			<select name="obroki" id="obroki" <tmpl_var name=id_pogoj>"
+					multiple="true"  style="width:100%; height:100px">						
+			<TMPL_LOOP NAME="obroki">	
+			  <option value="<TMPL_VAR NAME="column">" <tmpl_var name=selected>><TMPL_VAR NAME="column_slo"></option>
+			</TMPL_LOOP>
+			</select>
+		</TD>
+	-->
+	</TR>
+</table>
+<br />
+<INPUT TYPE="submit"  NAME ="rm" VALUE="Prikazi">
+</div>
+
+</form>
+<div style="clear:both;"></div>	
+</div>
+<TMPL_INCLUDE NAME="DntMenu.tmpl">
+</form>
+
+</body>
+</html>
+

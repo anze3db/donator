@@ -1,0 +1,31 @@
+    <div id="leftcontent">
+        <div id="navigation">
+            <ul >
+                <li><span><a href="#">Sifranti</a></span>
+                    <ul>
+                        <li><a href="/DntStart.cgi?rm=Donatorji">Donatorji</a></li>
+                    </ul>
+                </li>
+                <li><span><a href="#">Pogodbe</a></span></li>
+                    <ul>
+                        <li><a href="/DntStart.cgi?rm=Pogodbe">Seznam pogodb</a></li>
+                        <li><a href="/DntPogodbe.cgi?rm=Zahtevki_za_zapiranje">Zahtevki za zapiranje</a></li>
+                    </ul>
+                <li><a href="#">Placila</a></li>
+                    <ul>
+                        <li><a href="#"><i>Branje datotek</i></a></li>
+                            <ul>
+                                <li><a href="/DntBranjeDatotek.cgi?rm=IzberiDatoteko"><i>Uvozi datoteke</i></a></li>
+                                <li><a href="/DntBranjeDatotek.cgi?rm=Nepotrjene_datoteke"><i>Nepotrjene datoteke</i></a></li>
+                            </ul>
+                        <li><a href="#">Rocni vnosi</a></li>
+                            <ul>
+                                <li><a href="/DntRocniVnosi.cgi?rm=zaporedne_stevilke">Zaporedne stevilke</a></li>
+                                <li><a href="/DntRocniVnosi.cgi?rm=Direktne_br_vnos_placil">Direktne bremenitve</a></li>
+                            </ul>
+                    </ul>
+                <li><a href="#">Odjava</a></li>
+            </ul>
+        </div>
+    </div>
+    

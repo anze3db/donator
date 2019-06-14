@@ -1,0 +1,8 @@
+<html>
+[% IF debug %]
+[% debug %]
+<hr>
+[% END %]
+<a href="[%myurl%]">Homepage</a>|
+<a href="[%myurl%]?rm=page1">The other page</a>|
+<hr>

@@ -1,0 +1,4 @@
+[% INCLUDE header.tt2 %]
+This is the home page.
+<hr />
+[% INCLUDE footer.tt2 %]

@@ -1,0 +1,93 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<head>
+    <title>Donator - zacetek</title>
+    <link rel="stylesheet" href="/static/izgled4.css" type="text/css" media="all" />
+    <LINK REL=StyleSheet HREF="/static/weeklycalendar/calendar.css" TYPE="text/css">
+</head>
+<SCRIPT LANGUAGE="JavaScript" 
+         SRC="/static/weeklycalendar/weeklycalendar.js"></SCRIPT>
+<body>
+    <div id="banner"><h1>D O N A T O R</h1></div>
+    <form name="myForm" value="Vpis_uporabnika">
+        <script language="javascript">
+            // call the function to build the calendar
+            // function's param specify the first day of week 
+            // 0=Sunday, 1 = Monday, ..., 6=Saturday
+            buildWeeklyCalendar(1);
+        </script>
+        <input type="hidden" name="spremeni_kaj" value="<TMPL_VAR NAME=spremeni_kaj>" />
+        <input type="hidden" name="hid_id_agreement" value="<TMPL_VAR NAME=hid_id_agreement>" />
+        <!--<input type="param" name="hid_spremeni_obroke" value="
+            <TMPL_LOOP NAME='spremeni_obroke_loop'>
+                <TMPL_VAR NAME='id_agreement'>
+                <TMPL_VAR NAME='installment_nr'>            
+            </TMPL_LOOP>"
+        /> -->        
+    <div id="centercontent">
+        <TMPL_VAR NAME=MENU_POT>
+        <TABLE BORDER=0>
+        <TR>
+            <TD><B>projekt</B></TD>
+            <TD><B><TMPL_VAR NAME=PROJEKT></B></TD>
+        </TR>
+        <TR>
+            <TD><B>dogodek</B></TD>
+            <TD><B><TMPL_VAR NAME=DOGODEK></B></TD>
+        </TR>
+        <TR>
+            <td style="height: 38px">od dne:</td><td style="height: 38px">
+                <!--  this is the datepicker input text -->    
+                <input type="text"  name="edb_od_dne" id="edb_od_dne" size="12" maxlength="80"
+                  value="<tmpl_var name=edb_od_dne>">
+                <!--  attach the w_displayCalendar function to the onClick event -->
+                <input type="button" value="..." 
+                   onClick="w_displayCalendar('edb_od_dne',null);">
+            </td>            
+        </TR>
+        <TR>
+            <td style="height: 38px">do dne:</td><td style="height: 38px">
+                <!--  this is the datepicker input text -->    
+                <input type="text"  name="edb_do_dne" id="edb_do_dne" size="12" maxlength="80"
+                  value="<tmpl_var name=edb_do_dne>">
+                <!--  attach the w_displayCalendar function to the onClick event -->
+                <input type="button" value="..." 
+                   onClick="w_displayCalendar('edb_do_dne',null);">
+            </td>            
+        </TR>
+        </TABLE>
+        <br>
+        <input type="submit"  name="rm" value="Prikazi zaprte"/>
+        <br>
+        <strong><i><TMPL_VAR NAME=IME_DOKUMENTA></i></strong>
+        
+
+         <TMPL_LOOP NAME="zahtevki_loop">
+            
+            <TR>
+                <div id="navigation">
+                    <TD><TMPL_VAR NAME="cb_agreement"></TD>
+                </div>
+                
+                <TD><TMPL_VAR NAME="pogodba"></TD>
+                <TD><TMPL_VAR NAME="datum_zahtevka"></TD>
+                <TD><TMPL_VAR NAME="ime"></TD>
+                <TD><TMPL_VAR NAME="priimek"></TD>
+                <TD><TMPL_VAR NAME="ulica"></TD>
+            </TR>
+            
+         </TMPL_LOOP>
+
+       </TABLE>
+        <TMPL_VAR NAME=potrdi_prebrano>
+        <br>
+        <TMPL_VAR NAME=POTRDI_GUMB>
+        <br>
+        
+        
+    </div>
+    
+    <TMPL_INCLUDE NAME="DntMenu.tmpl">
+    </form>
+    
+</body>
+</html>

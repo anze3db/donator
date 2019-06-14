@@ -1,0 +1,57 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<head>
+<title>Donator - dodaj telefon</title>
+<link rel="stylesheet" href="/static/izgled4.css" type="text/css" media="all" />
+	<SCRIPT LANGUAGE="JavaScript" 
+	 SRC="/static/funkcije.js"></SCRIPT>
+
+</head>
+<body <TMPL_VAR NAME=edb_onload>>
+
+	<p>
+	<strong><i><TMPL_VAR NAME=IME_DOKUMENTA></i></strong> <TMPL_VAR NAME=POMOC>
+	<table border="1" >
+		<form name="myForm" method="post" enctype="multipart/form-data" action="/outputHandler.cgi?izvor=sheet_print">
+			
+			<input type="hidden" value="sheet_print" name="izvor"/>
+		
+		<tr>
+			<td>ID:</td>
+			<td>                  
+			  <input type="text" readonly="readonly"
+				name="index" id="edb_root" size="22" maxlength="80"
+				value="<tmpl_var name=edb_root>">
+			</td>
+		</tr>
+		<tr>
+			<td>Od st.:</td>
+			<td>                  
+			   <input style="width: 40px;" type="text" name="content"
+				id="edb_odSt" size="22" maxlength="80"
+				value="<tmpl_var name=edb_odSt>">
+			</td>
+		</tr>
+		<tr>
+		
+			<td>Do st.:</td>
+			<td>                  
+			   <input style="width: 40px;" type="text" name="content"
+				id="edb_st" size="22" maxlength="80"
+				value="<tmpl_var name=edb_st>">
+			</td>
+		</tr>
+		<tr>
+			<td>Ime izvozne datoteke: </td>
+			<td>                  
+			  <input type="text" name="filename" id="filename" size="22"
+				maxlength="80" value="<tmpl_var name=edb_shrani>">
+			</td>
+		</tr>
+		
+			  
+	</table><br />
+<input type="button" onclick="window.close()" value="Zapri" />
+<input type="submit" value="Tiskaj" />
+</form>
+</body>
+</html>

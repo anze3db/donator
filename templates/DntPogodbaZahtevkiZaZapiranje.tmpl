@@ -1,0 +1,84 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<head>
+<title>Donator - <TMPL_VAR NAME=IME_DOKUMENTA></title>
+<link rel="stylesheet" href="/static/izgled4.css" type="text/css" media="all" />
+    <SCRIPT type="JavaScript" 
+     SRC="/static/funkcije.js"></SCRIPT>
+</head>
+
+<body>
+<div id="banner"><h1>D O N A T O R</h1></div>
+<form name="myForm" enctype = "multipart/form-data" action = "/outputHandler.cgi?izvor=zahtevki" method="post">
+<input type="hidden" name="izvor" value="zahtevki" />
+<input type="hidden" name="hid_id_agreement"
+       value="<TMPL_VAR NAME=hid_id_agreement>" />
+<input type="hidden" name="hid_kaj_dela" value="<TMPL_VAR NAME=hid_kaj_dela>" />
+<script type="javascript">
+    function CheckAll(field)
+    {
+        for (i=0; i< field.length; i++)
+            field[i].checked = true;
+    }
+    
+    function UnCheckAll(field)
+    {
+        for (i=0; i< field.length; i++)
+            field[i].checked = false;
+    }
+</script>
+<div id="centercontent">
+    <TMPL_VAR NAME=MENU_POT>
+    <TMPL_VAR NAME=POGODBA>
+    <TMPL_VAR NAME=IME_PRIIMEK>
+
+    <strong><i><TMPL_VAR NAME=IME_DOKUMENTA></i></strong> <TMPL_VAR NAME=POMOC>
+    <TABLE BORDER=1>
+    <TR>
+        <TD><B>izberi</B></TD>
+        <TD><B>pogodba</B></TD>        
+        <TD><B>datum zahtevka</B></TD>
+        <TD><B>ime</B></TD>
+        <TD><B>priimek</B></TD>
+        <TD><B>ulica</B></TD>
+        <TD><B>stevilka</B></TD>
+        <TD><B>postna stevilka</B></TD>
+        <TD><B>posta</B></TD>
+    </TR>
+
+     <TMPL_LOOP NAME="zahtevki_loop">
+        
+        <TR>
+
+            <TD><TMPL_VAR NAME="cb_agreement"></TD>            
+            <TD><TMPL_VAR NAME="pogodba"></TD>
+            <TD><TMPL_VAR NAME="datum_zahtevka"></TD>
+            <TD><TMPL_VAR NAME="ime"></TD>
+            <TD><TMPL_VAR NAME="priimek"></TD>
+            <TD><TMPL_VAR NAME="ulica"></TD>
+            <TD><TMPL_VAR NAME="stevilka"></TD>            
+            <TD><TMPL_VAR NAME="postna_stevilka"></TD>
+            <TD><TMPL_VAR NAME="posta"></TD>
+        </TR>
+        
+     </TMPL_LOOP>
+
+   </TABLE>
+    <!--
+    <INPUT TYPE="button"  NAME ="oznaci_vse" value ="oznaci vse"
+           onClick="CheckAll(document.myForm.hid_izbrani_obroki)"/>
+    <INPUT TYPE="button"  NAME ="odznaci_vse" value ="odznaci vse"
+           onClick="UnCheckAll(document.myForm.hid_izbrani_obroki)"/>
+    -->
+    <input type="input" name= "filename" value="<TMPL_VAR NAME="filename">" />
+    <TMPL_VAR NAME=potrdi_prebrano>
+    <TMPL_VAR NAME=POTRDI_GUMB>
+    <TMPL_VAR NAME=Izpisi_polja>
+    <input type="submit"  name="izvozi" value="Izvozi in zapri"  />        
+
+</div>
+
+<TMPL_INCLUDE NAME="DntMenu.tmpl">
+</form>
+
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<head>
+    <title>Donator - zacetek</title>
+    <link rel="stylesheet" href="/static/izgled4.css" type="text/css" media="all" />
+    <LINK REL=StyleSheet HREF="/static/weeklycalendar/calendar.css" TYPE="text/css">
+	<SCRIPT LANGUAGE="JavaScript" 
+	 SRC="/static/funkcije.js"></SCRIPT>
+</head>
+<SCRIPT LANGUAGE="JavaScript" 
+         SRC="/static/weeklycalendar/weeklycalendar.js"></SCRIPT>
+
+<body>
+    <div id="banner"><h1>D O N A T O R</h1></div>
+    <form name="myForm" value="Vpis_uporabnika">
+        <input type="hidden" name="hid_id_agreement" value="<TMPL_VAR NAME=hid_id_agreement>" />
+    <script language="javascript">
+            // call the function to build the calendar
+            // function's param specify the first day of week 
+            // 0=Sunday, 1 = Monday, ..., 6=Saturday
+            buildWeeklyCalendar(1);
+            
+            function Komentar(id_vrstica, id_agreement){
+                
+                var link="DntPogodbe.cgi?rm=komentar&id_vrstica="+id_vrstica+"&id_agreement="+id_agreement;
+                var handle = window.open(link,"xyvv","status=1,"+
+                                "height=250, width=300, scrollbars=1");
+                if(window.focus){
+                    handle.focus();
+                }
+            
+            }
+
+        </script>
+    <div id="centercontent">
+        <TMPL_VAR NAME=MENU_POT>
+        <p>
+        <strong><i><TMPL_VAR NAME=IME_DOKUMENTA></i></strong><tmpl_var name=POMOC>
+        
+        <table border="1" >
+            <tr>
+                <td>Datum</td>
+                <td><TMPL_VAR NAME=datum></td>
+                <td><TMPL_VAR NAME=ime_priimek_podjetje></td>
+            </tr>
+            <tr>
+                <td>id pogodbe</td>
+                <td><TMPL_VAR NAME=id_agreement></td>
+                <td><TMPL_VAR NAME=ulica_st></td>
+            </tr>
+            <tr>
+                <td>znesek</td>
+                <td><TMPL_VAR NAME=placano></td>
+                <td><TMPL_VAR NAME=posta></td>
+            </tr>
+            
+    
+        </table>
+        <br>
+        <tmpl_if sporocilce>There are errors in your form</tmpl_if>
+        <TMPL_VAR NAME=vrsta_bremenitve_opis>
+        <br>
+        <TABLE BORDER=1>
+            <TR>
+                <TD><B>st. obroka</B></TD>
+                <TD><B>datum</B></TD>
+                <TD><B>obrok</B></TD>
+                <TD><B>Placano</B></TD>
+                <!--<TD><B>Placaj</B></TD>
+                <TD><B>prenesi na nov obrok</B></TD>-->
+                <TD><B>vpis komentarja</B></TD>
+            </TR>
+            <TMPL_LOOP NAME="obroki_loop">                
+                <TR>
+
+                        <TD><TMPL_VAR NAME="st_obroka"></TD>
+
+                    <TD><TMPL_VAR NAME="datum_obroka"></TD>
+                    <TD align='right'><TMPL_VAR NAME="znesek_obroka"></TD>
+                    <TD align='right'><TMPL_VAR NAME="placano"></TD>
+                    <!---<TD align='right'><TMPL_VAR NAME="placaj"></TD>
+                    <TD><TMPL_VAR NAME="prenesi_na_nov_obrok"></TD>-->
+                    <TD><TMPL_VAR NAME="vpisi_komentar"></TD>
+                </TR>                
+            </TMPL_LOOP>
+            <TR>
+                <TD></TD>
+                <TD></TD>
+                <TD align='right'><B><TMPL_VAR NAME="sum_skupaj"></B></TD>
+                <TD align='right'><B><TMPL_VAR NAME="sum_placano"></B></TD>
+                <TD align='right'><B><TMPL_VAR NAME="sum_odprto"></B></TD>
+            </TR>
+        </TABLE>
+        <input type="hidden" name="id_obrokov" value = "<TMPL_VAR name=id_obrokov>" />
+        <input type="hidden" name="zneski" value = "<TMPL_VAR name=zneski>" />
+        <input type="hidden" name="date" value = "<TMPL_VAR name=date>" />
+        <input type="hidden" name="rm" value="Shrani" />
+        <input type="submit"  value="Shrani placilo"  />
+    </div>
+    <TMPL_INCLUDE NAME="DntMenu.tmpl">
+    </form>
+    
+</body>
+</html>

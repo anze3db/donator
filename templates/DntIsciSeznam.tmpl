@@ -1,0 +1,276 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<head>
+<title>Donator - <TMPL_VAR NAME=IME_DOKUMENTA></title>
+<link rel="stylesheet" href="/static/izgled4.css" type="text/css" media="all" />
+<SCRIPT LANGUAGE="JavaScript" 
+	 SRC="/static/funkcije.js"></SCRIPT>
+</head>
+<body>
+<div id="banner"><h1>D O N A T O R</h1></div>
+<form name="myForm" id="myForm" method="get" action="?rm=<tmpl_if name="tabele">Prikazi<tmpl_else>seznam</tmpl_if>"
+	  onsubmit="javascript: return PreveriOdprte(this);">	
+<div id="centercontent">
+	<div style="float:right">
+		<input type="button" value="spremeni izbor"
+		   onclick="javascript:self.location='DntStart.cgi?rm=isci'">  
+		<input onclick="javascript:self.location='?rm=nastavitve&seja='"
+			   type="button"  value="nastavitve" />
+		 
+	</div>
+	<TMPL_VAR NAME=MENU_POT>
+	<p>
+	<strong><i><TMPL_VAR NAME=IME_DOKUMENTA></i></strong>
+	<TMPL_VAR NAME=POMOC><br /><br />
+	
+	<script>
+	
+	function Pogoji(option){
+		
+		var msg="IZBRANI:\n";
+		var i=0;		
+	}
+	function Shrani(){
+		
+		alert('shranite na naslednji strani');
+	}
+	function DodajPogoj(i){
+		var area=document.getElementById('pogoji_seznam'+i);
+		var pogoj=document.getElementById('pogoj'+i);
+		var vrednost=document.getElementById('vrednost'+i);
+		var operator;
+		var koren;
+
+		if(vrednost.value.length>0){
+			
+			if(document.getElementById('operatorEnako'+i).checked){
+				operator=" = ";
+			}
+			else if (document.getElementById('operatorManjse'+i).checked){
+				operator=" < ";
+			}
+			else{
+				operator=" > ";
+			}
+			if(document.getElementById('po_korenu'+i).checked){
+				koren="*";
+			}
+			else{
+				koren="";
+			}
+			if(area.value)
+				area.value+=",\n"+pogoj.value+operator+"\'"+koren+vrednost.value+koren+"\'";
+				
+			else
+				area.value+=pogoj.value+operator+"\'"+koren+vrednost.value+koren+"\'";
+		}
+	}
+	
+	function ZbrisiPogoj(i){
+		var area=document.getElementById('pogoji_seznam'+i);
+		if(area.value.indexOf(','))			
+			area.value=area.value.substring(0, area.value.lastIndexOf(','));
+		else
+			area.value="";
+	}
+	</script>
+	<tmpl_if name="tabele">
+
+	<strong>Pogoji:</strong>
+	
+	<tmpl_loop name="pogoji">
+	<div style="float:left; margin-right:5px;">	
+	<table border="1" >			
+		<tr>
+			<td>Tabela:</td>
+			<td>                  
+				<strong><tmpl_var name="tabela"></strong>					
+			</td>
+		</tr>
+		<input type="hidden" value="<tmpl_var name=tabela_eng>" name="tabele">
+		<TR>
+			<td>Polje:</td>
+			<TD>
+			<select name="pogoj<tmpl_var name=id_pogoj>"
+				id="pogoj<tmpl_var name=id_pogoj>"  style="width:100%;">						
+			<TMPL_LOOP NAME="polja">	
+			  <option value="<TMPL_VAR NAME="column">">
+				<TMPL_VAR NAME="column_slo"><TMPL_VAR NAME="selected"></option>
+			</TMPL_LOOP>
+			</TD>
+		</TR>
+		<TR>
+			<td>Pogoj:</td>
+			<TD>
+			<input type="text" name="vrednost<tmpl_var name=id_pogoj>"
+				  id="vrednost<tmpl_var name=id_pogoj>"
+				  value="<tmpl_var name=edb_vrednost>" >
+			<label><input name="po_korenu" id="po_korenu<tmpl_var name=id_pogoj>"
+			value="<tmpl_var name=id_pogoj>" type="checkbox">po korenu</label>
+			</TD>
+		</TR>
+		<TR>
+		<TR>
+		<td valign="top">Operator:</td>
+		<TD>
+			<label><input type="radio" checked="true"
+						  name="operator<tmpl_var name=id_pogoj>"
+				  id="operatorEnako<tmpl_var name=id_pogoj>" value="enako" >
+				  = </label>
+			<label><input type="radio" name="operator<tmpl_var name=id_pogoj>"
+			id="operatorManjse<tmpl_var name=id_pogoj>"
+				  value="manjse" > &lt; </label>
+			<label><input type="radio" name="operator<tmpl_var name=id_pogoj>"
+			id="operatorVecje<tmpl_var name=id_pogoj>"
+				  value="vecje" > &gt; </label>
+			</TD>
+		</TR>
+		<TR>
+			<td>Vnos:</td>
+			<TD>
+			<input type="button" name="dodaj_vnos"
+			onClick="DodajPogoj('<tmpl_var name=id_pogoj>')" id="dodaj_vnos"
+			value="Dodaj pogoj">
+			<input type="button" name="dodaj_vnos"
+			onClick="ZbrisiPogoj('<tmpl_var name=id_pogoj>')" id="dodaj_vnos"
+			value="Brisi pogoj">
+			</TD>
+		</TR>
+				<TR>
+			<td VALIGN="top">Pogoji:</td>
+			<TD>
+				<textarea readonly="true" rows="6" style="width:100%;"
+						name="pogoji" id="pogoji_seznam<tmpl_var name=id_pogoj>"
+						><tmpl_var name=s_pogoji></textarea>
+			</TD>
+		</TR>
+		<TR>
+			<td VALIGN="top">Izpis:</td>
+			<TD>
+				<select name="izpis" id="izpis<tmpl_var name=id_pogoj>"
+						multiple="true"  style="width:100%; height:100px">						
+				<TMPL_LOOP NAME="polja2">	
+				  <option value="<TMPL_VAR NAME="column">" <tmpl_var name=selected>><TMPL_VAR NAME="column_slo"></option>
+				</TMPL_LOOP>
+			</TD>
+		</TR>
+		</table>
+		</div>
+	</tmpl_loop>
+	
+	<div style="clear:both">
+	
+	<table border=1>
+		<TR>                    
+			<TD><strong>Izberi</strong></TD>
+			<TD style="text-align:center;"><strong>Povezava</strong></td>
+		</TR>
+			
+		<tmpl_loop name="povezave">
+			<tr>
+			<td><input type="checkbox" checked="true" name="povezave"
+					   value="<tmpl_var name=param>"  ></td>
+			<td><tmpl_var name=param></td>
+			</tr>
+		</tmpl_loop>
+	</table>
+		
+
+	<INPUT TYPE="submit"  NAME ="rm" VALUE="Prikazi">
+	</div>
+	
+
+	
+		<tmpl_else>
+			<input type="hidden" value="seznam" id="rm" name="rm">
+			<div style="float:left;">
+		<table border="1" >
+			<tr>
+			<td valign="top"><strong>Izberite tabele:</strong></td>
+			<td valign="top"><strong>Shranjena iskanja:</strong></td>
+			</tr>
+		<tr>
+			<td>                  
+				<select style="width:100%" name="edb_tabela" id="edb_tabela"
+						multiple="true" onClick="javascript:Pogoji(this)">
+				<option value="sfr_donor">Donatorji</option>
+				<option value="sfr_staff">Zaposleni</option>
+				<option value="sfr_agreement">Pogodbe</option>
+				<option value="agreement_pay_installment">Obroki</option>
+				<option value="sfr_bank">Banke</option>
+				<option value="sfr_events">Dogodki</option>
+				<option value="sfr_project">Projekti</option>
+				<option value="sheets_series">Pole</option>
+				<option value="sfr_post">Poste</option>
+				<option value="sfr_donor_comment">Donator - komentarji</option>
+				<option value="sfr_donor_call">Donator - klici</option>
+				<option value="sfr_donor_phone">Donator - telefon</option>
+				<option value="sfr_staff_comment">Zaposleni - komentarji</option>
+				<option value="sfr_staff_phone">Zaposleni - telefon</option>
+				<option value="sfr_staff_project">Zaposleni - projekti</option>
+				<option value="agreement_notice">Pogodbe - opomini</option>
+				<option value="sfr_agreement_comment">Pogodbe - komentarji</option>
+			</select>
+			</td>
+			<td valign="top" align="center">
+				<tmpl_loop name="linki">
+				<a href="?rm=seznam&dodaj_vnos=Naprej&id_iskanja=<tmpl_var name=id>"><tmpl_var name="naslov"></a><br />
+				</tmpl_loop>
+			</td>
+		</tr>
+		<TR>
+			
+			<TD colspan="4">
+				<input type="submit" name="dodaj_vnos" id="dodaj_vnos"
+					  value="Naprej">
+			</TD>
+		</TR>
+		</table>
+		</tmpl_if>
+				<!--
+		<TR>
+			<td>Samo odprte: </td>
+			<TD>
+				<input type="checkbox" value="1" name="odprte"
+					  id="odprte" <tmpl_var name="odprte">/>
+			</TD>
+		</TR>
+	-->
+	
+	</div>
+	<div style="clear:both"></div>
+	<tmpl_if name="tabele">
+	</tmpl_if>
+
+	</div>
+
+	<div style="clear:both"></div>
+<input type="hidden" name="url" id="url" value="<tmpl_var name=url>" />
+	</form>
+	
+	<!--
+	 <input type="hidden" name="uporabnik" value="<TMPL_VAR NAME=uporabnik>" />
+	-->
+	<input type="hidden" name="seja" value="<TMPL_VAR NAME=seja>" />
+	<TMPL_VAR NAME=SCRIPT>
+		<div>
+	<TABLE border=1>
+		<form name="brisi">
+		<TR>
+			<TMPL_LOOP NAME="edb_loop5">
+				 <TD><B><TMPL_VAR NAME="column"></B></TD>
+			</TMPL_LOOP>
+		</TR>
+			<tmpl_var name="edb_loop9">
+		<input type="hidden" name="rm" id="rm" value="zbrisi" />
+		<input type="hidden" name="brisi" value="nezadolzene" />
+		<input type="hidden" name="id_Pole" value="<tmpl_var name=edb_id>" />
+		
+   </TABLE>
+
+		</div>
+<TMPL_INCLUDE NAME="DntMenu.tmpl">
+</form>
+    
+</body>
+</html>
+

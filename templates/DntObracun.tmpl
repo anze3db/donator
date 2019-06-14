@@ -1,0 +1,98 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<head>
+<title>Donator - <TMPL_VAR NAME=IME_DOKUMENTA></title>
+<link rel="stylesheet" href="/static/izgled4.css" type="text/css" media="all" />
+<SCRIPT LANGUAGE="JavaScript" 
+	 SRC="/static/funkcije.js"></SCRIPT>
+</head>
+<body>
+<SCRIPT LANGUAGE="JavaScript">
+<!--	
+function izberiVseSez(ele){
+	
+	var seznam = document.getElementById('seznam_zaposlenih');
+	for (var i=0; i<seznam.options.length; i++){
+		if(ele.checked){
+			seznam.options[i].selected=true;
+		}
+		else{
+			seznam.options[i].selected=false;
+		}
+	}
+}
+
+-->
+</SCRIPT>
+<div id="banner"><h1>D O N A T O R</h1></div>
+<form name="myForm">        
+<div id="centercontent">
+	<TMPL_VAR NAME=MENU_POT>
+	<p>
+	<strong><i><TMPL_VAR NAME=IME_DOKUMENTA></i></strong> <TMPL_VAR NAME=POMOC>
+	<!--
+	<table border="1" >            
+		<tr>
+		<td>Uporabnisko ime:</td>
+		<td>                  
+		  <input type="ime"  name="edb_ime"
+			id="edb_ime" size="22" maxlength="80"
+			value="<tmpl_var name=edb_ime>">
+		</td>
+		</tr>
+		<tr>
+			<td>Geslo:</td>
+			<td>
+			  <input type="ulica"  name="edb_st" id="edb_st" size="22"
+					 maxlength="80"	value="<tmpl_var name=edb_st>">
+		   </td>
+		</tr>
+		
+	</table>
+	</form>
+	-->
+	<br /><br />
+	<!--
+	 <input type="hidden" name="uporabnik" value="<TMPL_VAR NAME=uporabnik>" />
+	-->
+	
+		
+		<input type="hidden" name="seja" value="<TMPL_VAR NAME=seja>" />
+		<TMPL_VAR NAME=SCRIPT>
+		
+		
+		<div style="float:left">
+		<tmpl_var name=izberi_vse><br />
+		<tmpl_var name=zaposleni_seznam><br />
+		</div>
+		<div style="float:left; padding:15px">
+		
+		<label><input TYPE="radio" value="1" name="opcije" <tmpl_var name=op1>/> Sklenjene donacije</label><br />
+		<label><input TYPE="radio" value="2" name="opcije" <tmpl_var name=op2>/> Placani obroki</label><br />
+		<div>
+		Od <tmpl_var name=od_dne> do <tmpl_var name=do_dne>
+		</div>
+		</div>		
+		<input type="hidden" name="rm" value="prikazi">		
+		</form>
+		<div style="clear:left"></div>
+		<input type="submit" value="Izpisi" style="margin-top:10px;margin-bottom:10px;">
+		<tmpl_var name="table">
+		<tmpl_var name="vsota"><tmpl_var name="vsota_placila"><tmpl_var name="vsota_op">
+		<div style="clear:left"></div>
+		<div style="padding-top:10px">
+		<tmpl_var name="form">
+		</div>
+		<!--	
+		<input type="hidden" value="<tmpl_var name="csv">" name="content">
+		<input type="text" style="width:20px;" value="2009-01-13_obracun.csv" name="filename">
+		<tmpl_var name="submit">
+		</form>
+		-->
+</div>
+<TMPL_INCLUDE NAME="DntMenu.tmpl">
+
+</form>
+    
+</body>
+</html>
+

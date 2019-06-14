@@ -1,0 +1,103 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<head>
+<title>Donator - <TMPL_VAR NAME=IME_DOKUMENTA></title>
+<link rel="stylesheet" href="/static/izgled4.css" type="text/css" media="all" />
+<SCRIPT LANGUAGE="JavaScript" 
+	 SRC="/static/funkcije.js"></SCRIPT>
+</head>
+<body>
+<div id="banner"><h1>D O N A T O R</h1></div>
+<form name="myForm">        
+<div id="centercontent">
+	<TMPL_VAR NAME=MENU_POT>
+	<strong><i><TMPL_VAR NAME=IME_DOKUMENTA></i></strong> <TMPL_VAR NAME=POMOC>
+	<table border="1" >            
+		<tr>
+			<td>Id banke:</td>
+			<td>
+			  <input type="ulica"  name="edb_id" id="edb_id" size="22"
+					 maxlength="80"	value="<tmpl_var name=edb_id>">
+		    </td>
+			
+		</tr>
+		<tr>
+			<td>Ime banke:</td>
+			<td>                  
+			  <input type="ime"  name="edb_ime" id="edb_ime" size="22"
+					 maxlength="80"	value="<tmpl_var name=edb_ime>">
+				<label><input type='checkbox' name='po_korenu_ime'
+							  value='1' <TMPL_VAR NAME=koren>>po korenu</label>
+			</td>
+		</tr>
+		<tr>
+			<td>Tn:</td>
+			<td>
+			  <input type="ulica"  name="edb_tn" id="edb_tn" size="22"
+					 maxlength="80"	value="<tmpl_var name=edb_tn>">
+		   </td>
+			
+		</tr>
+		<tr>
+			<td>Sifra banke:</td>
+			<td>
+			  <input type="ulica"  name="edb_sifra" id="edb_sifra" size="22"
+					 maxlength="80"	value="<tmpl_var name=edb_sifra>">
+		   </td>
+			
+		</tr>
+		
+		
+	</table>
+	<INPUT TYPE="submit" NAME ="rm" VALUE="Prikazi">
+	<INPUT TYPE="button" onclick="javascript:self.location='?rm=uredi&seja='"
+		   VALUE="Nov">
+	</form>
+	<input type="hidden" name="seja" value="<TMPL_VAR NAME=seja>" />
+	<TMPL_VAR NAME=SCRIPT>	<TABLE BORDER=1>
+		<form name="brisi">
+		<TR>
+			<TD><B>Izbor</B></TD>                    
+			<TD><B>Id</B></TD>
+			<TD><B>Ime banke</B></TD>
+			<TD><B>Tn</B></TD>
+			<TD><B>Sifra</B></TD>  
+			<td style="text-align:center;">
+			<label><input type="checkbox" name="izberiVse" value=""
+				   id="izberiVse" onClick="IzberiVse(this.id)" />
+			<strong >Brisi</strong></label>
+			</td>
+		</TR>
+		<input type="hidden" name="rm" id="rm" value="zbrisi" />
+		<input type="hidden" name="brisi" value="banka" />
+		<input type="hidden" name="id_banke" value="<tmpl_var name=edb_id>" />
+	 <TMPL_LOOP NAME="donator_loop">
+		
+		<TR>                    
+			<TD><TMPL_VAR NAME="izbor"></TD>
+			<TD><TMPL_VAR NAME="id"></TD>   
+			<TD><TMPL_VAR NAME="ime"></TD>                                     
+			<TD><TMPL_VAR NAME="tn"></TD>
+			<TD><TMPL_VAR NAME="sifra"></TD>
+			<TD style="text-align:center;">
+			<input type="checkbox" onclick="PreveriOznacene()"
+				   name="brisiId" value="<TMPL_VAR NAME="id">" />
+			</TD> 
+		</TR>
+		
+		
+	 </TMPL_LOOP>
+	<tr>
+		<td colspan=5 style="text-align:center; font-weight:bold;">
+			<tmpl_var name=edb_triPike></td>
+		<td><input type="button" name="brisi"
+			onClick="Brisi()" value="brisi" /></td>
+	</tr>
+	
+   </TABLE>
+</div>
+<TMPL_INCLUDE NAME="DntMenu.tmpl">
+</form>
+    
+</body>
+</html>
+

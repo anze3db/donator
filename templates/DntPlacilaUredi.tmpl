@@ -1,0 +1,55 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<head>
+<title>Donator - <TMPL_VAR NAME=IME_DOKUMENTA></title>
+<link rel="stylesheet" href="/static/izgled4.css" type="text/css" media="all" />
+	<SCRIPT LANGUAGE="JavaScript" 
+	 SRC="/static/funkcije.js"></SCRIPT>
+</head>
+<body>
+<div id="banner"><h1>D O N A T O R</h1></div>
+<form name="myForm">
+<input type="hidden" name="uredi" value="<tmpl_var name=edb_uredi>" />
+<div id="centercontent">
+	<TMPL_VAR NAME=MENU_POT>
+	<p>
+	<strong><i><TMPL_VAR NAME=IME_DOKUMENTA></i></strong> <TMPL_VAR NAME=POMOC>
+	<table border="1" >            
+		
+		<tr>
+			<td>Id placila: </td>
+			<td>
+			  <input type="ulica" readonly="readonly" name="edb_id" id="edb_id"
+					 size="22" maxlength="80" value="<tmpl_var name=edb_id>" >
+		   </td>
+		</tr>
+		<tr>
+			<td>Ime placila:</td>
+			<td>                  
+			  <input type="ime"  name="edb_ime" id="edb_ime" size="22"
+					 maxlength="80"	value="<tmpl_var name=edb_ime>">
+			</td>
+		</tr>
+		<tr>
+			<td>Debit:</td>
+			<td>                  
+			  <input type="ime"  name="edb_debit" id="edb_debit" size="22"
+					 maxlength="80"	value="<tmpl_var name=edb_debit>">
+			</td>
+		</tr>
+		
+	</table>
+	<INPUT TYPE="submit"  NAME ="rm" VALUE="Shrani">
+	<INPUT TYPE="button"  onclick="javascript:self.location='?rm=seznam&seja='"
+		   VALUE="Nazaj">
+	<!--
+	 <input type="hidden" name="uporabnik" value="<TMPL_VAR NAME=uporabnik>" />
+	-->
+		<input type="hidden" name="seja" value="<TMPL_VAR NAME=seja>" />
+            
+    </div>
+    <TMPL_INCLUDE NAME="DntMenu.tmpl">
+    </form>
+    
+</body>
+</html>
+

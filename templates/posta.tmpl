@@ -1,0 +1,42 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<head>
+<title>Donator - <TMPL_VAR NAME=IME_DOKUMENTA></title>
+<link rel="stylesheet" href="/static/izgled4.css" type="text/css" media="all" />
+<LINK REL=StyleSheet HREF="/static/weeklycalendar/calendar.css" TYPE="text/css">
+<SCRIPT LANGUAGE="JavaScript" 
+	SRC="/static/funkcije.js"></SCRIPT>
+</head>
+<body>
+<script>
+
+function Zapri(frm, id, vrednost, vrstica){
+	opener.document.forms[frm].elements[id].value = vrednost;
+	if(vrstica.length>0){
+		opener.document.forms[frm].elements[id+"2"].value = trim(document.getElementById('tabela').rows[vrstica].cells[1].childNodes[0].data);
+	}
+	self.close();
+   
+}
+
+</script>
+<strong><i><TMPL_VAR NAME=IME_DOKUMENTA></i></strong> <tmpl_var name="POMOC">
+<table border="1px" id="tabela">
+<TMPL_LOOP NAME="edb_loop"> 
+<tr>
+<td>
+	<input type="button"
+		   onclick="Zapri('myForm', '<TMPL_VAR NAME="insertId">','<TMPL_VAR NAME="postnaSt">', '<TMPL_VAR NAME="vrstica">')"
+		   value="<TMPL_VAR NAME="postnaSt">" />
+</td>
+<td>
+	<TMPL_VAR NAME="posta"></td>
+</tr>
+</TMPL_LOOP>
+<tmpl_var name=edb_error>	
+<input type="button" value="zapri" onclick="javascript:window.close()"/>
+
+
+</div>
+
+</body>
+</html>
