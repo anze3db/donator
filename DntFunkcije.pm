@@ -1052,6 +1052,7 @@ sub BuildMenu(){
 			}
 			elsif(DntFunkcije::trim($res->{'modul'}) eq "23"){
 				$pogodbe .= '<li><a href="/DntStart.cgi?rm=IzvoziObroke">Izvozi obroke</a></li>';	
+				$pogodbe .= '<li><a href="/DntStart.cgi?rm=IzvoziRacune">Izvozi racune</a></li>';		
 			}
 			elsif(DntFunkcije::trim($res->{'modul'}) eq "24"){
 				$pogodbe .= '<li><a href="/DntStart.cgi?rm=Opomini">Seznam opominov</a></li>';	
