@@ -110,6 +110,8 @@ function Uredi()
     document.myForm['edb_ponudba'].disabled = false;
     document.myForm['edb_posebniDonator'].disabled = false;
     document.myForm['edb_aktivniDonator'].disabled = false;
+    document.myForm['edb_eracun'].disabled = false;
+    document.myForm['edb_eracunEmail'].readOnly = false;
     document.myForm['shrani'].disabled = false;
     document.myForm['telefonLink'].disabled = false;
     document.myForm['klicLink'].disabled = false;
@@ -519,6 +521,24 @@ function CheckFields(){
         <td >
         <input type="checkbox" name="edb_aktivniDonator" id="edb_aktivniDonator" 
           value="1" <tmpl_var name=edb_aktivniDonator> DISABLED>
+       </td>
+    </tr>
+    <tr>
+        <td colspan="2"><strong>E-Racun</strong></td>
+    </tr>
+    <tr>
+        <td >Poslji E-Racun:</td>
+        <td >
+        <input type="checkbox" name="edb_eracun" id="edb_eracun" 
+          value="1" <tmpl_var name=edb_eracun> DISABLED>
+       </td>
+    </tr>
+    <tr>
+        <td >E-mail za E-Racun:</td>
+        <td >
+          <input type="ime" style="width:100%;" name="edb_eracunEmail"
+                 id="edb_eracunEmail" size="22" maxlength="80"
+            value="<tmpl_var name=edb_eracunEmail>"readonly="readonly">
        </td>
     </tr>
      <tr>
