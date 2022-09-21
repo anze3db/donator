@@ -447,6 +447,8 @@ sub DonatorUredi() {
 	my $dovoliPosta="";
 	my $posebniDonator="";
 	my $aktivniDonator="";
+	my $eracun="";
+	my $eracunEmail="";
 	my $cestitka="";
 	my $novoLeto="";
 	my $zahvala="";
@@ -588,6 +590,8 @@ sub DonatorUredi() {
 			$dovoliPosta =$res->{'post_emailing_alow'};
 			$posebniDonator =$res->{'special_donor'};
 			$aktivniDonator =$res->{'active_donor'};
+			$eracun =$res->{'eracun'};
+			$eracunEmail =$res->{'eracun_email'};
 			$cestitka =$res->{'greting_card'};
 			$novoLeto =$res->{'new_year'};
 			$zahvala =$res->{'special_thanks'};
@@ -684,6 +688,12 @@ sub DonatorUredi() {
 		else{
 			$posebniDonator="";
 		}
+		if($eracun eq "1"){
+			$eracun="checked=\"checked\"";
+		}
+		else{
+			$eracun="";
+		}
 		
 		if($id_donor && $id_donor>0){
 			$onload="";
@@ -759,6 +769,8 @@ sub DonatorUredi() {
 			edb_cestitka => $cestitka,
 			edb_posebniDonator => $posebniDonator,
 			edb_aktivniDonator => $aktivniDonator,
+			edb_eracun => $eracun,
+			edb_eracunEmail => DntFunkcije::trim($eracunEmail),
 			edb_novoleto => $novoLeto,
 			edb_ponudba => $ponudba,
 			edb_zahvala => $zahvala,
@@ -822,6 +834,8 @@ sub DonatorSpremeni(){
 		my $datumRojstva= $q->param('edb_danRojstva');
 		my $posebenDonator = $q->param('edb_posebniDonator');
 		my $aktivenDonator = $q->param('edb_aktivniDonator');
+		my $eracun = $q->param('edb_eracun');
+		my $eracunEmail = $q->param('edb_eracunEmail');
 		my $dovoliEmail= $q->param('edb_dovoliEmail');
 		my $dovoliPosta= $q->param('edb_dovoliPosta');
 		my $cestitka= $q->param('edb_cestitka');
@@ -883,7 +897,10 @@ sub DonatorSpremeni(){
 		}
 		if(!defined $aktivenDonator){
 			$aktivenDonator=0;
-		}		
+		}
+		if(!defined $eracun){
+			$eracun=0;
+		}				
 		
 		$imeDokumenta = "Shrani donatorja";
 		$napaka = "Shranjevanje uspesno!<br />";
@@ -916,6 +933,7 @@ sub DonatorSpremeni(){
 				  $dovoliEmail, $dovoliPosta,
 				  $cestitka, $novoLeto, $zahvala,
 				  $ponudba, $posebenDonator, $aktivenDonator,
+				  $eracun, $eracunEmail,
 				  $postnaSt2, $poPostnaSt2,
 				  $id_donor, $datumRojstva);
 			}
@@ -930,6 +948,7 @@ sub DonatorSpremeni(){
 				  $dovoliEmail, $dovoliPosta,
 				  $cestitka, $novoLeto, $zahvala,
 				  $ponudba, $posebenDonator, $aktivenDonator,
+				  $eracun, $eracunEmail,
 				  $postnaSt2, $poPostnaSt2,
 				  $id_donor, $datumRojstva);
 				if($napaka!=0){
@@ -1091,10 +1110,12 @@ sub DonatorUpdate{
 	my $ponudba= $_[24];
 	my $posebenDonator= $_[25];
 	my $aktivenDonator = $_[26];
-	my $postnaSt2= $_[27];
-	my $poPostnaSt2 = $_[28];
-	my $id_donor = $_[29];
-	my $datumRojstva = $_[30];
+	my $eracun = $_[27];
+	my $eracunEmail = $_[28];
+	my $postnaSt2= $_[29];
+	my $poPostnaSt2 = $_[30];
+	my $id_donor = $_[31];
+	my $datumRojstva = $_[32];
 	my $html_output="0";
 	my $sql =
 		"UPDATE sfr_donor ".
@@ -1107,6 +1128,7 @@ sub DonatorUpdate{
 		"born_date=NULL, emailing_alow=?, post_emailing_alow=?,".
 		"greting_card=?, new_year=?, special_thanks=?,".
 		"offer=?, special_donor=?, active_donor=?, ".
+		"eracun=?, eracun_email=?,".
 		"post_name=?, post_name_mail=?".
 		"WHERE id_donor=?";
 	my $sth = $dbh->prepare($sql);
@@ -1119,6 +1141,7 @@ sub DonatorUpdate{
 				  $dovoliEmail, $dovoliPosta,
 				  $cestitka, $novoLeto, $zahvala,
 				  $ponudba, $posebenDonator, $aktivenDonator,
+				  $eracun, $eracunEmail,
 				  $postnaSt2, $poPostnaSt2,
 				  $id_donor)){
 		
@@ -1166,10 +1189,12 @@ sub DonatorInsert{
 	my $ponudba= $_[24];
 	my $posebenDonator= $_[25];
 	my $aktivenDonator = $_[26];
-	my $postnaSt2= $_[27];
-	my $poPostnaSt2 = $_[28];
-	my $id_donor = $_[29];
-	my $datumRojstva = $_[30];
+	my $eracun = $_[27];
+	my $eracunEmail = $_[28];
+	my $postnaSt2= $_[29];
+	my $poPostnaSt2 = $_[30];
+	my $id_donor = $_[31];
+	my $datumRojstva = $_[32];
 	my $html_output="0";
 	
 	
@@ -1184,6 +1209,7 @@ sub DonatorInsert{
 			 "born_date, emailing_alow, post_emailing_alow,".
 			 "greting_card, new_year, special_thanks,".
 			 "offer, special_donor, active_donor, ".
+			 "eracun, eracun_email, ".
 			 "post_name, post_name_mail) ".
 			 "VALUES (?, ? , ?, ".
 					 "?, ?, ?, ".
@@ -1194,6 +1220,7 @@ sub DonatorInsert{
 					 "NULL, ?, ?, ".
 					 "?, ?, ?, ".								
 					 "?, ?, ?, ".
+					 "?, ?, ".
 					 "?, ? )";
 	 my $sth = $dbh->prepare($sql);
 	 unless($sth->execute($podjetje, $ime , $priimek,
@@ -1204,7 +1231,8 @@ sub DonatorInsert{
 					 $status, $prednaziv, $upokojenec, 
 					 $dovoliEmail, $dovoliPosta, 
 					 $cestitka, $novoLeto, $zahvala, 								
-					 $ponudba, $posebenDonator, $aktivenDonator, 
+					 $ponudba, $posebenDonator, $aktivenDonator,
+					 $eracun, $eracunEmail,
 					 $postnaSt2, $poPostnaSt2)){					
 		 my $napaka_opis = $sth->errstr;
 		 return 0;

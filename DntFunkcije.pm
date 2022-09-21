@@ -833,6 +833,12 @@ sub SloColumns($){
 	elsif($tmp eq "post_name"){
 		$tmp="posta";
 	}
+	elsif($tmp eq "eracun"){
+		$tmp="e-racun";
+	}
+	elsif($tmp eq "eracun_email"){
+		$tmp="e-racun email";
+	}
 	elsif($tmp eq "post_name_mail"){
 		$tmp="naziv poste posiljanja";
 	}
