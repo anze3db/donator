@@ -1,0 +1,4 @@
+#!/bin/sh
+apachectl stop
+sleep 0.5
+apachectl start

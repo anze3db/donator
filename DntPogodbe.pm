@@ -300,7 +300,7 @@ sub PogodbaUredi() {
 	my $vneseno;
 	my $nazajBtn=DntFunkcije::trim($q->param('nazaj')) || "pogodbe";
 	my $nazajLink=DntFunkcije::trim($q->param('nazaj'));
-	my $now=localtime;
+	my $now=localtime(time + 30 * 24 * 60 * 60);
 	$now=substr($now, -2, 2);
 
 	

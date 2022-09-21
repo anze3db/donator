@@ -65,6 +65,7 @@ sub setup {
 		'vzdrzevanje' => 'Vzdrzevanje',
 		'IzvozeneDatoteke' => 'IzvozeneDatoteke',
 		'dbr' => 'DirektneBremenitve',
+		'IzvoziRacune' => 'IzvoziRacune',
     );
 }
 
@@ -144,6 +145,16 @@ sub index{
 sub DirektneBremenitve{
 	my $self = shift;
 	my $template = $self->load_tmpl('DntBremenitve.tmpl', cache => 1,);
+        $template->param(
+                POMOC => "<input type='button' value='?' ".
+                "onclick='Pomoc(\"$ENV{SCRIPT_NAME}\", \"$ENV{QUERY_STRING}\")'  >",  MENU => DntFunkcije::BuildMenu(),
+        );
+
+        return $template->output;
+}
+sub IzvoziRacune{
+	my $self = shift;
+	my $template = $self->load_tmpl('IzvoziRacune.tmpl', cache => 1,);
         $template->param(
                 POMOC => "<input type='button' value='?' ".
                 "onclick='Pomoc(\"$ENV{SCRIPT_NAME}\", \"$ENV{QUERY_STRING}\")'  >",  MENU => DntFunkcije::BuildMenu(),

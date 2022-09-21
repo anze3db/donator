@@ -976,7 +976,8 @@ sub BuildMenu(){
 			$sifranti .= '<li><a href="/DntStart.cgi?rm=Banke">Banke</a></li>';			
 			$pogodbe .= ' <li><a href="/DntStart.cgi?rm=Pogodbe">Seznam pogodb</a></li>';		
 			$pogodbe .= '<li><a href="/DntStart.cgi?rm=Obroki">Generiraj obroke</a></li>';		
-			$pogodbe .= '<li><a href="/DntStart.cgi?rm=IzvoziObroke">Izvozi obroke</a></li>';		
+			$pogodbe .= '<li><a href="/DntStart.cgi?rm=IzvoziObroke">Izvozi obroke</a></li>';
+			$pogodbe .= '<li><a href="/DntStart.cgi?rm=IzvoziRacune">Izvozi racune</a></li>';		
 			$pogodbe .= '<li><a href="/DntStart.cgi?rm=Opomini">Seznam opominov</a></li>';			
 			$pogodbe .= '<li><a href="/DntPogodbe.cgi?rm=Zahtevki_za_zapiranje">Zahtevki za zapiranje</a></li>';
 			$pogodbe .= '<li><a href="/DntStart.cgi?rm=zahtevki">Zahtevki za bremenitve</a></li>';
@@ -1051,6 +1052,7 @@ sub BuildMenu(){
 			}
 			elsif(DntFunkcije::trim($res->{'modul'}) eq "23"){
 				$pogodbe .= '<li><a href="/DntStart.cgi?rm=IzvoziObroke">Izvozi obroke</a></li>';	
+				$pogodbe .= '<li><a href="/DntStart.cgi?rm=IzvoziRacune">Izvozi racune</a></li>';		
 			}
 			elsif(DntFunkcije::trim($res->{'modul'}) eq "24"){
 				$pogodbe .= '<li><a href="/DntStart.cgi?rm=Opomini">Seznam opominov</a></li>';	
