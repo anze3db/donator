@@ -19,10 +19,9 @@ my $value;
 
 
 read( STDIN, $tmpStr, $ENV{ "CONTENT_LENGTH" } );
-
-
-
-@parts = split( /-----------------------------/, $tmpStr );
+my ($boundary) = $ENV{'CONTENT_TYPE'} =~ /boundary=(.+)$/;
+die "No boundary defined in CONTENT_TYPE. CONTENT_TYPE: '$content_type', extracted boundary: '$boundary'" unless $boundary;
+@parts = split(/--\Q$boundary\E/, $tmpStr);
 foreach my $pr (@parts){
 
 		my $str = $pr;

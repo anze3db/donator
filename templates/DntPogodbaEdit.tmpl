@@ -545,6 +545,7 @@ function onemogociOstale(){
     document.getElementById('edb_amount2').disabled = true;
     document.getElementById('edb_frekvenca').disabled = true;
     document.getElementById('edb_valuta').disabled = true;
+    document.getElementById('edb_ad_type').disabled = true;
     document.getElementById('edb_vrstaBremenitve').disabled = true;
     document.getElementById('edb_aktiviraj').disabled = true;
     document.getElementById('edb_TRR').disabled = true;
@@ -564,6 +565,7 @@ function onemogociOstale(){
     document.getElementById('edb_amount2').value = "";
 
     document.getElementById('edb_valuta').value = "";
+    document.getElementById('edb_ad_type').value = "";
 
     document.getElementById('edb_aktiviraj').value = "";
     document.getElementById('edb_TRR').value = ""; 
@@ -577,6 +579,7 @@ function omogociOstale(){
     document.getElementById('edb_num_installments').disabled = false;
     document.getElementById('edb_amount2').disabled = false;
     document.getElementById('edb_valuta').disabled = false;
+    document.getElementById('edb_ad_type').disabled = false;
     
     document.getElementById('label_edb_num_installments').style.fontWeight='bold';
     document.getElementById('label_edb_amount2').style.fontWeight='bold';
@@ -1052,18 +1055,26 @@ function Komentar(id_vrstica, id_agreement){
                 type="button">
         </td>
     </tr>
+
+    <tr>
+        <td ><label class="pravna" for="edb_davcnaSt">Davcna st.:</label></td>
+        <td >
+          <input style="width: 100px" type="text"  name="edb_davcnaSt"
+              id="edb_davcnaSt" size="22" maxlength="80"
+            value="<tmpl_var name=edb_davcnaSt>"readonly="readonly">
+            <input type="button" id = "btn_isci_donator" disabled="disabled"  name="btn_isci_donator"
+            value="isci" onclick="IsciDonator(this.form,'edb_id_donator')" />
+       </td>
+    </tr>
     <tr>
         <td><label  for="edb_id_donator">Id donator:</label></td>
         <td style="height: 28px">                  
         <input type="text" style="width:100px;"  name="edb_id_donator"
             id="edb_id_donator" size="22" maxlength="80"
             value="<tmpl_var name=edb_id_donator>" readonly="readonly">
-            <input type="button" id = "btn_isci_donator" disabled="disabled"  name="btn_isci_donator"
-            value="isci" onclick="IsciDonator(this.form,'edb_id_donator')" />
         </td>
         </tr>
     
-    <tr>
     <tr>
         <td ><label >Status:</label></td>
         <td >                  
@@ -1149,14 +1160,6 @@ function Komentar(id_vrstica, id_agreement){
        </td>
         
     </tr>
-    <tr>
-        <td ><label class="pravna" for="edb_davcnaSt">Davcna st.:</label></td>
-        <td >
-          <input style="width:100%;" type="text"  name="edb_davcnaSt"
-              id="edb_davcnaSt" size="22" maxlength="80"
-            value="<tmpl_var name=edb_davcnaSt>"readonly="readonly">
-       </td>
-        </tr>
     <tr>
         <td><label for="davcniZavezanec">Davcni zavezanec:</label></td>
         <td><input type="checkbox"  name="davcniZavezanec" value="1"
@@ -1311,6 +1314,15 @@ function Komentar(id_vrstica, id_agreement){
           </select>
             
          </td>
+    </tr>
+
+    <tr>
+        <td><label for="edb_ad_type">Vsta oglasa:</label></td>
+        <td style="height: 28px">
+          <input type="text"  name="edb_ad_type" id="edb_ad_type" size="22"
+             maxlength="100"
+            value="<tmpl_var name=edb_ad_type>" readonly="true">
+       </td>
     </tr>
      <tr>
         <td><label for="edb_TRR" class="pravna">TRR:</label></td>

@@ -272,6 +272,19 @@ function CheckFields(){
         </tr>
         
         <tr>
+            <td> <input type="button" onclick="DavcnaSeznam('edb_davcnaSt')"
+                    id="taxButton" value="Davcna st.:"
+                    disabled="disabled"/>
+                 <a id="tax_warn" href="/DntDonatorji.cgi?rm=uredi_donatorja&id_donor=" title="Donator s to davcno je bil ze vnesen">!!!</a>
+            </td>
+            <td >
+              <input style="width:100%;" type="text"  name="edb_davcnaSt"
+                     id="edb_davcnaSt" size="22" maxlength="80"
+                value="<tmpl_var name=edb_davcnaSt>"readonly="readonly">
+           </td>
+        </tr>
+
+        <tr>
             <td >Status:</td>
             <td >                  
               <label><input type="radio" value="0"
@@ -360,18 +373,6 @@ function CheckFields(){
                       id="edb_postnaSt2" size="22" maxlength="80"
                 value="<tmpl_var name=edb_imePoste>" readonly="readonly">
            </td>                
-        </tr>
-        <tr>
-            <td> <input type="button" onclick="DavcnaSeznam('edb_davcnaSt')"
-                    id="taxButton" value="Davcna st.:"
-                    disabled="disabled"/>
-                 <a id="tax_warn" href="/DntDonatorji.cgi?rm=uredi_donatorja&id_donor=" title="Donator s to davcno je bil ze vnesen">!!!</a>
-            </td>
-            <td >
-              <input style="width:100%;" type="text"  name="edb_davcnaSt"
-                     id="edb_davcnaSt" size="22" maxlength="80"
-                value="<tmpl_var name=edb_davcnaSt>"readonly="readonly">
-           </td>
         </tr>
         
         <tr>

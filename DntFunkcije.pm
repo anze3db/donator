@@ -845,7 +845,9 @@ sub SloColumns($){
         elsif($tmp eq "znesek"){
                 $tmp="celoten znesek pogodbe";
         }
-
+        elsif($tmp eq "ad_type"){
+                $tmp="vrsta oglasa";
+        }
 	return $tmp;
 }
 #prevodi tabel

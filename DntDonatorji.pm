@@ -287,7 +287,7 @@ sub DonatorjiSeznam{
 				$izbor="<a href=\"#\" onclick=\"TestZapri('myForm', '".
 				$rowNum++."', '".$res->{'entity'}."', "."'".$res->{'prefix'}.
 				"', '".$res->{'retired'}."', '".$res->{'liable_for_tax'}."'".
-				", '".$res->{'name_post'}."')\">izberi</a>";
+				", '".$res->{'name_post'}."')\" autofocus>izberi</a>";
 			}
 			$sql2="SELECT * FROM sfr_agreement WHERE id_donor=?";
 			$sth2 = $dbh2->prepare($sql2);		

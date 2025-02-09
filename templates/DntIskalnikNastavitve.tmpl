@@ -34,23 +34,7 @@ function IzberiVse(form){
 
 function Brisi(form){
 	
-	var i=0;
-	var izbran=false;
-	
-	if(form.brisiId == "[object NodeList]"){
-		while(form.brisiId[i]){
-			if(form.brisiId[i++].checked==true)
-				izbran=true;
-	
-		}
-	}
-	
-	else{
-		if(form.brisiId.checked==true)
-				izbran=true;
-	
-	}
-	if(izbran){
+	if(form.querySelectorAll('input[type=checkbox]:checked')){
 		if(confirm("Ste prepricani, da zelite izbrisati izbrana polja?")){
 			form.submit();
 		}
