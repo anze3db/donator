@@ -77,7 +77,7 @@ sub IzberiDatoteko(){
 		);
 	$izberi_gumb = "";
 	$izberi_gumb = $q->radio_group(-name=>'vrsta_uvoza_dok',
-							-values=>['datoteke z banke','davcni zavezanci',],
+							-values=>['datoteke z banke',],
 							-default=>'datoteke z banke',
 							-linebreak=>'1');
 	
@@ -389,13 +389,7 @@ sub PrecitajDatoteko(){
 	#if ($dovoli_uvoz)
 	#return $file;
 	@datoteka_vsebina = <$file>;
-	my $rez ='x';
-	my $vrstica;
-	
-	foreach $vrstica (@datoteka_vsebina) {
-	   $rez .= $vrstica;
-	}
-	#return $rez;
+	my $datoteka_vsebina_str = join('', @datoteka_vsebina);
     $template->param(
 		     MENU_POT => '',
 			 IME_DOKUMENTA => 'Potrditev uvoza datoteke',
@@ -403,7 +397,7 @@ sub PrecitajDatoteko(){
 			 POMOC => "<input type='button' value='?' onclick='Pomoc(\"$ENV{SCRIPT_NAME}\", \"$ENV{QUERY_STRING}\")'  >",
 			 sporocilo=> $sporocilo,
 			 datoteka => $file,
-			 datoteka_vsebina => \@datoteka_vsebina,
+			 datoteka_vsebina => $datoteka_vsebina_str,
 			 akcija => $dovoli_uvoz,
 		     );
 	
