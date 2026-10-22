@@ -232,6 +232,7 @@ sub PogodbaUredi() {
 	my $amount1=0;
 	my $amount2=0;
 	my $emso;
+	my $mailPog;
 	my $frekvenca;
 	my $fr08;
 	my $fr18;
@@ -385,6 +386,7 @@ sub PogodbaUredi() {
 				$davcniZavezanec=$res->{'liable_for_tax'};
 				$datumRojstva=$res->{'born_date'};
 				$emso = $res->{'emso'};
+				$mailPog = $res->{'mail_pog'};
 				$pokrovitelj=$res->{'pokrovitelj'};
 				$podaljsanjePogodbe=$res->{'podaljsanje_pogodbe'};
 				$upokojenec=$res->{'retired'};
@@ -845,6 +847,7 @@ sub PogodbaUredi() {
 		edb_mesecRojstva => DntFunkcije::trim($mesecRojstva),
 		edb_letoRojstva => DntFunkcije::trim($letoRojstva),
 		edb_emso => DntFunkcije::trim($emso),
+		edb_mailPog => DntFunkcije::trim($mailPog),
 		
 		hid_id => DntFunkcije::trim($hid_id),
 		hid_status => DntFunkcije::trim($hid_status),
@@ -920,6 +923,7 @@ sub PogodbaShrani{
 	my $amount2= DntFunkcije::trim($q->param('edb_amount2')) || 0;
 	my $celaKoda = DntFunkcije::trim($q->param('edb_celaKoda')) || 0;
 	my $emso= DntFunkcije::trim($q->param('edb_emso'));
+	my $mailPog= DntFunkcije::trim($q->param('edb_mailPog'));
 	my $dogodek= DntFunkcije::trim($q->param('edb_dogodek'));
 	my $don= DntFunkcije::trim($q->param('hid_don'));
 	my $frekvenca= DntFunkcije::trim($q->param('edb_frekvenca'));
@@ -1071,7 +1075,7 @@ sub PogodbaShrani{
 					   "name_company=?, first_name=?, scnd_name=?,".
 						"street=?, street_number=?, ".
 						"tax_number=?, liable_for_tax=?,".
-						"emso=?, pay_type1=?, pay_type2=?, debit_type=?, ".
+						"emso=?, mail_pog=?, pay_type1=?, pay_type2=?, debit_type=?, ".
 						"date_enter=?, date_agreement=?, ".
 						"entity=?, prefix=?, valuta=?, ". #retired=?,
 						"bank_account2=?, frequency=?, ".
@@ -1087,7 +1091,7 @@ sub PogodbaShrani{
 						$podjetje, $ime, $priimek,
 						$ulica, $hisnaSt,
 						$davcnaSt, $davcniZavezanec,
-						$emso, $nacinPlacila, $vrstaBremenitve, $vrstaBremenitve,
+						$emso, $mailPog, $nacinPlacila, $vrstaBremenitve, $vrstaBremenitve,
 						$datumVnosa, $datumPogodbe, 
 						$status, $prednaziv, $valuta,
 						$trr, $frekvenca,
@@ -1271,7 +1275,7 @@ sub PogodbaShrani{
 					   "name_company, first_name, scnd_name,".
 						"street, street_number,".
 						"tax_number, liable_for_tax,".
-						"emso, pay_type1, pay_type2, debit_type, ".
+						"emso, mail_pog, pay_type1, pay_type2, debit_type, ".
 						"date_enter, date_agreement, ".
 						"entity, prefix, valuta,". #retired,
 						"bank_account2, frequency, ".
@@ -1284,7 +1288,7 @@ sub PogodbaShrani{
 								"?, ?, ?,".
 								"?, ?,".
 								"?, ?,".
-								"?, ?, ?, ?,".
+								"?, ?, ?, ?, ?,".
 								"?, ?,".
 								"?, ?, ?, ".
 								"?, ?,".
@@ -1300,7 +1304,7 @@ sub PogodbaShrani{
 						$podjetje, $ime, $priimek,
 						$ulica, $hisnaSt,
 						$davcnaSt, $davcniZavezanec,
-						$emso, $nacinPlacila, $vrstaBremenitve, $vrstaBremenitve,
+						$emso, $mailPog, $nacinPlacila, $vrstaBremenitve, $vrstaBremenitve,
 						$datumVnosa, $datumPogodbe, 
 						$status, $prednaziv, $valuta,
 						$trr, $frekvenca,
