@@ -376,9 +376,8 @@ sub Piskotki($){
 	my $id = shift;
 	my $piskotki = $ENV{'HTTP_COOKIE'};
 	
-	$piskotki =~ /$id=\w*/;
-	$piskotki = substr($&, length($id)+1);
-	return $piskotki;
+	$piskotki =~ /(?:^|;\s*)$id=(\w*)/;
+	return $1;
 }
 
 sub si_date($){
@@ -1163,6 +1162,12 @@ sub Cookie($){
 	}
 	return $cookie_value;
 }
+sub IdUporabnika(){
+	my $id = DntFunkcije::Cookie('id');
+	return undef unless defined $id;
+	my @arr = split(",", $id);
+	return $arr[0];
+}
 sub SetCookie($$$){
 	my $name = shift;
 	my $value = shift;
@@ -1239,14 +1244,8 @@ sub log(){
 	my $remote_addr = $ENV{'REMOTE_ADDR'};
 	my $page = $ENV{'REQUEST_URI'};
 	my $time = time;
-	my $cookie = $ENV{'HTTP_COOKIE'};
-	my $id;
-	if ($cookie){
-		$cookie = substr ($cookie, index($cookie, 'id=')+3);
-	    my @arr = split(",", $cookie);
-	    $id = $arr[0];
-	}
-	else{
+	my $id = DntFunkcije::IdUporabnika();
+	if (!defined $id){
 		$id=0;
 	}
 	my $dbh;

@@ -814,10 +814,7 @@ sub DonatorSpremeni(){
 		$redirect_url="DntDonatorji.cgi?rm=seznam&isci=1";
 	}	
 	if($hiddenId=~"donator"){
-		my $cookie = $ENV{'HTTP_COOKIE'};
-		$cookie = substr ($cookie, 3);
-		my @arr = split(",", $cookie);
-		$cookie = $arr[0];
+		my $cookie = DntFunkcije::IdUporabnika();
 		my $ui = $q->param('ui');
 		my $davcniZavezanec = $q->param('davcniZavezanec');		
 		my $id = $q->param('edb_id');
@@ -1274,10 +1271,7 @@ sub DonatorDodaj(){
 	my $napaka;
 	my $redirect_url;
 	
-	my $cookie = $ENV{'HTTP_COOKIE'};
-	$cookie = substr ($cookie, 3);
-	my @arr = split(",", $cookie);
-	$cookie = $arr[0];
+	my $cookie = DntFunkcije::IdUporabnika();
 
 	
 	if($hiddenId=~"komentar"){		
@@ -1579,10 +1573,7 @@ sub DonatorDodaj(){
 		$napaka="Uspesno dodano!";
 		$redirect_url="?rm=donator_telefon&amp;id_donor=$id_donor";
 		
-		my $cookie = $ENV{'HTTP_COOKIE'};
-		$cookie = substr ($cookie, 3);
-		my @arr = split(",", $cookie);
-		$cookie = $arr[0];
+		my $cookie = DntFunkcije::IdUporabnika();
 		
 		$dbh = DntFunkcije->connectDB;
 		if($primarni=~"on"){
@@ -1735,10 +1726,7 @@ sub DonatorKomentar(){
 	my $sth;
 	my $res;
 	$dbh = DntFunkcije->connectDB;
-	my $cookie = $ENV{'HTTP_COOKIE'};
-	$cookie = substr ($cookie, 3);
-	my @arr = split(",", $cookie);
-	$cookie = $arr[0];
+	my $cookie = DntFunkcije::IdUporabnika();
 
 
 	if ($dbh) {
@@ -2101,10 +2089,7 @@ sub DonatorTelefon(){
 		$id_donor = $unique_id;
 
 	}
-	my $cookie = $ENV{'HTTP_COOKIE'};
-	$cookie = substr ($cookie, 3);
-	my @arr = split(",", $cookie);
-	$cookie = $arr[0];
+	my $cookie = DntFunkcije::IdUporabnika();
 	
 	$dbh = DntFunkcije->connectDB;
 	
@@ -2253,10 +2238,7 @@ sub DonatorKlici(){
 	my @loop;
 	my @loop3;
 	
-	my $cookie = $ENV{'HTTP_COOKIE'};
-	$cookie = substr ($cookie, 3);
-	my @arr = split(",", $cookie);
-	$cookie = $arr[0];
+	my $cookie = DntFunkcije::IdUporabnika();
 
 	if($id_klic>0){		
 		$gumbek="spremeni";

@@ -71,10 +71,7 @@ sub ZaposleniShrani{
 	my $imeDokumenta;
 	my $napaka;
 	my $redirect_url='DntZaposleni.cgi?rm=uredi';
-	my $cookie = $ENV{'HTTP_COOKIE'};
-	$cookie = substr ($cookie, 3);
-	my @arr = split(",", $cookie);
-	$cookie = $arr[0];
+	my $cookie = DntFunkcije::IdUporabnika();
 	my $ui = $q->param('ui');	
 	my $ime= $q->param('edb_ime')	;
     my $priimek= $q->param('edb_priimek');
@@ -1081,10 +1078,7 @@ sub ZaposleniKomentar(){
 	my $priimek;
 	my $lepiDatum;
 	my $onload;
-	my $cookie = $ENV{'HTTP_COOKIE'};
-	$cookie = substr ($cookie, 3);
-	my @arr = split(",", $cookie);
-	$cookie = $arr[0];
+	my $cookie = DntFunkcije::IdUporabnika();
 	my @loop2;
 	my $brisi_ui='';
 	if($ui){
@@ -1272,10 +1266,7 @@ sub ZaposleniTelefon(){
 	my $sql;
 	my $sth;
 	my $res;
-	my $cookie = $ENV{'HTTP_COOKIE'};
-	$cookie = substr ($cookie, 3);
-	my @arr = split(",", $cookie);
-	$cookie = $arr[0];
+	my $cookie = DntFunkcije::IdUporabnika();
 	if(!$id_staff){
 		$id_staff=$q->param('id_donor');
 		
@@ -1403,10 +1394,7 @@ sub ZaposleniDelo(){
 	my $onload;
 	my $gumbek;
 	my $ui = $q->param('ui');
-		my $cookie = $ENV{'HTTP_COOKIE'};
-	$cookie = substr ($cookie, 3);
-	my @arr = split(",", $cookie);
-	$cookie = $arr[0];
+		my $cookie = DntFunkcije::IdUporabnika();
 	my $counter=0;
 	my $datum;
 	my $datum1;
@@ -1638,10 +1626,7 @@ sub ZaposleniDodaj(){
 	if($ui){
 		$id_staff=$ui;
 	}
-	my $cookie = $ENV{'HTTP_COOKIE'};
-	$cookie = substr ($cookie, 3);
-	my @arr = split(",", $cookie);
-	$cookie = $arr[0];
+	my $cookie = DntFunkcije::IdUporabnika();
 	
 	if($hiddenId=~"komentar"){		
 		

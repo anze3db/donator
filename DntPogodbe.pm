@@ -985,10 +985,7 @@ sub PogodbaShrani{
 	my $sth;
 	my $res;
 	
-	my $cookie = $ENV{'HTTP_COOKIE'};
-	$cookie = substr ($cookie, index($cookie, 'id=')+3);
-	my @arr = split(",", $cookie);
-	$cookie = $arr[0];
+	my $cookie = DntFunkcije::IdUporabnika();
 	
 	my $html_output ;
 	my $id_agreement = $q->param('edb_id_agreement');
@@ -2858,10 +2855,7 @@ sub PogodbeZbrisi(){
 	my $sth;
 	my $dbh;
 	my $id=$q->param('id_placilo');
-	my $cookie = $ENV{'HTTP_COOKIE'};
-	$cookie = substr ($cookie, 3);
-	my @arr = split(",", $cookie);
-	$cookie = $arr[0];
+	my $cookie = DntFunkcije::IdUporabnika();
 	if($test == 1){
 		$dbh = DntFunkcije->connectDBtest;
 	}
@@ -3245,10 +3239,7 @@ sub KomentarShrani(){
 	if(!$id_agreement){
 		$id_agreement=$ui;
 	}
-	my $cookie = $ENV{'HTTP_COOKIE'};
-	$cookie = substr ($cookie, 3);
-	my @arr = split(",", $cookie);
-	$cookie = $arr[0];
+	my $cookie = DntFunkcije::IdUporabnika();
 	
 	if($hiddenId=~"komentar"){	
 		

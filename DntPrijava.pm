@@ -42,8 +42,8 @@ sub PrijavaVnos{
 	my @cookies = split(";", $ENV{'HTTP_COOKIE'});
 	foreach my $ck (@cookies){
 		
-		if(substr($ck, 0, 3) eq "id="){
-			$cookie = $ck;
+		if(substr(DntFunkcije::trim($ck), 0, 3) eq "id="){
+			$cookie = DntFunkcije::trim($ck);
 		}
 	}
 	#return $cookie;
