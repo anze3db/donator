@@ -546,6 +546,7 @@ function onemogociOstale(){
     document.getElementById('edb_frekvenca').disabled = true;
     document.getElementById('edb_valuta').disabled = true;
     document.getElementById('edb_ad_type').disabled = true;
+    document.getElementById('edb_ad_notes').disabled = true;
     document.getElementById('edb_vrstaBremenitve').disabled = true;
     document.getElementById('edb_aktiviraj').disabled = true;
     document.getElementById('edb_TRR').disabled = true;
@@ -566,6 +567,7 @@ function onemogociOstale(){
 
     document.getElementById('edb_valuta').value = "";
     document.getElementById('edb_ad_type').value = "";
+    document.getElementById('edb_ad_notes').value = "";
 
     document.getElementById('edb_aktiviraj').value = "";
     document.getElementById('edb_TRR').value = ""; 
@@ -580,6 +582,7 @@ function omogociOstale(){
     document.getElementById('edb_amount2').disabled = false;
     document.getElementById('edb_valuta').disabled = false;
     document.getElementById('edb_ad_type').disabled = false;
+    document.getElementById('edb_ad_notes').disabled = false;
     
     document.getElementById('label_edb_num_installments').style.fontWeight='bold';
     document.getElementById('label_edb_amount2').style.fontWeight='bold';
@@ -1330,6 +1333,13 @@ function Komentar(id_vrstica, id_agreement){
           <input type="text"  name="edb_ad_type" id="edb_ad_type" size="22"
              maxlength="100"
             value="<tmpl_var name=edb_ad_type>" readonly="true">
+       </td>
+    </tr>
+    <tr>
+        <td><label for="edb_ad_notes">Opombe oglasa:</label></td>
+        <td>
+          <textarea name="edb_ad_notes" id="edb_ad_notes" cols="22" rows="3"
+              readOnly="true"><tmpl_var name=edb_ad_notes escape=html></textarea>
        </td>
     </tr>
      <tr>

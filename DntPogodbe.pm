@@ -282,6 +282,7 @@ sub PogodbaUredi() {
 	my $valuta=0;
 	my $vrstaBremenitve;
         my $adType="";
+        my $adNotes="";
 	my $zap_st_dolznika ;
 	my $znesek;
 	
@@ -400,6 +401,7 @@ sub PogodbaUredi() {
 				$approvalDate=$res->{'approval_date'};
 				$vrstaBremenitve=$res->{'pay_type2'};
                                 $adType=$res->{'ad_type'};
+                                $adNotes=$res->{'ad_notes'};
 				$aktivirajDne=$res->{'start_date'};
 				$amount1= $res->{'amount1'};
 				$num_installments= $res->{'num_installments'};
@@ -880,6 +882,7 @@ sub PogodbaUredi() {
 		hid_id_agreement => DntFunkcije::trim($id_agreement),
 		edb_trr => DntFunkcije::trim($trr),
                 edb_ad_type => DntFunkcije::trim($adType),
+                edb_ad_notes => DntFunkcije::trim($adNotes),
 		edb_db_approval => DntFunkcije::trim($approval),
 		edb_db_approval_date => DntFunkcije::trim($approvalDate),
 		hid_urejanje => $urejanje,
@@ -974,6 +977,7 @@ sub PogodbaShrani{
 	my $valuta= DntFunkcije::trim($q->param('edb_valuta')) || 0;
 	my $vrstaBremenitve= DntFunkcije::trim($q->param('edb_vrstaBremenitve'));
 	my $adType= DntFunkcije::trim($q->param('edb_ad_type')) || "";
+	my $adNotes= DntFunkcije::trim($q->param('edb_ad_notes')) || "";
 	my $zap_st_dolznika= DntFunkcije::trim($q->param('edb_zap_st_db'));
 	my $sifrantBank;
 	my $znesek;
@@ -1079,7 +1083,7 @@ sub PogodbaShrani{
 						"num_installments=?, ".
 						"amount=?, amount1=?, amount2=?, ".
 						"retired=?, pokrovitelj=?, podaljsanje_pogodbe=?, sifra_banke=?, ".
-						"ne_posiljaj_opomine=?, stara_pogodba=?, id_staff_enter=?, approval=?, ad_type=? ".
+						"ne_posiljaj_opomine=?, stara_pogodba=?, id_staff_enter=?, approval=?, ad_type=?, ad_notes=? ".
 						"WHERE id_agreement=?";
 				#print $q->p($sql_vprasaj);
 				$sth = $dbh->prepare($sql);
@@ -1095,7 +1099,7 @@ sub PogodbaShrani{
 						$num_installments,
 						$amount, $amount1, $amount2,
 						$upokojenec, $pokrovitelj, $podaljsanjePogodbe, $sifrantBank,
-						$posiljanjeOpominov, $staraPogodba, $cookie, $approval, $adType, 
+						$posiljanjeOpominov, $staraPogodba, $cookie, $approval, $adType, $adNotes,
 						$id_agreement)){
 						
 					my $napaka_opis = $sth->errstr;
@@ -1280,7 +1284,7 @@ sub PogodbaShrani{
 						"retired, pokrovitelj, podaljsanje_pogodbe,".
 						"id_project, id_event, id_staff,".
 						"amount, amount1, amount2,status, sifra_banke, ".
-						"ne_posiljaj_opomine, stara_pogodba, id_staff_enter, approval, ad_type) ".
+						"ne_posiljaj_opomine, stara_pogodba, id_staff_enter, approval, ad_type, ad_notes) ".
 						"VALUES (?, ?,".
 								"?, ?, ?,".
 								"?, ?,".
@@ -1293,7 +1297,7 @@ sub PogodbaShrani{
 								"?, ?, ?,".
 								"?, ?, ?,".
 								"?, ?, ?, ?, ?,".
-								"?, ?, ?, ?, ?)";
+								"?, ?, ?, ?, ?, ?)";
 				#print $q->p($sql_vprasaj);
 				$sth = $dbh->prepare($sql);
 				
@@ -1309,7 +1313,7 @@ sub PogodbaShrani{
 						$upokojenec, $pokrovitelj, $podaljsanjePogodbe,
 						$projekt, $dogodek, $komercialist,
 						$amount, $amount1, $amount2, $status_pogodbe, $sifrantBank,
-						$posiljanjeOpominov, $staraPogodba, $cookie, $approval, $adType ))
+						$posiljanjeOpominov, $staraPogodba, $cookie, $approval, $adType, $adNotes ))
 				{
 					if($test == 0){	
 						$sql = "UPDATE sheets SET id_agreement=? WHERE serial_id=?";
